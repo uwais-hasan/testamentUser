@@ -1,0 +1,16 @@
+
+@import "styles/Sass/color";
+
+.content_page_vote{
+
+  &:after{
+    content: "";
+    width: 20%;
+    height: 150%;
+    background: $color_basic_1;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+  }
+}

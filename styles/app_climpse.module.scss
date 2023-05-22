@@ -1,0 +1,29 @@
+
+@import "Sass/color";
+@import "Sass/size";
+
+
+.content_appGlimpse{
+  h1{
+    font-size: 50px;
+    font-weight: bold;
+    color: white;
+    @media (max-width:575px) {
+      font-size: 20px;
+    }
+
+  }
+  p{
+    font-size: 20px;
+    color: $color_grey-2;
+    max-width: 600px;
+    line-height: 2;
+    letter-spacing: 1px;
+    @media (max-width:575px) {
+      font-size: 10px;
+      line-height: 1;
+      letter-spacing: 1px;
+    }
+  }
+
+}

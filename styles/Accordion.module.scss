@@ -1,0 +1,15 @@
+
+@import "Sass/color";
+@import "Sass/size";
+.app_accordion{
+  width: 100%;
+
+  .text{
+text-align: center;
+    font-size:$title_small_size;
+    @media (max-width: 575px) {
+      font-size: $title_small_size_mobile;
+
+    }
+  }
+}

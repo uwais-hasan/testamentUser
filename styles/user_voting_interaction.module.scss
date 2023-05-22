@@ -1,0 +1,58 @@
+
+@import "styles/Sass/color";
+
+@import "styles/Sass/size";
+
+.content_user_voting_interaction{
+  position: relative;
+
+  &:after{
+    content: "";
+    position: absolute;
+    top: 47px;
+    right: 179px;
+    width: 20%;
+    height: 600px;
+
+    background: blue;
+    z-index: -1;
+
+@media (max-width:575px ) {
+
+  top: 194px;
+  right: 1px;
+  width: 51%;
+
+}
+  }
+
+  .interaction_user{
+    border: 1px solid #d3d2d2;
+    background: white;
+
+    box-shadow: 5px 11px 9px -1px #424242;
+
+    .listUsers{
+      overflow-y: scroll;
+      max-height: 800px;
+      p{
+        color: $color_black;
+        @media (max-width:575px) {
+          font-size: 10px;
+        }
+      }
+    }
+  }
+  .details{
+    h1{
+      font-size: 30px;
+    }
+    p{
+      font-size: 20px;
+      color: $color_grey-3;
+    }
+    .color{
+      color: $color_basic_1;
+    }
+  }
+}

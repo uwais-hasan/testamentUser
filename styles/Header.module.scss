@@ -1,0 +1,21 @@
+
+
+.content_header{
+  position: relative;
+  top: -100px;
+  width: 100%;
+  z-index: 1;
+  .input_search{
+    width: 50%;
+
+    position: absolute;
+    top: 192px;
+    left: 30%;
+    z-index: 2;
+    @media (max-width: 767.98px) {
+      top: 98px;
+    }
+
+
+  }
+}

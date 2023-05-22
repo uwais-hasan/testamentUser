@@ -1,0 +1,50 @@
+
+@import "Sass/color";
+@import "Sass/size";
+
+.content_header_info_user{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .data_user{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 19px;
+    .name{
+      font-size: $text_medium_size;
+      font-family: "Roboto", sans-serif;
+      @media (max-width: 575px) {
+        font-size: $text_medium_size_mobile;
+      }
+    }
+    .link_testament{
+      display: flex;
+      gap: 10px;
+      font-size: $text_small_size;
+      font-family: "Roboto", sans-serif;
+      a{
+        color: $color_basic_2;
+        @media (max-width: 575px) {
+          font-size: $text_small_size_mobile;
+        }
+      }
+    }
+    .share_profile{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      gap: 10px;
+
+    }
+    svg{
+      font-size: 25px;
+      @media (max-width: 575px) {
+        font-size: $text_small_size_mobile;
+      }
+    }
+  }
+
+}

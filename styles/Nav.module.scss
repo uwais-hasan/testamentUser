@@ -1,0 +1,24 @@
+
+@import "Sass/size";
+@import "Sass/color";
+
+.content_nav{
+  z-index: 10;
+  position: relative;
+  .app_nav{
+    position: static;
+    background: transparent;
+     box-shadow: none;
+
+  }
+  .text_link a{
+    font-size: $text_medium_size_mobile;
+    color:$color_white ;
+    text-decoration: none;
+    margin: 0 10px;
+    font-family: 'Roboto', sans-serif;
+
+
+
+  }
+}

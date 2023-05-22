@@ -1,0 +1,42 @@
+
+
+
+
+.rounded_image_small{
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  margin: 10px
+}
+
+.rounded_image_medium{
+
+  width: 200px;
+  border-radius: 50%;
+
+
+  margin: -114px auto 20px;
+  @media (max-width: 767.98px) {
+    width:100px;
+    margin: -50px auto 20px;
+  }
+}
+
+.image_rectangular{
+  width: 70%;
+  height: 100%;
+  box-shadow: 5px 11px 9px -1px #424242;
+  @media (max-width:575px) {
+    width: 79%;
+    height: 60%;
+  }
+}
+
+.image_header{
+  width: 100%;
+  height: auto;
+  @media (max-width: 767.98px) {
+
+    height: 200px;
+  }
+}

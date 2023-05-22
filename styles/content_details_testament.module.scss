@@ -1,0 +1,27 @@
+
+.content_details_testament {
+  transition: .3s ease-in-out;
+  background: #f5f5f5;
+  padding: 30px 20px;
+  button{
+    transition: .3s ease-in-out;
+  }
+  .header_details_testament {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+
+    @media (max-width: 768px) {
+      flex-direction: column;
+    }
+  }
+  .testament_user{
+    background: white;
+    font-size: 20px;
+    padding: 20px;
+
+    line-height: 36px;
+  }
+}
