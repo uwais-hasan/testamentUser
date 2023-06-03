@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 
 import style from '../styles/login.module.scss'
 import AppGlimpse from "../Components/AppGlimpse";
-import {Box, Button, Container, Grid, TextField} from "@mui/material";
+import { Button, Container, Grid, TextField} from "@mui/material";
 
 import InputAdornment from '@mui/material/InputAdornment';
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
@@ -13,6 +13,9 @@ import {postData} from "../Utils/FetchData";
 import Cookie from 'js-cookie'
 
 import {useRouter} from "next/router";
+import AlertNotify from "../Components/Model/AlertNotify";
+import Link from "next/link";
+
 const styleContent={
     width:'100%',
     height:'600px',
@@ -30,15 +33,18 @@ const Login = () => {
 
 
 
-    const[data,setData]=useState({email:'',password:''})
 
+
+    const[data,setData]=useState({email:'',password:''})
+    const[isValid,setIsValid]=useState({status:'',title:''})
+    const [showAlert, setShowAlert] = useState(false);
     const router=useRouter()
     const handleSubmit= async ()=>{
-        console.log(data)
+        setShowAlert(true)
         const res=await postData('auth/login',data)
-        if (res.err) return console.log({err:res.err})
-        console.log(res)
+        if (res.err) return setIsValid({...isValid,status:'error',title:res.err})
 
+         setIsValid({...isValid,status:'success',title:res.msg})
 
         Cookie.set('refresh_token',res.refresh_Token,{
             path:"api/auth/accessToken",
@@ -49,9 +55,15 @@ const Login = () => {
 
 
         router.push('/')
+
     }
+
+
+
+
     return (
         <div className={style.content_login} style={styleContent}>
+             <AlertNotify status={isValid.status}  title={isValid.title} showAlert={showAlert} setShowAlert={setShowAlert} />
 
             <Container>
                <Grid container columns={{md:12,xs:12}} alignItems='center'>
@@ -60,7 +72,7 @@ const Login = () => {
                        <AppGlimpse/>
                    </Grid>
                    <Grid item md={2} xs={0}/>
-                   <Grid container md={4} xs={8} direction='column' className={style.style_login} >
+                   <Grid container item md={4} xs={8} direction='column' className={style.style_login} >
 
                               <h1 className={style.style_title}>Login </h1>
                            <TextField  label='email'
@@ -96,10 +108,8 @@ const Login = () => {
                                onChange={(e)=>setData({...data,password: e.target.value})}
 
                            />
-                       <span className={style.register}>Register</span>
-                       <span className={style.forget}>forget password</span>
-
-                           <Button onClick={handleSubmit} variant='contained' color='primary'>submit</Button>
+                       <Link className={style.register} href='/register'>Register</Link>
+                           <Button sx={{marginTop:'10px'}} onClick={handleSubmit} variant='contained' color='primary'>submit</Button>
 
                        <FaceBookLogin/>
                    </Grid>

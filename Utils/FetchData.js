@@ -1,5 +1,4 @@
-
-
+import axios from "axios";
 
 
 const url='http://localhost:3000/api'
@@ -35,7 +34,7 @@ const postData=async (path,post,token)=>{
             method:'POST',
             headers:{
                 'Content-Type': 'application/json',
-                authorization:`Bearer ${token}`
+                Authorization:`Bearer ${token}`
             },
             body: JSON.stringify(post)
         })
@@ -76,14 +75,14 @@ const deleteData=async (path,token)=>{
 }
 
 
-const updateData=async (path,token,post)=>{
+const updateData=async (path,post,token)=>{
 
     try {
         const response= await fetch(`${url}/${path}`,{
-            method:'DELETE',
+            method:'PATCH',
             headers:{
                 'Content-Type': 'application/json',
-                authorization:`Bearer ${token}`
+                Authorization:`Bearer ${token}`
             },
             body:JSON.stringify(post)
 
@@ -101,7 +100,33 @@ const updateData=async (path,token,post)=>{
 }
 
 
-export {postData,getData,updateData,deleteData}
+const uploadImage=async (image)=>{
+
+
+    const formData=new FormData()
+
+
+    formData.append('file',image)
+    formData.append('upload_preset','tny5kmos')
+
+    const upload=await axios({
+        method:'POST',
+        url:'https://api.cloudinary.com/v1_1/dcfvkm1zy/image/upload',
+        data:formData,
+    })
+
+    console.log(upload)
+
+
+
+    return upload.data.secure_url
+
+
+
+}
+
+
+export {postData,getData,updateData,deleteData,uploadImage}
 
 
 

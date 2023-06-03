@@ -3,6 +3,7 @@ import '../styles/globals.css'
 import {wrapper} from "../Store/store";
 
 
+
 function MyApp({ Component, pageProps }) {
 
 
@@ -10,6 +11,7 @@ function MyApp({ Component, pageProps }) {
 
   return (
       <>
+
 
         <Component {...pageProps} />
 

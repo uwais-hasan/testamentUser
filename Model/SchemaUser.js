@@ -9,6 +9,7 @@ import mongoose from 'mongoose'
 const user = new mongoose.Schema({
     firstName: String,
     lastName: String,
+    name:String,
     email: {type:String,unique:true,required:true,trim:true},
     picture: {type:String,default:'https://th.bing.com/th/id/OIP.mP1RB8xuQaHAvUkonYY6HwHaHK?pid=ImgDet&rs=1'},
     age:Number,

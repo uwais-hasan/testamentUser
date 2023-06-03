@@ -25,7 +25,7 @@ const register=async (req,res)=>{
 try {
 
 
-    const{firstName,lastName,email,password,re_password}=req.body;
+    const{firstName,lastName,email,password,re_password,name}=req.body;
 
     const isValid=checkValidation(firstName,lastName,email,password,re_password)
 
@@ -40,15 +40,15 @@ try {
 
     const createString=await createHashPassword(email,1)
     const randomString=createString.slice(0,10)
-    const user=await User.create({firstName,lastName,email,password:hash,randomString})
+    const user=await User.create({firstName,lastName,email,password:hash,randomString,name})
 
     const access_Token=await generateAccessToken({id:user._id})
     const refresh_Token=await generateRefreshToken({id:user._id})
 
     res.json({user,msg:'success',access_Token,refresh_Token,randomString})
-    console.log('success register')
+
 }catch (err){
     res.status(500).json({err:err.message})
-    console.log('fail register')
+
 }
 }

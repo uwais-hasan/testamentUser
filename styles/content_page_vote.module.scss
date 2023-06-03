@@ -3,6 +3,16 @@
 
 .content_page_vote{
 
+  .see_testament{
+    text-align: center;
+    padding: 20px;
+
+    button{
+      width: 50%;
+      padding: 20px;
+      font-size: 30px;
+    }
+  }
   &:after{
     content: "";
     width: 20%;

@@ -3,14 +3,20 @@ import {createSlice} from "@reduxjs/toolkit";
 
 
 const initialState={
-    dataTestament:[]
+    testamentUser:{}
 }
 
 const sliceTestament=createSlice({
     name:'sliceTestament',
     initialState,
     reducers:{
-        addTestament:(state,action)=>{}
+        addTestament:(state,action)=>{
+            state.testamentUser=action.payload;
+        },
+        addText:(state,action)=>{
+            state.testamentUser.testament=action.payload
+        }
+
     },
     extraReducers:{},
 })
@@ -18,4 +24,4 @@ const sliceTestament=createSlice({
 
 export default sliceTestament.reducer
 
-const{addTestament}=sliceTestament.actions
+export const{addTestament,addText}=sliceTestament.actions

@@ -38,15 +38,14 @@
            const refresh_Token=generateRefreshToken({id:user._id})
 
 
-           console.log('login success')
 
-           res.json({user, access_Token, refresh_Token
-           })
+
+           res.json({user, access_Token, refresh_Token,msg:'success'})
        }catch (err){
 
            res.status(500).json({err:err.message})
 
-           console.log('login fail')
+
 
        }
 

@@ -20,18 +20,23 @@ import Link from "next/link";
 import ModelSetting from "../Model/modelSetting";
 import {useRouter} from "next/router";
 import Cookie from "js-cookie";
+import ModelResetPassword from "../Model/modelResetPassword";
+import {useSelector} from "react-redux";
 
 
 
 
 const pages = ['Testament', 'Contact', 'Policy','how to use'];
-const settings = [, 'Setting', 'Dashboard','Logout'];
+const settings = [, 'Setting', 'Dashboard','Logout','reset password'];
 const Nav=()=>{
 
     const [anchorElNav, setAnchorElNav] = useState(null);
     const [anchorElUser, setAnchorElUser] = useState(null);
 
     const [open, setOpen] = React.useState(false);
+    const [openRestPassword, setOpenPassword] = React.useState(false);
+    const {auth}=useSelector(state=>state.sliceAuth)
+
     const router=useRouter()
     const handleOpenNavMenu = (event) => {
         setAnchorElNav(event.currentTarget);
@@ -55,12 +60,17 @@ const Nav=()=>{
                 Cookie.remove('refresh_token')
                 localStorage.removeItem('isUser')
                 router.push('/login')
+            }else if (type==='reset password'){
+                setOpenPassword(true)
             }
         }
 
         if (open){
             return <ModelSetting setOpen={setOpen } open={open}/>
         }
+    if (openRestPassword){
+        return <ModelResetPassword setOpenPassword={setOpenPassword } openRestPassword={openRestPassword}/>
+    }
 
     return (
      <Box className={styles.content_nav}>
@@ -94,7 +104,7 @@ const Nav=()=>{
 
 
                              {pages.map((page) => (
-                                 <MenuItem key={page} onClick={handleCloseNavMenu}>
+                                 <MenuItem  key={page} onClick={handleCloseNavMenu}>
                                      <Link href={`/${page}`}   textAlign="center">{page}</Link>
                                  </MenuItem>
                              ))}
@@ -114,7 +124,7 @@ const Nav=()=>{
                      <Box sx={{ flexGrow: 0 }}>
                          <Tooltip title="Open settings">
                              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                                 <Avatar alt="Remy Sharp" src="./SA.jpg" />
+                                 <Avatar alt="Remy Sharp" src={auth.user.picture} />
                              </IconButton>
                          </Tooltip>
                          <Menu

@@ -1,8 +1,12 @@
 import Auth from "../../../MiddleWare/Auth";
 import auth from "../../../MiddleWare/Auth";
 import {User} from "../../../Model/SchemaUser";
+import connectDB from "../../../MiddleWare/ConnectDB";
 
 
+
+
+    connectDB()
 export default async function handler(req,res){
 
 
@@ -17,6 +21,7 @@ export default async function handler(req,res){
 
             const user=await User.findByIdAndUpdate({_id:authorization.id},{...req.body});
 
+            console.log('picture',req.body)
             res.json({msg:'update success'})
 
             console.log(user)

@@ -23,6 +23,7 @@
     "eslint-config-next": "13.0.7",
     "js-cookie": "^3.0.5",
     "jsonwebtoken": "^9.0.0",
+    "moment": "^2.29.4",
     "mongoose": "^7.1.0",
     "next": "10.0.1",
     "next-redux-wrapper": "^8.1.0",

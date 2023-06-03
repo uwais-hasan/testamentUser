@@ -1,80 +1,80 @@
 
 
-import React, {Fragment, useState} from 'react';
-import Button from '@mui/material/Button';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
-import {ResTestamentData,ResTestamentWithoutData} from "../../data";
-import {Box, TextField} from "@mui/material";
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
+
+
+
+
+
+
+import React, { useState} from 'react';
+
+
+import {Box, TextField,DialogTitle,DialogContent,DialogActions,Dialog,Button,InputLabel,MenuItem,FormControl,Select,Chip,Stack,Grid} from "@mui/material";
+
 import styles from '../../styles/model_testament.module.scss'
-import Chip from '@mui/material/Chip';
-import Stack from '@mui/material/Stack';
-import {Grid} from "@mui/material";
 
-const ModelTestament = ({open,setOpen,setIsTestament}) => {
+import {postData, updateData} from "../../Utils/FetchData";
+import {useSelector} from "react-redux";
+import {useRouter} from "next/router";
+import AlertNotify from "./AlertNotify";
 
-    const widthData = ResTestamentData;
-    const withoutData = ResTestamentWithoutData;
 
+
+const ModelTestament = ({open,setOpen}) => {
+    const router=useRouter()
+    const {testamentUser}=useSelector(state=>state.sliceTestament)
+    const {auth}=useSelector(state=>state.sliceAuth)
+    const[writeTestament,setWriteTestament]=useState(testamentUser.testament||'')
     const kindOfTestament=['public','votes users','special Friends']
     const[selectTypeTestament,setSelectTypeTestament]=useState('');
-    const[selectSpecialFriend,setSelectSpecialFriend]=useState({email:'',name:''})
-
+    const[selectSpecialFriend,setSelectSpecialFriend]=useState({email:'',name:'',password:''})
     const[selectReceiveFriend,setSelectReceiveFriend]=useState('')
-    const[selectCountLikeFriend,setSelectCountLikeFriend]=useState(null)
-
-    const[collectionSelectSpecialFriend,setCollectionSelectSpecialFriend]=useState(withoutData.selectSpecialFriend)
-    const[collectionReceiveSpecialFriend,setCollectionReceiveSpecialFriend]=useState(withoutData.selectReceiveFriend)
-
-
-
+    const[selectCountLikeFriend,setSelectCountLikeFriend]=useState(testamentUser.countLikeUsers||0)
+    const[collectionSelectSpecialFriend,setCollectionSelectSpecialFriend]=useState(testamentUser.selectSpecialFriend||[])
+    const[collectionReceiveSpecialFriend,setCollectionReceiveSpecialFriend]=useState(testamentUser.selectReceiveFriend||[])
+     const[showAlert,setShowAlert]=useState(false)
+    const[isValid,setIsValid]=useState({status:'',title:''})
 
     const handleClose = () => {
         setOpen(false);
     };
-    const handleSubmit = () => {
-        setOpen(false);
-        setIsTestament(true)
+
+
+    const data={
+        typeTestament:selectTypeTestament,
+        testament:writeTestament,
+        selectSpecialFriend:collectionSelectSpecialFriend,
+        selectReceiveFriend: collectionReceiveSpecialFriend,
+        countLikeUsers:selectCountLikeFriend,
+        statusTestament:true,
     }
 
-    const addSpecialFriends = () => {
+    const addSpecialFriends = async () => {
 
-        if (!selectSpecialFriend.email||!selectSpecialFriend.name){
-            console.log('error')
+        if (!selectSpecialFriend.email||!selectSpecialFriend.name||!selectSpecialFriend.password){
+            setShowAlert(true);
+            setIsValid({...isValid,title: 'please add all fields',status:'error'})
         }else {
-            setCollectionSelectSpecialFriend([...collectionSelectSpecialFriend,selectSpecialFriend])
+
+
+
+            const data={
+                name:selectSpecialFriend.name,
+                email:selectSpecialFriend.email,
+                password:selectSpecialFriend.password,
+                type:'select special friends',
+            }
+
+            const addUser=await postData('user/check',data,auth.access_Token)
+            setShowAlert(true);
+            setIsValid({...isValid,title: 'you add a special user',status:'success'})
+            setCollectionSelectSpecialFriend([...collectionSelectSpecialFriend,addUser])
+            setSelectSpecialFriend({...selectSpecialFriend,name:'',email: '',password:''})
 
         }
 
 
     }
-    // const addReceiveSpecialFriends=(name)=>{
-    //     const existName=collectionSelectSpecialFriend.some(item=>item.name===selectReceiveFriend)
-    //     const checkDoubleName=collectionReceiveSpecialFriend.some(item=>item===name)
-    //
-    //
-    //     if (!selectReceiveFriend){
-    //         console.log('please add a name')
-    //     } else if (!existName){
-    //         console.log('this name is not exist')
-    //     }else if (existName) {
-    //         if (checkDoubleName){
-    //             console.log('this email already exist')
-    //         }else{
-    //             setCollectionReceiveSpecialFriend([...collectionReceiveSpecialFriend,selectReceiveFriend])
-    //
-    //         }
-    //
-    //     }
-    //
-    // }
 
     const addReceiveSpecialFriends=(name)=>{
         const existName=collectionSelectSpecialFriend.find(item=>item.name===selectReceiveFriend)
@@ -82,15 +82,23 @@ const ModelTestament = ({open,setOpen,setIsTestament}) => {
 
 
         if (!selectReceiveFriend){
-            console.log('please add a name')
+            setShowAlert(true);
+            setIsValid({...isValid,title: 'please add a name',status:'error'})
+
         } else if (!existName){
-            console.log('this name is not exist')
+            setShowAlert(true);
+            setIsValid({...isValid,title: 'this name is not exist',status:'error'})
+
         }else if (existName !== undefined) {
             if (checkDoubleName){
-                console.log('this email already exist')
+                setShowAlert(true);
+                setIsValid({...isValid,title: 'this email already exist',status:'error'})
+
             }else{
                 setCollectionReceiveSpecialFriend([...collectionReceiveSpecialFriend,existName])
-
+                setSelectReceiveFriend('')
+                setShowAlert(true);
+                setIsValid({...isValid,title: 'you add a user',status:'success'})
             }
 
         }
@@ -98,36 +106,119 @@ const ModelTestament = ({open,setOpen,setIsTestament}) => {
     }
 
     const handleDeleteSelectSpecialFriend=(email)=>{
+
         const filtered= collectionSelectSpecialFriend.filter(item=>item.email!==email)
         setCollectionSelectSpecialFriend(filtered)
+        setShowAlert(true);
+        setIsValid({...isValid,title: 'you delete a special user',status:'success'})
     }
     const handleDeleteReceiveFriends=(name)=>{
         const filtered= collectionReceiveSpecialFriend.filter(item=>item.name!==name)
         setCollectionReceiveSpecialFriend(filtered)
+        setShowAlert(true);
+        setIsValid({...isValid,title: 'you delete a receive  user',status:'success'})
     }
 
 
 
-    console.log(collectionReceiveSpecialFriend)
-    // if (selectTypeTestament){
-    //
-    //     if (selectTypeTestament==='public'){
-    //
-    //     }else if (selectTypeTestament==='public'){
-    //
-    //     }else if(selectTypeTestament==='special Friends'){
-    //
-    //     }
-    // }else {
-    //     return null
-    // }
+    const updateDataTestament=async (data,)=>{
+        const update=await updateData('testament',data,auth.access_Token)
+        if (update.err) return  console.log('err')
+        return  router.reload()
+    }
+    const createDataTestament=async (data)=>{
+        const update=await postData('testament', data, auth.access_Token)
+        if (update.err) return  console.log('err')
+       return  router.reload()
+    }
+    const handleSubmit = async () => {
+        console.log(collectionSelectSpecialFriend)
+        if (selectTypeTestament==='special Friends'){
+            if (!collectionSelectSpecialFriend.length || !collectionReceiveSpecialFriend.length || !writeTestament){
+                setShowAlert(true);
+                setIsValid({...isValid,title: 'please add all fields 1',status:'error'})
+            }else {
+             return  await createDataTestament(data)
 
+            }
+        }
+        else if (selectTypeTestament==='votes users'){
+            if (!selectCountLikeFriend || !writeTestament){
+                setShowAlert(true);
+                setIsValid({...isValid,title: 'please add all fields 2',status:'error'})
+            }else {
+
+                return  await createDataTestament(data)
+            }
+        }
+        else if (selectTypeTestament==='public') {
+            if (!writeTestament){
+                setShowAlert(true);
+                setIsValid({...isValid,title: 'please add testament',status:'error'})
+            }
+
+            return  await createDataTestament(data)
+        }else {
+
+            setShowAlert(true);
+            setIsValid({...isValid,title: 'please select any type',status:'error'})
+        }
+
+
+
+
+    }
+
+    const handleUpdate=async ()=>{
+        if (selectTypeTestament==='special Friends'){
+            if (!collectionSelectSpecialFriend.length || !collectionReceiveSpecialFriend.length || !writeTestament){
+
+                setShowAlert(true);
+                setIsValid({...isValid,title: 'please add all fields',status:'error'})
+            }else {
+
+             return  await updateDataTestament(data)
+            }
+        }
+        else if (selectTypeTestament==='votes users'){
+            if (!selectCountLikeFriend|| !writeTestament){
+                setShowAlert(true);
+                setIsValid({...isValid,title: 'please add all fields',status:'error'})
+            }else {
+              return   await updateDataTestament(data)
+
+            }
+        }
+        else if (selectTypeTestament==='public') {
+            if (!writeTestament){
+                setShowAlert(true);
+                setIsValid({...isValid,title: 'please add testament',status:'error'})
+            }
+
+            let data={
+                typeTestament:selectTypeTestament,
+                testament:writeTestament,
+                selectSpecialFriend:[],
+                selectReceiveFriend: [],
+                countLikeUsers:0,
+                statusTestament:true,
+            }
+          return   await updateDataTestament(data)
+
+        }
+        else {
+
+            setShowAlert(true);
+            setIsValid({...isValid,title: 'please select any type',status:'error'})
+        }
+
+    }
 
 
 
     return (
         <div  className={styles.content_model_testament}>
-
+            {showAlert&&<AlertNotify status={isValid.status}  title={isValid.title} showAlert={showAlert} setShowAlert={setShowAlert} />}
             <Dialog fullWidth
                     open={open}
                     onClose={handleClose}
@@ -135,12 +226,29 @@ const ModelTestament = ({open,setOpen,setIsTestament}) => {
                     aria-describedby="alert-dialog-description"
             >
                 <DialogTitle id="alert-dialog-title">
-                    {withoutData.testament?<p>updateTestament</p>:<p>create testament </p>}
+                    {testamentUser.statusTestament?<p>updateTestament</p>:  <p>create testament</p>}
+
+
+
 
                 </DialogTitle>
 
                 <DialogContent>
-                    {withoutData.typeTestament?<p>change mode</p>:<div>add mode</div>}
+
+                    <div className='create_testament'>
+                        <TextField
+                            id="filled-textarea"
+                            label="Testament"
+                            multiline
+                            rows={6}
+                            fullWidth
+                            variant="filled"
+                            value={writeTestament}
+                            onChange={(e)=>setWriteTestament(e.target.value)}
+                        />
+
+                    </div>
+                    {testamentUser?<p>change mode</p>:<div>add mode</div>}
 
                     { /*select mode*/}
                     <div className={styles.selectModeTestament}>
@@ -185,7 +293,7 @@ const ModelTestament = ({open,setOpen,setIsTestament}) => {
                                 type='number'
                                 label='pick up number likes of friends'
                                 value={selectCountLikeFriend}
-                                onChange={(e)=>setSelectCountLikeFriend(e.target.value)}
+                                onChange={(e)=>setSelectCountLikeFriend(e.target.valueAsNumber)}
                                 placeholder='example 100'
                             />
 
@@ -203,47 +311,60 @@ const ModelTestament = ({open,setOpen,setIsTestament}) => {
                                 <p>please write here email and firstName of like your friends as you want </p>
                                 <span>but remember all your firend that you are selected just him can be vote </span>
                             </div>
-                                <Grid className='pick_up_select_friends' mt={2} container direction='column'>
-                                    <span>write here email and name of friends that will witness</span>
-                                    <TextField
-                                        sx={{margin: '10px 0'}}
-                                        type='email'
-                                        label='email'
-                                        value={selectSpecialFriend.email}
-                                        onChange={(e) => setSelectSpecialFriend(prevState => ({
-                                            ...prevState,
-                                            email: e.target.value
-                                        }))}
-                                        placeholder='example@gmail.com'
-                                    />
-                                    <TextField
-                                        sx={{margin: '10px 0'}}
-                                        type='test'
-                                        label='name'
-                                        value={selectSpecialFriend.name}
-                                        onChange={(e) => setSelectSpecialFriend(prevState => ({
-                                            ...prevState,
-                                            name: e.target.value
-                                        }))}
-                                        placeholder='example 100'
-                                    />
-                                    <Button variant='contained' color='error' onClick={addSpecialFriends}>{collectionSelectSpecialFriend.length ? 'Add more special friend' : 'Add'}</Button>
+                            <Grid className='pick_up_select_friends' mt={2} container direction='column'>
+                                <span>write here email and name of friends that will witness</span>
+                                <TextField
+                                    sx={{margin: '10px 0'}}
+                                    type='email'
+                                    label='email'
+                                    value={selectSpecialFriend.email}
+                                    onChange={(e) => setSelectSpecialFriend(prevState => ({
+                                        ...prevState,
+                                        email: e.target.value
+                                    }))}
+                                    placeholder='example@gmail.com'
+                                />
+                                <TextField
+                                    sx={{margin: '10px 0'}}
+                                    type='text'
+                                    label='name'
+                                    value={selectSpecialFriend.name}
+                                    onChange={(e) => setSelectSpecialFriend(prevState => ({
+                                        ...prevState,
+                                        name: e.target.value
+                                    }))}
+                                    placeholder='example 100'
+                                />
+                                <TextField
+                                    sx={{margin: '10px 0'}}
+                                    type='text'
+                                    label='password'
+                                    value={selectSpecialFriend.password}
+                                    onChange={(e) => setSelectSpecialFriend(prevState => ({
+                                        ...prevState,
+                                        password: e.target.value
+                                    }))}
+                                    placeholder='example 100'
+                                />
+                                <Button variant='contained' color='error' onClick={addSpecialFriends}>{collectionSelectSpecialFriend.length ? 'Add more special friend' : 'Add'}</Button>
 
 
-                                    {collectionSelectSpecialFriend && collectionSelectSpecialFriend.map(item => {
-                                        return (
-                                            <div key={item.name}>
-                                                <Stack direction="row" spacing={1}>
-                                                    <Chip label={`${item.name} ${item.email}`} variant="outlined"
-                                                          color="success"
-                                                          onDelete={() => handleDeleteSelectSpecialFriend(item.name)}/>
-                                                </Stack>
-                                            </div>
-                                        )
-                                    })
+                                {collectionSelectSpecialFriend && collectionSelectSpecialFriend.map(item => {
+                                    return (
+                                        <div key={item.name}>
+                                            <Stack direction="row" spacing={1}>
+                                                <Chip label={`${item.name} ${item.email}`} variant="outlined"
+                                                      color="success"
+                                                      onDelete={() => handleDeleteSelectSpecialFriend(item.email)}/>
+                                                <p>{item.isExist?'true':'false'}</p>
+                                            </Stack>
 
-                                    }
-                                </Grid>
+                                        </div>
+                                    )
+                                })
+
+                                }
+                            </Grid>
                             ____________________________
 
                             <Grid className='pick_up_receive_friends' mt={2} container direction='column'>
@@ -263,7 +384,7 @@ const ModelTestament = ({open,setOpen,setIsTestament}) => {
 
                                 {collectionReceiveSpecialFriend && collectionReceiveSpecialFriend.map(item => {
                                     return (
-                                        <div key={item.id}>
+                                        <div key={Math.random()*10}>
                                             <Stack direction="row" spacing={1}>
                                                 <Chip label={`${item.name} ${item.email}`} variant="outlined"
                                                       color="success"
@@ -288,11 +409,14 @@ const ModelTestament = ({open,setOpen,setIsTestament}) => {
 
                 <DialogActions>
                     <Button onClick={handleClose}>cancel</Button>
-                    <Button onClick={handleSubmit} autoFocus>submit</Button>
+                    {testamentUser.statusTestament?<Button onClick={handleUpdate} autoFocus>update</Button>: <Button onClick={handleSubmit} autoFocus>submit</Button>}
                 </DialogActions>
+
+
+
             </Dialog>
         </div>
     );
 };
 
-export default ModelTestament;
+export default ModelTestament

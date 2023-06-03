@@ -16,12 +16,19 @@ import AccordionDetails from "@mui/material/AccordionDetails";
 import TestamentUser from "./TestamentUser";
 import InteractionTestament from "./InteractionTestament";
 import ModelTestament from "../Model/modelTestament";
+import {useSelector} from "react-redux";
+import {deleteData} from "../../Utils/FetchData";
+import Confirm from "../Model/Confirm";
+import {useRouter} from "next/router";
+
 
 const InfoTestament = () => {
     const {width}=useWidth()
-    const[isTestament,setIsTestament]=useState(true)
+    const {testamentUser}=useSelector(state=>state.sliceTestament)
+    const {auth}=useSelector(state=>state.sliceAuth)
+const router=useRouter()
     const [open, setOpen] = React.useState(false);
-
+    const [openConfirm,setOpenConfirm] = React.useState(false);
 
     const [isVisible,setIsVisible]=useState({
         myTestament:true,
@@ -31,16 +38,16 @@ const InfoTestament = () => {
     })
 
 
-    // useEffect(()=>{
-    //     if (width&&width<=767){
-    //         setIsVisible(prevState => ({...prevState, myTestament:false, updateTestament:false, deleteTestament:false, interactionTestament:false,}))
-    //
-    //     }
-    // },[width])
 
+    const showDeleteModel=()=>{
+        setOpenConfirm(true)
+    }
+    const deleteTestament=async()=>{
+       await deleteData('testament',auth.access_Token)
+        router.reload()
+    }
     const checkStatus=(type)=>{
         console.log(type)
-        // const obj=Object.keys(isVisible).map(item=>item===type)
         setIsVisible(prevState => ({...prevState, myTestament:false, updateTestament:false, deleteTestament:false, interactionTestament:false,}))
         setIsVisible(prevState => ({...prevState,[type]:true}))
 
@@ -50,7 +57,7 @@ const InfoTestament = () => {
 
     }
     const createOrUpdateTestament=()=>{
-        // setIsTestament(!isTestament)
+
         setOpen(true)
     }
 
@@ -68,7 +75,7 @@ const InfoTestament = () => {
                 {width > 768? <Fragment>
                         <Button sx={{width:'25%'}} onClick={()=>checkStatus('myTestament')} variant='contained'  startIcon={<VisibilityIcon/>} > my testament</Button>
                         <Button sx={{width:'25%'}} onClick={()=>checkStatus('updateTestament')} variant='contained'  startIcon={<UpdateIcon/>} > update</Button>
-                        <Button sx={{width:'25%'}} onClick={()=>checkStatus('deleteTestament')} variant='contained'  startIcon={<DeleteIcon/>} > delete</Button>
+                        <Button sx={{width:'25%'}} onClick={showDeleteModel} variant='contained'  startIcon={<DeleteIcon/>} > delete</Button>
                         <Button sx={{width:'25%'}} onClick={()=>checkStatus('interactionTestament')} variant='contained' startIcon={<FavoriteIcon/>} > interactions</Button>
                     </Fragment>
 
@@ -82,7 +89,7 @@ const InfoTestament = () => {
                                 aria-controls="panel1a-content"
                                 id="panel1a-header"
                             >
-                                <Grid container item gap={1} alignItems='center'><VisibilityIcon/> my testament</Grid>
+                                <Grid container item gap={1} alignItems='center'><VisibilityIcon/>MY TESTAMENT</Grid>
                             </AccordionSummary>
                             <AccordionDetails>
                                <TestamentUser/>
@@ -102,7 +109,7 @@ const InfoTestament = () => {
                             </AccordionDetails>
                         </Accordion>
                         <Button fullWidth onClick={createOrUpdateTestament} variant='contained'  startIcon={<UpdateIcon/>} >update</Button>
-                        <Button fullWidth onClick={null} variant='contained'  startIcon={<DeleteIcon/>} >delete </Button>
+                        <Button fullWidth onClick={showDeleteModel} variant='contained'  startIcon={<DeleteIcon/>} >delete </Button>
 
                     </Fragment>
 
@@ -111,22 +118,34 @@ const InfoTestament = () => {
         )
     }
 
-    if (open){
-        return  <ModelTestament open={open} setOpen={setOpen} setIsTestament={setIsTestament}/>
+    if (openConfirm){
+        return <Confirm
+            title='Delete Testament'
+            description='would you like to delete your testament'
+            openConfirm={openConfirm}
+            setOpenConfirm={setOpenConfirm}
+            funSubmit={deleteTestament}
+
+
+        />
     }
+    if (open){
+        return  <ModelTestament open={open} setOpen={setOpen} />
+    }
+
 
 
 
 
     return (
         <div className={styles.content_details_testament} >
-            {isTestament?buttonsHandleTestament():btnCreateTestament()}
+            {testamentUser.statusTestament?buttonsHandleTestament():btnCreateTestament()}
 
-            {width>768&&isTestament&&isVisible.myTestament&&<TestamentUser/>}
-            {width>768&&isTestament&&isVisible.updateTestament&&<ModelTestament open={open} setOpen={setOpen} setIsTestament={setIsTestament}/>}
-            {width>768&&isTestament&&isVisible.deleteTestament&&<p>deleteTestament</p>}
-            {width>768&&isTestament&&isVisible.interactionTestament&&<InteractionTestament/>}
-            {!isTestament&&<p>no testament add</p>}
+            {width>768&&testamentUser.statusTestament&&isVisible.myTestament&&<TestamentUser testament={testamentUser.testament}/>}
+            {width>768&&testamentUser.statusTestament&&isVisible.interactionTestament&&<InteractionTestament/>}
+
+
+
         </div>
     );
 };
