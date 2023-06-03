@@ -30,21 +30,17 @@ const styleContent={
 
 const Login = () => {
 
-
-
-
-
-
     const[data,setData]=useState({email:'',password:''})
     const[isValid,setIsValid]=useState({status:'',title:''})
     const [showAlert, setShowAlert] = useState(false);
     const router=useRouter()
     const handleSubmit= async ()=>{
-        setShowAlert(true)
-        const res=await postData('auth/login',data)
-        if (res.err) return setIsValid({...isValid,status:'error',title:res.err})
 
+        const res=await postData('auth/login',data)
+        setShowAlert(true)
+        if (res.err) return setIsValid({...isValid,status:'error',title:res.err})
          setIsValid({...isValid,status:'success',title:res.msg})
+
 
         Cookie.set('refresh_token',res.refresh_Token,{
             path:"api/auth/accessToken",
@@ -63,8 +59,7 @@ const Login = () => {
 
     return (
         <div className={style.content_login} style={styleContent}>
-             <AlertNotify status={isValid.status}  title={isValid.title} showAlert={showAlert} setShowAlert={setShowAlert} />
-
+            {showAlert&&<AlertNotify status={isValid.status}  title={isValid.title} showAlert={showAlert} setShowAlert={setShowAlert} />}
             <Container>
                <Grid container columns={{md:12,xs:12}} alignItems='center'>
 

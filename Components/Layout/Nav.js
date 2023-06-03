@@ -26,6 +26,7 @@ import {useSelector} from "react-redux";
 
 
 
+
 const pages = ['Testament', 'Contact', 'Policy','how to use'];
 const settings = [, 'Setting', 'Dashboard','Logout','reset password'];
 const Nav=()=>{
@@ -65,11 +66,11 @@ const Nav=()=>{
             }
         }
 
-        if (open){
-            return <ModelSetting setOpen={setOpen } open={open}/>
-        }
-    if (openRestPassword){
-        return <ModelResetPassword setOpenPassword={setOpenPassword } openRestPassword={openRestPassword}/>
+    if (open) {
+        return <ModelSetting setOpen={setOpen} open={open}/>
+    }
+    if (openRestPassword) {
+        return <ModelResetPassword setOpenPassword={setOpenPassword} openRestPassword={openRestPassword}/>
     }
 
     return (
@@ -153,8 +154,20 @@ const Nav=()=>{
                  </Toolbar>
              </Container>
          </AppBar>
+
      </Box>
     );
 }
 
 export default Nav;
+
+
+
+
+
+
+
+
+
+
+

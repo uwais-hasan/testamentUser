@@ -10,13 +10,15 @@ import Link from 'next/link'
 import style from '../../styles/content_header_info_user.module.scss'
 import {useSelector} from "react-redux";
 import CameraAltIcon from '@mui/icons-material/CameraAlt';
-import axios from "axios";
+
 import {updateData, uploadImage} from "../../Utils/FetchData";
 import Confirm from "../Model/Confirm";
 import {useRouter} from "next/router";
 const HeaderInfoUser = () => {
 
     const {auth}=useSelector(state=>state.sliceAuth)
+    const {testamentUser}=useSelector(state=>state.sliceTestament)
+
     const router=useRouter()
     const[image,setImage]=useState('')
     const [openConfirm,setOpenConfirm] = React.useState(false);
@@ -71,16 +73,22 @@ const HeaderInfoUser = () => {
             <div className={style.data_user}>
 
                 <h2 className={style.name}>{auth.user.name}</h2>
-                <div className={style.link_testament}>
 
-                    <ShareIcon/>
-                    <Link href={`/voting?name=${auth.user.name}&id=${auth.user._id}`}>{`http:localhost:3000/voting?name=${auth.user.name}&id=${auth.user._id}`}</Link>
-                </div>
-                <div className={style.share_profile} >
-                    <FacebookIcon/>
-                    <TwitterIcon/>
-                    <InstagramIcon/>
-                </div>
+                {testamentUser.testament?<>
+                    <div className={style.link_testament}>
+
+
+                        <ShareIcon/>
+
+                        <Link href={`/voting?name=${auth.user.name}&id=${auth.user._id}`}>{`http:localhost:3000/voting?name=${auth.user.name}&id=${auth.user._id}`}</Link>
+                    </div>
+                    <div className={style.share_profile} >
+                        <FacebookIcon/>
+                        <TwitterIcon/>
+                        <InstagramIcon/>
+                    </div>
+                </> :<p className={style.warning_testament}>please add a testament to see your testament</p>}
+
             </div>
 
         </div>

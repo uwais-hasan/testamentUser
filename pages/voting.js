@@ -17,8 +17,12 @@ import {useDispatch, useSelector} from "react-redux";
 import {Button} from "@mui/material";
 import ModelReceiveSpecialFriends from "../Components/Model/modelReceiveSpecialFriends";
 import ModelShowTestamentVotingUsers from "../Components/Model/modelShowTestamentVotingUsers";
+import {isAuthAccessToken} from "../Utils/PublicFun";
+import LoadingProgress from "../Components/LoadingProgress";
+import {useRouter} from "next/router";
 
 const voting = ({data}) => {
+
 
 
     const[showBtnTestament,setShowBtnTestament]=useState(false)
@@ -27,23 +31,15 @@ const voting = ({data}) => {
     const dispatch=useDispatch();
 
 
-    const fet = async () => {
-        const response = await fetch('http://localhost:3000/api/auth/accessToken');
-        const data = await response.json();
-
-        dispatch(addAuth(data))
-
-    }
-
     if (Object.keys(data).length === 0) {
         return <h1>no testament</h1>
     }
+
+
     useEffect(() => {
         const isUser = localStorage.getItem('isUser')
         if (isUser) {
-            return fet()
-        } else {
-            return console.log('error')
+            return isAuthAccessToken(dispatch)
         }
 
     }, []);
@@ -65,6 +61,7 @@ const voting = ({data}) => {
 
 
 
+
     const handleShowTestamentUser=()=>{
         const type=data.typeTestament;
         if (type==='special Friends'){
@@ -83,14 +80,17 @@ const voting = ({data}) => {
     }
 
 
+
+
     return (
         <div className={style.content_page_vote}>
-            <div  className={style.see_testament}>
-                {showBtnTestament&& <Button onClick={handleShowTestamentUser} variant='contained' color='error'>click here to see testament</Button>}
+                <div  className={style.see_testament}>
+                    {showBtnTestament&& <Button onClick={handleShowTestamentUser} variant='contained' color='error'>click here to see testament</Button>}
 
-            </div>
-            <AboutUser data={data} />
-            <UserVotingInteraction data={data}/>
+                </div>
+                <AboutUser data={data} />
+                <UserVotingInteraction data={data}/>
+
 
         </div>
     );

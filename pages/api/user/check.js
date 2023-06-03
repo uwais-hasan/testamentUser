@@ -7,14 +7,14 @@ export default async function handle(req, res) {
 
 
     if (req.method === 'POST') {
-            console.log('check user')
+
         await Auth(req,res)
 
 
         const {name, email, type,password} = req.body;
 
         if (type === 'select special friends') {
-            console.log('inside true')
+
 
 
             const user=await User.findOne({email,name}).select('email firstName lastName picture ')

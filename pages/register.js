@@ -31,9 +31,10 @@ const Register = () => {
 
     const handleSubmit = async () => {
 
-        setShowAlert(true)
+
 
         const res = await postData('auth/register', {...data, name: data.firstName + " " + data.lastName})
+         setShowAlert(true)
         if (res.err) return setIsValid({...isValid, status: 'error', title: res.err})
         setIsValid({...isValid, status: 'success', title: res.msg})
 
@@ -51,9 +52,7 @@ const Register = () => {
 
     return (
         <div className={style.content_login} style={styleContent}>
-            <AlertNotify status={isValid.status} title={isValid.title} showAlert={showAlert}
-                         setShowAlert={setShowAlert}/>
-
+            {showAlert&& <AlertNotify status={isValid.status} title={isValid.title} showAlert={showAlert} setShowAlert={setShowAlert}/>}
 
             <Container>
                 <Grid container columns={{md: 12, xs: 12}} alignItems='center'>

@@ -18,20 +18,20 @@ const Header = () => {
             <img className={styleImage.image_header} src='./R.jpeg'/>
 
 
-            <TextField className={styles.input_search}
-                       id="input-with-icon-textfield"
-                       style={{color:'red'}}
-                       InputProps={{
-                           startAdornment: (
-                               <InputAdornment position="start">
-                                   <SearchIcon />
-                               </InputAdornment>
-                           ),
-                       }}
-                       variant="standard"
-                       placeholder='search here'
+            {/*<TextField className={styles.input_search}*/}
+            {/*           id="input-with-icon-textfield"*/}
+            {/*           style={{color:'red'}}*/}
+            {/*           InputProps={{*/}
+            {/*               startAdornment: (*/}
+            {/*                   <InputAdornment position="start">*/}
+            {/*                       <SearchIcon />*/}
+            {/*                   </InputAdornment>*/}
+            {/*               ),*/}
+            {/*           }}*/}
+            {/*           variant="standard"*/}
+            {/*           placeholder='search here'*/}
 
-            />
+            {/*/>*/}
         </div>
     );
 };

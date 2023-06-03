@@ -38,7 +38,7 @@ export default async function handle(req,res){
 
         res.json(getTestament)
     }
-    //update user his testament
+
 
     else if (req.method==='PATCH' ){
         console.log('patch')

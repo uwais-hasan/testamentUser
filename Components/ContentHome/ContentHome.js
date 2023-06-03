@@ -4,6 +4,7 @@ import InfoTestament from "./InfoTestament";
 import style from '../../styles/content_home.module.scss'
 import {Box, Container} from "@mui/material";
 import {useSelector} from "react-redux";
+import Header from "../Header";
 
 
 const ContentHome = () => {
@@ -14,6 +15,7 @@ const ContentHome = () => {
 
     return (
         <Box  className={style.content_home}>
+
          <Container>
 
              <InfoUser/>

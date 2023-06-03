@@ -15,43 +15,20 @@ import {addAuth} from "../Store/Slicess/SliceAuth";
 import {addTestament} from '../Store/Slicess/SliceTestament'
 import {useRouter} from "next/router";
 import LoadingProgress from "../Components/LoadingProgress";
+import {callTestamentUser, fet, fet2, isAuthAccessToken} from "../Utils/PublicFun";
 
 
 export const index=({data})=> {
     const[loading,setLoading]=useState(true)
     const {auth}=useSelector(state=>state.sliceAuth)
-
-// complete in page voting loading you don't do any thing yet
-
     const dispatch=useDispatch();
     const router=useRouter();
-    const fet = async () => {
-        const response = await fetch('http://localhost:3000/api/auth/accessToken');
-        const data = await response.json();
 
-         dispatch(addAuth(data))
-
-    }
-    const fet2 = async () => {
-        if (auth) {
-            const response = await fetch('http://localhost:3000/api/testament', {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Bearer ${auth.access_Token}`
-                },
-            });
-            const datas = await response.json();
-           if (datas) return dispatch(addTestament(datas))
-
-        }
-
-    }
 
     useEffect(() => {
         const isUser = localStorage.getItem('isUser')
         if (isUser) {
-            return fet()
+            return isAuthAccessToken(dispatch)
         } else {
            router.push('/login')
         }
@@ -62,7 +39,7 @@ export const index=({data})=> {
 
         if (auth.access_Token) {
             setLoading(false)
-            return fet2()
+            return callTestamentUser(dispatch,auth)
         } else {
             return console.log('error')
         }

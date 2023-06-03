@@ -51,7 +51,7 @@ const Confirm = ({title,description,type,openConfirm,setOpenConfirm,funSubmit,se
                 <DialogContent>
                     <DialogContentText>{description}</DialogContentText>
                     {type==='updatePicture'&&<div style={{textAlign:'center'}}>
-                        <img style={{width:' 200px', borderRadius: '50%'}} src={image?URL.createObjectURL(image):auth.user.picture}/> }
+                        <img style={{width:' 200px', borderRadius: '50%'}} src={image?URL.createObjectURL(image):auth.user.picture}/>
 
                     </div>}
                 </DialogContent>

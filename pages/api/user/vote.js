@@ -14,7 +14,6 @@ connectDB()
 export default async function handler(req,res){
 
 
-    //page testament interaction get data user (any user can access here)
 
     if (req.method==='GET'){
         try {
