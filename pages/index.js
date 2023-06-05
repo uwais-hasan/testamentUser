@@ -16,6 +16,7 @@ import {addTestament} from '../Store/Slicess/SliceTestament'
 import {useRouter} from "next/router";
 import LoadingProgress from "../Components/LoadingProgress";
 import {callTestamentUser, fet, fet2, isAuthAccessToken} from "../Utils/PublicFun";
+import Admin from "../Components/admin";
 
 
 export const index=({data})=> {
@@ -61,10 +62,11 @@ export const index=({data})=> {
 
     return (
         <div className='content_app'>
-            <Layout>
+            {auth.user.role==='user'? <Layout>
                 <Header/>
                 <ContentHome/>
-            </Layout>
+            </Layout>:
+                <Admin/>}
         </div>
     )
 }

@@ -3,6 +3,7 @@
 import auth from '../../../MiddleWare/Auth'
 import {User} from "../../../Model/SchemaUser";
 import connectDB from "../../../MiddleWare/ConnectDB";
+import {Testament} from "../../../Model/SchemaTestament";
 
 
 
@@ -44,7 +45,7 @@ export default async function handler(req,res){
 
             const user=await User.findByIdAndUpdate({_id:id},{role});
 
-            res.json({mes:'add admin success'})
+            res.json({meg:'add admin success'})
 
             console.log(user)
         }catch (err){
@@ -54,13 +55,19 @@ export default async function handler(req,res){
 
     // Delete  user by admin
     else if (req.method==='DELETE'){
+
+
         const {id}=req.body
 
         const authorization=await auth(req,res)
         if (authorization.role !=='admin') return res.json({err:'you can not access here'})
-        const user=await User.findByIdAndDelete({_id:id})
+        await User.findByIdAndDelete({_id:id})
+      const user=  await Testament.findOneAndDelete({userId:id})
 
-        res.json({mes:'delete user success'})
+             console.log('success',user)
+
+
+        res.json({msg:'success delete'})
         try {
 
         }catch (err){

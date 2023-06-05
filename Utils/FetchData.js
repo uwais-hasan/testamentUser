@@ -51,7 +51,7 @@ const postData=async (path,post,token)=>{
 }
 
 
-const deleteData=async (path,token)=>{
+const deleteData=async (path,token,id)=>{
 
     try {
         const response= await fetch(`${url}/${path}`,{
@@ -60,6 +60,7 @@ const deleteData=async (path,token)=>{
                 'Content-Type': 'application/json',
                 authorization:`Bearer ${token}`
             },
+            body: JSON.stringify(id),
 
         })
         const data=await response.json();

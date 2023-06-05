@@ -27,8 +27,8 @@ import {useSelector} from "react-redux";
 
 
 
-const pages = ['Testament', 'Contact', 'Policy','how to use'];
-const settings = [, 'Setting', 'Dashboard','Logout','reset password'];
+const pages = ['Testament', 'Contact', 'Policy','how_to_use'];
+const settings = [ 'Setting', 'Dashboard','Logout','reset password'];
 const Nav=()=>{
 
     const [anchorElNav, setAnchorElNav] = useState(null);
@@ -73,6 +73,8 @@ const Nav=()=>{
         return <ModelResetPassword setOpenPassword={setOpenPassword} openRestPassword={openRestPassword}/>
     }
 
+
+
     return (
      <Box className={styles.content_nav}>
          <AppBar className={styles.app_nav}>
@@ -105,6 +107,7 @@ const Nav=()=>{
 
 
                              {pages.map((page) => (
+
                                  <MenuItem  key={page} onClick={handleCloseNavMenu}>
                                      <Link href={`/${page}`}   textAlign="center">{page}</Link>
                                  </MenuItem>

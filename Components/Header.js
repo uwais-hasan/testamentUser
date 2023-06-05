@@ -32,6 +32,7 @@ const Header = () => {
             {/*           placeholder='search here'*/}
 
             {/*/>*/}
+
         </div>
     );
 };

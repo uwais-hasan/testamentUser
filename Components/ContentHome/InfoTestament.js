@@ -83,7 +83,7 @@ const router=useRouter()
 
                     : <Fragment>
 
-                        <Accordion>
+                        <Accordion sx={{width:'100%'}}>
                             <AccordionSummary
                                 expandIcon={<ExpandMoreIcon />}
                                 aria-controls="panel1a-content"
@@ -92,7 +92,7 @@ const router=useRouter()
                                 <Grid container item gap={1} alignItems='center'><VisibilityIcon/>MY TESTAMENT</Grid>
                             </AccordionSummary>
                             <AccordionDetails>
-                               <TestamentUser/>
+                               <TestamentUser testament={testamentUser.testament}/>
                             </AccordionDetails>
                         </Accordion>
                         <Accordion sx={{width:'100%'}}>

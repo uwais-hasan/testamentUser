@@ -16,8 +16,10 @@ export default async function handler(req,res){
 
 
     if (req.method==='GET'){
+
+        console.log('get testament or vote')
         try {
-            const{name,id}=req.query;
+            const{id}=req.query;
             const user=await Testament.findOne({userId:id}).populate('userId voteUsers')
             if (!user) return res.json([])
               return  res.json(user)

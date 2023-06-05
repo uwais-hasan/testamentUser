@@ -1,8 +1,8 @@
 import '../styles/globals.css'
 
 import {wrapper} from "../Store/store";
-import Layout from "../Components/Layout/Layout";
 
+import {appWithTranslation} from "next-i18next";
 
 
 function MyApp({ Component, pageProps }) {
@@ -18,4 +18,4 @@ function MyApp({ Component, pageProps }) {
     )
 }
 
-export default wrapper.withRedux(MyApp)
+export default wrapper.withRedux(appWithTranslation(MyApp))
