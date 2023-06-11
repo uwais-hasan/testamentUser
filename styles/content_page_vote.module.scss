@@ -11,12 +11,17 @@
       width: 50%;
       padding: 20px;
       font-size: 30px;
+      @media (max-width: 575px) {
+        width: 60%;
+        padding: 10px;
+        font-size: 10px;
+      }
     }
   }
   &:after{
     content: "";
     width: 20%;
-    height: 150%;
+    height: 114%;
     background: $color_basic_1;
     position: absolute;
     top: 0;

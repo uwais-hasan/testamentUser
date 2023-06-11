@@ -14,6 +14,7 @@ import CameraAltIcon from '@mui/icons-material/CameraAlt';
 import {updateData, uploadImage} from "../../Utils/FetchData";
 import Confirm from "../Model/Confirm";
 import {useRouter} from "next/router";
+import {useTranslation} from "next-i18next";
 const HeaderInfoUser = () => {
 
     const {auth}=useSelector(state=>state.sliceAuth)
@@ -22,7 +23,7 @@ const HeaderInfoUser = () => {
     const router=useRouter()
     const[image,setImage]=useState('')
     const [openConfirm,setOpenConfirm] = React.useState(false);
-
+    const {t:translate}=useTranslation('index')
 
 
     const handleProfile=async (e)=>{
@@ -38,7 +39,23 @@ const HeaderInfoUser = () => {
         router.reload()
 
     }
+    const shareOnFacebook = () => {
+        const shareUrl = `https://www.google.com/?hl=chrome`; // الرابط الذي ترغب في مشاركته
+        const shareTitle = "" // عنوان المشاركة
+        const shareDescription = 'hello there'; // وصف المشاركة
 
+        const facebookShareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}&title=${encodeURIComponent(shareTitle)}&description=${encodeURIComponent(shareDescription)}`;
+
+        window.open(facebookShareUrl, '_blank');
+    };
+    const shareOnTwitter = () => {
+        const shareUrl = 'https://example.com'; // الرابط الذي ترغب في مشاركته
+        const shareText = 'نص المشاركة'; // نص المشاركة
+
+        const twitterShareUrl = `https://twitter.com/intent/tweet?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(shareText)}`;
+
+        window.open(twitterShareUrl, '_blank');
+    };
     if (openConfirm){
         return <Confirm
             title='upload image'
@@ -83,11 +100,11 @@ const HeaderInfoUser = () => {
                         <Link href={`/voting?name=${auth.user.name}&id=${auth.user._id}`}>{`http:localhost:3000/voting?name=${auth.user.name}&id=${auth.user._id}`}</Link>
                     </div>
                     <div className={style.share_profile} >
-                        <FacebookIcon/>
+                        <FacebookIcon onClick={shareOnFacebook }/>
                         <TwitterIcon/>
-                        <InstagramIcon/>
+
                     </div>
-                </> :<p className={style.warning_testament}>please add a testament to see your testament</p>}
+                </> :<p className={style.warning_testament}>{translate('please_add_testament')}</p>}
 
             </div>
 

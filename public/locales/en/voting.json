@@ -1,0 +1,39 @@
+
+{
+  "he_is_a": "he is a  ",
+  "alive":"Alive",
+  "dead": "Dead",
+  "vote": "vote",
+  "click_see_testament": "click here to see testament",
+  "type testament": "type testament",
+  "Details Vote": "Details Vote",
+  "warning_vote": "If you are not certain about the death of this person, you should refrain from voting and violating the website's terms, as this may result in a permanent ban on your account",
+  "notice": "Notice",
+  "note_1": "1-Please read how to use this website before voting to comply with the website's terms and conditions. ",
+  "note_2":"2- Make sure to be aware of the death of this person",
+  "note_3":"3- If you are indeed certain of their death, please vote.",
+  "note_4": "4-Be honest when voting and do not let your greed push you to vote if this person is still alive.",
+  "name": "name",
+  "email": "email",
+  "password": "password",
+  "submit": "submit",
+  "cancel": "cancel",
+  "Receive": "Receive",
+  "complete": "complete",
+  "isPublic": "no details users voting",
+  "isInteraction": "No user interactions",
+  "number of the voting": "number of the voting",
+  "total_number_of_the_voting": "total number of the voting",
+  "remain votes": "remain votes",
+"testament": "testament",
+"receive special friend": "receive special friend",
+
+
+  "voting_special_friends": "voting special friend",
+  "title_voting_users": "voting user",
+  "description_voting_users": "are you sure want to vote?",
+  "error_user_cannot_like": "you can not like please login",
+  "error_check_data_specialFriend": "Please verify again. The information you entered is not accurate",
+  "error_already_vote": "أنت بالفعل قمت بالتصويت"
+
+}

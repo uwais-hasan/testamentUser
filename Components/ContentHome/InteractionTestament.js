@@ -13,10 +13,11 @@ import style from '../../styles/interaction.testament.module.scss'
 import {Grid} from "@mui/material";
 import {useSelector} from "react-redux";
 import moment from 'moment';
+import {useTranslation} from "next-i18next";
 const InteractionTestament = () => {
 
 
-
+const{t:translate}=useTranslation('index')
     let count=1;
 
     const {testamentUser}=useSelector(state=>state.sliceTestament)
@@ -25,43 +26,47 @@ const InteractionTestament = () => {
 
 
     return (
-        <TableContainer className={style.section_interaction} component={Paper}  sx={{overflow:'scroll',maxHeight:500}} >
+        <>
+            {testamentUser.typeTestament==='public' ||!testamentUser.voteSpecialFriends  || !testamentUser.voteUsers ?<p className={style.no_interaction} > {translate('no_interactions')}</p>:
+            <TableContainer className={style.section_interaction} component={Paper} sx={{maxHeight:500,overflowY:'scroll'}} >
 
 
 
-            <Table sx={{minWidth:500,overflow:'scroll'}} aria-label="simple table">
-                <TableHead>
-                    <TableRow>
-                        <TableCell >#</TableCell>
-                        <TableCell>Name</TableCell>
-                        <TableCell align="right">Date</TableCell>
-
-                    </TableRow>
-                </TableHead>
-
-                    {testamentUser.typeTestament==='public'?<p className={style.no_interaction} >public testament_no interaction</p>:
-                        <TableBody>
-
-                           {stateVoting&&stateVoting.map((row,id) => (
-                               <TableRow key={row._id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                                   <TableCell component="th" >{count++}</TableCell>
-                                   <TableCell component="th" scope="row"><Grid container spacing={2} alignItems='center'>
-
-                                       <img className={styleImg.rounded_image_small} src={row.picture}/>
-                                       {row.name}
-                                   </Grid></TableCell>
-                                   <TableCell align="right">{moment( row.createdAt).format("MMMM Do YYYY, h:mm:ss a")}</TableCell>
+                <Table  aria-label="simple table">
+                    <TableHead>
+                        <TableRow>
+                            <TableCell >#</TableCell>
+                            <TableCell>Name</TableCell>
+                            <TableCell align="right">Date</TableCell>
+                            {/*<TableCell>{translate('Name')}</TableCell>*/}
+                            {/*<TableCell align="right">{translate('Date')}</TableCell>*/}
+                        </TableRow>
+                    </TableHead>
 
 
-                               </TableRow>
-                           ))}
+                    <TableBody>
+
+                        {stateVoting&&stateVoting.map((row,id) => (
+                            <TableRow key={row._id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                                <TableCell component="th" >{count++}</TableCell>
+                                <TableCell component="th" scope="row"><Grid container spacing={2} alignItems='center'>
+
+                                    <img className={styleImg.rounded_image_small} src={row.picture}/>
+                                    {row.name}
+                                </Grid></TableCell>
+                                <TableCell align="right">{moment( row.createdAt).format("MMMM Do YYYY, h:mm:ss a")}</TableCell>
 
 
-                        </TableBody>
-                    }
+                            </TableRow>
+                        ))}
 
-            </Table>
-        </TableContainer>
+
+                    </TableBody>
+                </Table>
+            </TableContainer>
+            }
+        </>
+
     );
 };
 

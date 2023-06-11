@@ -16,7 +16,7 @@ const sliceAuth=createSlice({
         addAuth:(state,action)=>{
             state.auth=action.payload;
 
-            console.log(state.auth)
+
         }
     },
     [HYDRATE]: (state, action) => {

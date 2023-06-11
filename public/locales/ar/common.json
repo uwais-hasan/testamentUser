@@ -1,0 +1,17 @@
+
+{
+  "direction": "rtl",
+
+  "error": " خطأ",
+
+  "error_no_details_users_voting": "no details users voting",
+  "error_no_interaction_user": "لا يوجد تفاعلات للمستخدمين",
+  "error_fill_fields": "يرجى ملى كل الحقول",
+  "error_password_wrong": "كلمة السر خاطئة",
+  "error_some_things_error": "يوجد هناك بعض الاخطاء",
+  "error_user_exist": "هذا المستخدم بالفعل موجود",
+  "error_user_not_exist": "هذا المستخدم ليس موجود",
+  "error_error_add_testament": "يرجى كتابة الوصية",
+  "error_add_email": "يرجى كتابة الايميل",
+  "error_email_exist": "هذا الايميل بالفعل موجود"
+}

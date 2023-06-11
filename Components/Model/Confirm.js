@@ -3,12 +3,13 @@ import {Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogT
 import useMediaQuery from '@mui/material/useMediaQuery';
 
 import {useRouter} from "next/router";
+import {useTranslation} from "next-i18next";
 const Confirm = ({title,description,type,openConfirm,setOpenConfirm,funSubmit,setImage,image}) => {
 
     const theme = useTheme();
     const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
     const[loading,setLoading]=useState(false)
-
+    const {t: translate} = useTranslation('index')
     const handleClickOpen = () => {
         setOpenConfirm(true);
     };
@@ -57,10 +58,11 @@ const Confirm = ({title,description,type,openConfirm,setOpenConfirm,funSubmit,se
                 </DialogContent>
                 <DialogActions>
                     <Button autoFocus onClick={handleClose}>
-                        cancel
+                        {translate('cancel')}
                     </Button>
                     <Button onClick={handleSubmit} autoFocus>
-                        {loading?'loading...':'submit'}
+
+                        {loading?translate('loading'):translate('agree')}
                     </Button>
                 </DialogActions>
             </Dialog>

@@ -17,7 +17,8 @@ import {postData, updateData} from "../../Utils/FetchData";
 import {useSelector} from "react-redux";
 import {useRouter} from "next/router";
 import AlertNotify from "./AlertNotify";
-
+import CheckIcon from '@mui/icons-material/Check';
+import {useTranslation} from "next-i18next";
 
 
 const ModelTestament = ({open,setOpen}) => {
@@ -34,10 +35,8 @@ const ModelTestament = ({open,setOpen}) => {
     const[collectionReceiveSpecialFriend,setCollectionReceiveSpecialFriend]=useState(testamentUser.selectReceiveFriend||[])
      const[showAlert,setShowAlert]=useState(false)
     const[isValid,setIsValid]=useState({status:'',title:''})
+    const {t:translate}=useTranslation('index')
 
-    const handleClose = () => {
-        setOpen(false);
-    };
 
 
     const data={
@@ -49,11 +48,16 @@ const ModelTestament = ({open,setOpen}) => {
         statusTestament:true,
     }
 
+
+    const handleClose = () => {
+        setOpen(false);
+    };
+
     const addSpecialFriends = async () => {
 
         if (!selectSpecialFriend.email||!selectSpecialFriend.name||!selectSpecialFriend.password){
             setShowAlert(true);
-            setIsValid({...isValid,title: 'please add all fields',status:'error'})
+            setIsValid({...isValid,title:translate('error_add_all_field'),status:'error'})
         }else {
 
 
@@ -67,7 +71,7 @@ const ModelTestament = ({open,setOpen}) => {
 
             const addUser=await postData('user/check',data,auth.access_Token)
             setShowAlert(true);
-            setIsValid({...isValid,title: 'you add a special user',status:'success'})
+            setIsValid({...isValid,title: translate('success_special_friends'),status:'success'})
             setCollectionSelectSpecialFriend([...collectionSelectSpecialFriend,addUser])
             setSelectSpecialFriend({...selectSpecialFriend,name:'',email: '',password:''})
 
@@ -76,6 +80,7 @@ const ModelTestament = ({open,setOpen}) => {
 
     }
 
+
     const addReceiveSpecialFriends=(name)=>{
         const existName=collectionSelectSpecialFriend.find(item=>item.name===selectReceiveFriend)
         const checkDoubleName=collectionReceiveSpecialFriend.some(item=>item.name===name)
@@ -83,43 +88,42 @@ const ModelTestament = ({open,setOpen}) => {
 
         if (!selectReceiveFriend){
             setShowAlert(true);
-            setIsValid({...isValid,title: 'please add a name',status:'error'})
+            setIsValid({...isValid,title: translate('error_add_name'),status:'error'})
 
         } else if (!existName){
             setShowAlert(true);
-            setIsValid({...isValid,title: 'this name is not exist',status:'error'})
+            setIsValid({...isValid,title: translate('error_name_no_exist'),status:'error'})
 
         }else if (existName !== undefined) {
             if (checkDoubleName){
                 setShowAlert(true);
-                setIsValid({...isValid,title: 'this email already exist',status:'error'})
+                setIsValid({...isValid,title: translate('error_email_exist'),status:'error'})
 
             }else{
                 setCollectionReceiveSpecialFriend([...collectionReceiveSpecialFriend,existName])
                 setSelectReceiveFriend('')
                 setShowAlert(true);
-                setIsValid({...isValid,title: 'you add a user',status:'success'})
+                setIsValid({...isValid,title: translate('success_receive_friends'),status:'success'})
             }
 
         }
 
     }
 
+
     const handleDeleteSelectSpecialFriend=(email)=>{
 
         const filtered= collectionSelectSpecialFriend.filter(item=>item.email!==email)
         setCollectionSelectSpecialFriend(filtered)
         setShowAlert(true);
-        setIsValid({...isValid,title: 'you delete a special user',status:'success'})
+        setIsValid({...isValid,title: translate('success_delete_special'),status:'success'})
     }
     const handleDeleteReceiveFriends=(name)=>{
         const filtered= collectionReceiveSpecialFriend.filter(item=>item.name!==name)
         setCollectionReceiveSpecialFriend(filtered)
         setShowAlert(true);
-        setIsValid({...isValid,title: 'you delete a receive  user',status:'success'})
+        setIsValid({...isValid,title: translate('success_delete_receive'),status:'success'})
     }
-
-
 
     const updateDataTestament=async (data,)=>{
         const update=await updateData('testament',data,auth.access_Token)
@@ -132,11 +136,11 @@ const ModelTestament = ({open,setOpen}) => {
        return  router.reload()
     }
     const handleSubmit = async () => {
-        console.log(collectionSelectSpecialFriend)
+
         if (selectTypeTestament==='special Friends'){
             if (!collectionSelectSpecialFriend.length || !collectionReceiveSpecialFriend.length || !writeTestament){
                 setShowAlert(true);
-                setIsValid({...isValid,title: 'please add all fields 1',status:'error'})
+                setIsValid({...isValid,title: translate('error_add_all_field'),status:'error'})
             }else {
              return  await createDataTestament(data)
 
@@ -145,36 +149,38 @@ const ModelTestament = ({open,setOpen}) => {
         else if (selectTypeTestament==='votes users'){
             if (!selectCountLikeFriend || !writeTestament){
                 setShowAlert(true);
-                setIsValid({...isValid,title: 'please add all fields 2',status:'error'})
+                setIsValid({...isValid,title: translate('error_add_all_field'),status:'error'})
             }else {
 
                 return  await createDataTestament(data)
             }
         }
         else if (selectTypeTestament==='public') {
+
             if (!writeTestament){
                 setShowAlert(true);
-                setIsValid({...isValid,title: 'please add testament',status:'error'})
+                setIsValid({...isValid,title: translate('error_testament'),status:'error'})
+            }else {
+                return  await createDataTestament(data)
             }
 
-            return  await createDataTestament(data)
+
         }else {
 
             setShowAlert(true);
-            setIsValid({...isValid,title: 'please select any type',status:'error'})
+            setIsValid({...isValid,title: translate('error_select_type'),status:'error'})
         }
 
 
 
 
     }
-
     const handleUpdate=async ()=>{
         if (selectTypeTestament==='special Friends'){
             if (!collectionSelectSpecialFriend.length || !collectionReceiveSpecialFriend.length || !writeTestament){
 
                 setShowAlert(true);
-                setIsValid({...isValid,title: 'please add all fields',status:'error'})
+                setIsValid({...isValid,title: translate('error_add_all_field'),status:'error'})
             }else {
 
              return  await updateDataTestament(data)
@@ -183,7 +189,7 @@ const ModelTestament = ({open,setOpen}) => {
         else if (selectTypeTestament==='votes users'){
             if (!selectCountLikeFriend|| !writeTestament){
                 setShowAlert(true);
-                setIsValid({...isValid,title: 'please add all fields',status:'error'})
+                setIsValid({...isValid,title: translate('error_add_all_field'),status:'error'})
             }else {
               return   await updateDataTestament(data)
 
@@ -192,24 +198,26 @@ const ModelTestament = ({open,setOpen}) => {
         else if (selectTypeTestament==='public') {
             if (!writeTestament){
                 setShowAlert(true);
-                setIsValid({...isValid,title: 'please add testament',status:'error'})
+                setIsValid({...isValid,title: translate('error_testament'),status:'error'})
+            }else {
+                let data={
+                    typeTestament:selectTypeTestament,
+                    testament:writeTestament,
+                    selectSpecialFriend:[],
+                    selectReceiveFriend: [],
+                    countLikeUsers:0,
+                    statusTestament:true,
+                }
+                return   await updateDataTestament(data)
             }
 
-            let data={
-                typeTestament:selectTypeTestament,
-                testament:writeTestament,
-                selectSpecialFriend:[],
-                selectReceiveFriend: [],
-                countLikeUsers:0,
-                statusTestament:true,
-            }
-          return   await updateDataTestament(data)
+
 
         }
         else {
 
             setShowAlert(true);
-            setIsValid({...isValid,title: 'please select any type',status:'error'})
+            setIsValid({...isValid,title: translate('error_select_type'),status:'error'})
         }
 
     }
@@ -226,7 +234,7 @@ const ModelTestament = ({open,setOpen}) => {
                     aria-describedby="alert-dialog-description"
             >
                 <DialogTitle id="alert-dialog-title">
-                    {testamentUser.statusTestament?<p>updateTestament</p>:  <p>create testament</p>}
+                    {testamentUser.statusTestament?<p>{translate('updateTestament')}</p>:  <p>{translate('create_testament')}</p>}
 
 
 
@@ -238,7 +246,7 @@ const ModelTestament = ({open,setOpen}) => {
                     <div className='create_testament'>
                         <TextField
                             id="filled-textarea"
-                            label="Testament"
+                            label={translate('Testament')}
                             multiline
                             rows={6}
                             fullWidth
@@ -248,12 +256,12 @@ const ModelTestament = ({open,setOpen}) => {
                         />
 
                     </div>
-                    {testamentUser?<p>change mode</p>:<div>add mode</div>}
+                    {testamentUser.statusTestament?<p>{translate('change mode')}</p>:<div>{translate('add mode')}</div>}
 
                     { /*select mode*/}
                     <div className={styles.selectModeTestament}>
                         <FormControl fullWidth variant="standard" sx={{ m: 1 }}>
-                            <InputLabel id="demo-simple-select-standard-label">select Type of Testament</InputLabel>
+                            <InputLabel id="demo-simple-select-standard-label">{translate('select Type of Testament')}</InputLabel>
                             <Select
                                 labelId="demo-simple-select-standard-label"
                                 id="demo-simple-select-standard"
@@ -278,26 +286,24 @@ const ModelTestament = ({open,setOpen}) => {
                     <Box className={styles.optionModeTestament}>
                         {!selectTypeTestament&&''}
                         {selectTypeTestament==='public'&& <div className='info_defult'>
-                            <p>be care if you pick up this mode, anyone can see your testament without any permission</p>
-                            <span>but remember no one can vote and any one can see your testament  </span>
+                           <p>{translate('warning_public')}</p>
                         </div>}
 
                         { /*votes users*/}
                         {selectTypeTestament==='votes users'&& <Box className={styles.option_votes_users}>
                             <div className='info_likes_friend'>
-                                <p>please write here number of like friends as you want </p>
-                                <span>but remember this count if completely all your friend will see your testament</span>
+                             <p>{translate('warning_likes_users')}</p>
                             </div>
-                            <span>pick up number likes of friends</span>
+                            {/*<span>{translate('select_friends')}</span>*/}
                             <TextField
                                 type='number'
-                                label='pick up number likes of friends'
+                                label={translate('select_friends')}
                                 value={selectCountLikeFriend}
                                 onChange={(e)=>setSelectCountLikeFriend(e.target.valueAsNumber)}
                                 placeholder='example 100'
                             />
 
-                            <p>you pick up : <span> {selectCountLikeFriend} {selectCountLikeFriend&&' friends'}</span></p>
+                            <p>{translate('you_pick_up')} : <span> {selectCountLikeFriend} {selectCountLikeFriend&&translate('friends')}</span></p>
                         </Box>}
                         { /*votes users*/}
 
@@ -306,17 +312,16 @@ const ModelTestament = ({open,setOpen}) => {
 
                         { /*special Friends*/}
                         {selectTypeTestament === 'special Friends' &&
-                        <Box className={styles.option_special_friends}>special Friends
+                        <Box className={styles.option_special_friends}>
                             <div className='info_special_Friends'>
-                                <p>please write here email and firstName of like your friends as you want </p>
-                                <span>but remember all your firend that you are selected just him can be vote </span>
+                               <p>{translate('warning_special_friends')}</p>
                             </div>
                             <Grid className='pick_up_select_friends' mt={2} container direction='column'>
-                                <span>write here email and name of friends that will witness</span>
+                                <span>{translate('select_witness')}</span>
                                 <TextField
                                     sx={{margin: '10px 0'}}
                                     type='email'
-                                    label='email'
+                                    label={translate('email')}
                                     value={selectSpecialFriend.email}
                                     onChange={(e) => setSelectSpecialFriend(prevState => ({
                                         ...prevState,
@@ -327,7 +332,7 @@ const ModelTestament = ({open,setOpen}) => {
                                 <TextField
                                     sx={{margin: '10px 0'}}
                                     type='text'
-                                    label='name'
+                                    label={translate('Name')}
                                     value={selectSpecialFriend.name}
                                     onChange={(e) => setSelectSpecialFriend(prevState => ({
                                         ...prevState,
@@ -338,7 +343,7 @@ const ModelTestament = ({open,setOpen}) => {
                                 <TextField
                                     sx={{margin: '10px 0'}}
                                     type='text'
-                                    label='password'
+                                    label={translate('password')}
                                     value={selectSpecialFriend.password}
                                     onChange={(e) => setSelectSpecialFriend(prevState => ({
                                         ...prevState,
@@ -346,17 +351,20 @@ const ModelTestament = ({open,setOpen}) => {
                                     }))}
                                     placeholder='example 100'
                                 />
-                                <Button variant='contained' color='error' onClick={addSpecialFriends}>{collectionSelectSpecialFriend.length ? 'Add more special friend' : 'Add'}</Button>
+                                <Button variant='contained' color='error' onClick={addSpecialFriends}>{collectionSelectSpecialFriend.length ? translate('add_more_special') : translate('add')}</Button>
 
 
                                 {collectionSelectSpecialFriend && collectionSelectSpecialFriend.map(item => {
                                     return (
                                         <div key={item.name}>
-                                            <Stack direction="row" spacing={1}>
+                                            <Stack direction="row" spacing={1} sx={{alignItems:"center"}}>
                                                 <Chip label={`${item.name} ${item.email}`} variant="outlined"
                                                       color="success"
                                                       onDelete={() => handleDeleteSelectSpecialFriend(item.email)}/>
-                                                <p>{item.isExist?'true':'false'}</p>
+                                                <p>{item.isExist?<Grid container justifyContent='center' alignItems='center'>
+                                                    <p>{translate('user_exist')}</p>
+                                                    <CheckIcon color='success'/>
+                                                </Grid>:''}</p>
                                             </Stack>
 
                                         </div>
@@ -368,17 +376,17 @@ const ModelTestament = ({open,setOpen}) => {
                             ____________________________
 
                             <Grid className='pick_up_receive_friends' mt={2} container direction='column'>
-                                <span>write here name of your friends that will be receive testament</span>
+                                <span>{translate('select_receive_witness')}</span>
 
                                 <TextField
                                     sx={{margin: '10px 0'}}
                                     type='test'
-                                    label='name'
+                                    label={translate('Name')}
                                     value={selectReceiveFriend}
                                     onChange={(e) => setSelectReceiveFriend(e.target.value)}
                                     placeholder='example 100'
                                 />
-                                <Button variant='contained' color='error' onClick={()=>addReceiveSpecialFriends(selectReceiveFriend)}>{collectionReceiveSpecialFriend.length ? 'Add more receive friend' : 'Add'}</Button>
+                                <Button variant='contained' color='error' onClick={()=>addReceiveSpecialFriends(selectReceiveFriend)}>{collectionReceiveSpecialFriend.length ? translate('add_more_receive') : translate('add')}</Button>
 
 
 
@@ -408,8 +416,8 @@ const ModelTestament = ({open,setOpen}) => {
 
 
                 <DialogActions>
-                    <Button onClick={handleClose}>cancel</Button>
-                    {testamentUser.statusTestament?<Button onClick={handleUpdate} autoFocus>update</Button>: <Button onClick={handleSubmit} autoFocus>submit</Button>}
+                    <Button onClick={handleClose}>{translate('cancel')}</Button>
+                    {testamentUser.statusTestament?<Button onClick={handleUpdate} autoFocus>{translate('update')}</Button>: <Button onClick={handleSubmit} autoFocus>{translate('submit')}</Button>}
                 </DialogActions>
 
 

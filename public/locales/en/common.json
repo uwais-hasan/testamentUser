@@ -1,0 +1,16 @@
+
+{
+  "direction": "ltr",
+  "error": "error",
+
+  "error_no_details_users_voting": "no details users voting",
+  "error_no_interaction_user": "no interaction user",
+  "error_fill_fields": "Please fill in all the fields.",
+  "error_password_wrong": "password wrong",
+  "error_some_things_error": "There are some errors.",
+  "error_user_exist": "this user already exist",
+  "error_user_not_exist": "this user han not exist",
+  "error_error_add_testament": "please add testament",
+  "error_add_email": "please add email",
+  "error_email_exist": "this email already exist"
+}

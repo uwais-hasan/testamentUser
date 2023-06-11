@@ -1,9 +1,11 @@
 
 
 
+
+
 import styles from '../styles/Home.module.css'
 import FaceBookLogin from "../Components/Login/FaceBookLogin";
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import ContentHome from "../Components/ContentHome/ContentHome";
@@ -17,6 +19,9 @@ import {useRouter} from "next/router";
 import LoadingProgress from "../Components/LoadingProgress";
 import {callTestamentUser, fet, fet2, isAuthAccessToken} from "../Utils/PublicFun";
 import Admin from "../Components/admin";
+import {serverSideTranslations} from "next-i18next/serverSideTranslations";
+import Howtouse from "./Howtouse";
+import {useTranslation} from "react-i18next";
 
 
 export const index=({data})=> {
@@ -26,15 +31,18 @@ export const index=({data})=> {
     const router=useRouter();
 
 
+
     useEffect(() => {
         const isUser = localStorage.getItem('isUser')
         if (isUser) {
             return isAuthAccessToken(dispatch)
         } else {
-           router.push('/login')
+            router.push('/login')
         }
 
     }, []);
+
+
     useEffect(() => {
 
 
@@ -62,20 +70,31 @@ export const index=({data})=> {
 
     return (
         <div className='content_app'>
-            {auth.user.role==='user'? <Layout>
-                <Header/>
-                <ContentHome/>
-            </Layout>:
-                <Admin/>}
+
+               {auth.user.role === 'user' ? <>
+                       <Header/>
+                       <ContentHome/>
+                   </> :
+                   <Admin/>}
+
         </div>
     )
 }
 
 
 
+
+
+export  async function  getStaticProps({locale}){
+
+    return{
+        props:{
+            ...(await serverSideTranslations(locale,['index']))
+        }
+    }
+}
+
 export default index;
-
-
 // export const getServerSideProps=async ({query})=>{
 //     const token=query.access_Token
 //

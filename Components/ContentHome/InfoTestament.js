@@ -20,23 +20,24 @@ import {useSelector} from "react-redux";
 import {deleteData} from "../../Utils/FetchData";
 import Confirm from "../Model/Confirm";
 import {useRouter} from "next/router";
+import {useTranslation} from "next-i18next";
 
 
 const InfoTestament = () => {
-    const {width}=useWidth()
-    const {testamentUser}=useSelector(state=>state.sliceTestament)
-    const {auth}=useSelector(state=>state.sliceAuth)
-const router=useRouter()
+    const {width} = useWidth()
+    const {testamentUser} = useSelector(state => state.sliceTestament)
+    const {auth} = useSelector(state => state.sliceAuth)
+    const router = useRouter()
     const [open, setOpen] = React.useState(false);
-    const [openConfirm,setOpenConfirm] = React.useState(false);
+    const [openConfirm, setOpenConfirm] = React.useState(false);
 
-    const [isVisible,setIsVisible]=useState({
-        myTestament:true,
-        updateTestament:false,
-        deleteTestament:false,
-        interactionTestament:false,
+    const [isVisible, setIsVisible] = useState({
+        myTestament: true,
+        updateTestament: false,
+        deleteTestament: false,
+        interactionTestament: false,
     })
-
+    const {t: translate} = useTranslation('index')
 
 
     const showDeleteModel=()=>{
@@ -65,7 +66,7 @@ const router=useRouter()
     const btnCreateTestament=()=>{
         return(
             <div className='header_details_testament'>
-                <Button onClick={createOrUpdateTestament} variant='contained' fullWidth startIcon={<CreateIcon/>} > CreateTestament</Button>
+                <Button onClick={createOrUpdateTestament} variant='contained' fullWidth startIcon={<CreateIcon/>} > {translate('create_testament')}</Button>
             </div>
         )
     }
@@ -73,10 +74,10 @@ const router=useRouter()
         return(
             <div className={styles.header_details_testament}>
                 {width > 768? <Fragment>
-                        <Button sx={{width:'25%'}} onClick={()=>checkStatus('myTestament')} variant='contained'  startIcon={<VisibilityIcon/>} > my testament</Button>
-                        <Button sx={{width:'25%'}} onClick={()=>checkStatus('updateTestament')} variant='contained'  startIcon={<UpdateIcon/>} > update</Button>
-                        <Button sx={{width:'25%'}} onClick={showDeleteModel} variant='contained'  startIcon={<DeleteIcon/>} > delete</Button>
-                        <Button sx={{width:'25%'}} onClick={()=>checkStatus('interactionTestament')} variant='contained' startIcon={<FavoriteIcon/>} > interactions</Button>
+                        <Button sx={{width:'25%'}} onClick={()=>checkStatus('myTestament')} variant='contained'  startIcon={<VisibilityIcon sx={{marginLeft:'8px'}}/>} >{translate('my testament')}</Button>
+                        <Button sx={{width:'25%'}} onClick={()=>checkStatus('updateTestament')} variant='contained'  startIcon={<UpdateIcon sx={{marginLeft:'8px'}}/>} >{translate('update')} </Button>
+                        <Button sx={{width:'25%'}} onClick={showDeleteModel} variant='contained'  startIcon={<DeleteIcon/>} >{translate('delete') }</Button>
+                        <Button sx={{width:'25%'}} onClick={()=>checkStatus('interactionTestament')} variant='contained' startIcon={<FavoriteIcon sx={{marginLeft:'8px'}}/>} >{translate('interactions')} </Button>
                     </Fragment>
 
 
@@ -89,7 +90,7 @@ const router=useRouter()
                                 aria-controls="panel1a-content"
                                 id="panel1a-header"
                             >
-                                <Grid container item gap={1} alignItems='center'><VisibilityIcon/>MY TESTAMENT</Grid>
+                                <Grid container item gap={1} alignItems='center'><VisibilityIcon/>{translate('my testament')}</Grid>
                             </AccordionSummary>
                             <AccordionDetails>
                                <TestamentUser testament={testamentUser.testament}/>
@@ -101,15 +102,15 @@ const router=useRouter()
                                 aria-controls="panel1a-content"
                                 id="panel1a-header"
                             >
-                                <Grid container item gap={1} alignItems='center'><FavoriteIcon/> interactions</Grid>
+                                <Grid container item gap={1} alignItems='center'><FavoriteIcon/> {translate('interactions')}</Grid>
 
                             </AccordionSummary>
                             <AccordionDetails >
                               <InteractionTestament/>
                             </AccordionDetails>
                         </Accordion>
-                        <Button fullWidth onClick={createOrUpdateTestament} variant='contained'  startIcon={<UpdateIcon/>} >update</Button>
-                        <Button fullWidth onClick={showDeleteModel} variant='contained'  startIcon={<DeleteIcon/>} >delete </Button>
+                        <Button fullWidth onClick={createOrUpdateTestament} variant='contained'  startIcon={<UpdateIcon/>} >{translate('update')}</Button>
+                        <Button fullWidth onClick={showDeleteModel} variant='contained'  startIcon={<DeleteIcon/>} >{translate('delete')} </Button>
 
                     </Fragment>
 
@@ -120,8 +121,8 @@ const router=useRouter()
 
     if (openConfirm){
         return <Confirm
-            title='Delete Testament'
-            description='would you like to delete your testament'
+            title={translate('delete_testament')}
+            description={translate('description_delete_testament')}
             openConfirm={openConfirm}
             setOpenConfirm={setOpenConfirm}
             funSubmit={deleteTestament}

@@ -9,12 +9,14 @@ import {updateData} from "../../Utils/FetchData";
 import {useSelector} from "react-redux";
 import {useRouter} from "next/router";
 import AlertNotify from "./AlertNotify";
+import {useTranslation} from "next-i18next";
 
 const ModelCheckIsSpecialFriend = ({open, setOpen,data}) => {
 
     const[checkerDataInsert,setDataInsert]=useState({name:'',email:'',password:''})
     const[showAlert,setShowAlert]=useState(false)
     const[isValid,setIsValid]=useState({status:'',title:''})
+    const{t:translate}=useTranslation('voting')
 
     const router=useRouter();
 
@@ -45,12 +47,12 @@ const ModelCheckIsSpecialFriend = ({open, setOpen,data}) => {
 
             } else {
                 setShowAlert(true);
-                setIsValid({...isValid,title: 'some thing error',status:'error'})
+                setIsValid({...isValid,title:translate('error_check_data_specialFriend'),status:'error'})
 
             }
         } else {
             setShowAlert(true);
-            setIsValid({...isValid,title: 'you already vote',status:'error'})
+            setIsValid({...isValid,title: translate('error_already_vote'),status:'error'})
 
         }
 
@@ -67,11 +69,11 @@ const ModelCheckIsSpecialFriend = ({open, setOpen,data}) => {
                 aria-describedby="alert-dialog-description"
             >
                 <DialogTitle id="alert-dialog-title">
-                 voting special friend
+                    {translate('voting_special_friends')}
                 </DialogTitle>
                 <DialogContent>
                     <Grid container justifyContent='center' gap={1} >
-                        <TextField  label='name'
+                        <TextField  label={translate("name")}
                                     size="large"
                                     style={{margin:'10px 1px',padding:'10px 0',}}
                                     value={checkerDataInsert.name}
@@ -80,7 +82,7 @@ const ModelCheckIsSpecialFriend = ({open, setOpen,data}) => {
                                     variant="standard"
                                     onChange={(e)=>setDataInsert({...checkerDataInsert,name: e.target.value})}
                         />
-                        <TextField  label='email'
+                        <TextField  label={translate("email")}
                                     size="large"
                                     style={{margin:'10px 1px',padding:'10px 0'}}
                                     value={checkerDataInsert.email}
@@ -89,7 +91,7 @@ const ModelCheckIsSpecialFriend = ({open, setOpen,data}) => {
                                     onChange={(e)=>setDataInsert({...checkerDataInsert,email: e.target.value})}
                         />
 
-                        <TextField  label='password'
+                        <TextField  label={translate("password")}
                                     size="large"
                                     style={{margin:'10px 1px',padding:'10px 0'}}
                                     value={checkerDataInsert.password}
@@ -101,8 +103,8 @@ const ModelCheckIsSpecialFriend = ({open, setOpen,data}) => {
                     </Grid>
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={handleSub}>submit</Button>
-                    <Button onClick={handleClose} autoFocus>cancel</Button>
+                    <Button onClick={handleSub}>{translate('submit')}</Button>
+                    <Button onClick={handleClose} autoFocus>{translate('cancel')}</Button>
                 </DialogActions>
             </Dialog>
         </div>

@@ -4,8 +4,16 @@
 @import "styles/Sass/size";
 .content_about_user{
 
+
+  li{
+    list-style: none;
+    font-size: 15px;
+    @media (max-width: 575px) {
+      font-size: 10px;
+    }
+  }
   .define_mode{
-    background: red;
+    background: $color_blue_opacity;
     padding: 20px;
     color: white;
     font-size: 30px;
@@ -74,5 +82,16 @@
       font-size: 10px;
     }
 
+  }
+  .back_home{
+    position: absolute;
+    top: 34px;
+    left: 22px;
+    color: white;
+    font-size: 30px;
+    cursor: pointer;
+    @media (max-width:575px) {
+      font-size: 20px;
+    }
   }
 }

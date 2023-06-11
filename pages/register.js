@@ -36,15 +36,15 @@ const Register = () => {
         const res = await postData('auth/register', {...data, name: data.firstName + " " + data.lastName})
          setShowAlert(true)
         if (res.err) return setIsValid({...isValid, status: 'error', title: res.err})
-        setIsValid({...isValid, status: 'success', title: res.msg})
 
+        localStorage.setItem('isUser', true)
         Cookie.set('refresh_token', res.refresh_Token, {
             path: "api/auth/accessToken",
             expires: 7,
 
         })
-        localStorage.setItem('isUser', true)
 
+        setIsValid({...isValid, status: 'success', title: res.msg})
         router.push('/')
 
     }

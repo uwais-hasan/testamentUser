@@ -20,6 +20,8 @@ import ModelShowTestamentVotingUsers from "../Components/Model/modelShowTestamen
 import {isAuthAccessToken} from "../Utils/PublicFun";
 import LoadingProgress from "../Components/LoadingProgress";
 import {useRouter} from "next/router";
+import {useTranslation} from "next-i18next";
+import {serverSideTranslations} from "next-i18next/serverSideTranslations";
 
 const voting = ({data}) => {
 
@@ -28,9 +30,11 @@ const voting = ({data}) => {
     const[showBtnTestament,setShowBtnTestament]=useState(false)
     const[showTestament,setShowTestament]=useState(false)
     const[openReceive, setOpenReceive]=useState(false)
+    const{t:translate}=useTranslation('voting')
     const dispatch=useDispatch();
+    const router=useRouter()
 
-
+console.log(router)
     if (Object.keys(data).length === 0) {
         return <h1>no testament</h1>
     }
@@ -76,7 +80,7 @@ const voting = ({data}) => {
     }
 
     if (showTestament){
-        return <ModelShowTestamentVotingUsers showTestament={showTestament} setShowTestament={setShowTestament}/>
+        return <ModelShowTestamentVotingUsers showTestament={showTestament} setShowTestament={setShowTestament} testament={data.testament}/>
     }
 
 
@@ -84,10 +88,7 @@ const voting = ({data}) => {
 
     return (
         <div className={style.content_page_vote}>
-                <div  className={style.see_testament}>
-                    {showBtnTestament&& <Button onClick={handleShowTestamentUser} variant='contained' color='error'>click here to see testament</Button>}
-
-                </div>
+                <div className={style.see_testament}>{showBtnTestament&& <Button onClick={handleShowTestamentUser} variant='contained' color='error'>{translate('click_see_testament')}</Button>}</div>
                 <AboutUser data={data} />
                 <UserVotingInteraction data={data}/>
 
@@ -100,14 +101,15 @@ export default voting;
 
 
 
-export const getServerSideProps=async ({query})=>{
+export const getServerSideProps=async ({query,locale})=>{
 
     const res=await fetch(`http://localhost:3000/api/user/vote?name=${decodeURIComponent(query.name)}&id=${query.id}`)
     const data=await res.json()
 
     return{
         props:{
-            data
+            data,
+            ...(await serverSideTranslations(locale, ['voting'])),
         }
     }
 }

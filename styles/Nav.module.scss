@@ -23,4 +23,27 @@
 
 
   }
+  li{
+    list-style: none;
+    cursor: pointer;
+    &:hover,
+    &:focus {
+      animation: pulse 1s;
+      box-shadow: 0 4px 0 2em rgba(#9532ab,0);
+    }
+
+
+  }
+  .translate{
+    width: auto;
+    cursor: pointer;
+    &:hover,
+    &:focus {
+      animation: pulse 1s;
+      box-shadow: 0 4px 0 2em rgba(#9532ab,0);
+    }
+  }
+}
+@keyframes pulse {
+  0% { box-shadow: 0 0 0 0 #9532ab; }
 }

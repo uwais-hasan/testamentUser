@@ -26,7 +26,7 @@ export default async function handler(req,res){
 
           res.json(users)
       }catch (err){
-          res.status(400).json({err:'err'})
+          res.status(500).json({err:'err'})
       }
 
 
@@ -49,7 +49,7 @@ export default async function handler(req,res){
 
             console.log(user)
         }catch (err){
-            res.status(400).json({err:'err'})
+            res.status(500).json({err:'err'})
         }
     }
 
@@ -71,7 +71,7 @@ export default async function handler(req,res){
         try {
 
         }catch (err){
-            res.json({err:'err delete'})
+            res.status(500).json({err:'err delete'})
         }
 
     }

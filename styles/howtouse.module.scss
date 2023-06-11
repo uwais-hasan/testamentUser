@@ -1,0 +1,46 @@
+
+@import "Sass/color";
+
+.page_how_to_use{
+
+  p{
+   //color:$color_grey-3 ;
+    letter-spacing: .5px;
+    line-height: 1.8;
+  }
+  svg{
+    font-size: 40px;
+    color: white;
+  }
+  ul{
+
+    li{
+      list-style: none;
+      line-height: 2;
+    }
+  }
+
+  .box_using{
+
+    background:$color_grey-4;
+    padding: 20px;
+    color: white!important;
+    //text-align:center;
+    cursor: pointer;
+
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0);
+height: 200px;
+
+    &:hover{
+      background-color: $color_basic_1;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    }
+  }
+  .mode{
+    margin: 50px 0;
+    img{
+      width: 100%;
+    }
+  }
+}

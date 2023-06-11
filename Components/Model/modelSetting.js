@@ -7,12 +7,13 @@ import DialogTitle from '@mui/material/DialogTitle'
 import {Grid, TextField} from "@mui/material";
 import {updateData} from "../../Utils/FetchData";
 import {useSelector} from "react-redux";
+import {useTranslation} from "next-i18next";
 const ModelSetting = ({open, setOpen}) => {
     const {auth}=useSelector(state=>state.sliceAuth)
 
     const{firstName, lastName, age, country, city, phone,}=auth.user
     const[data,setData]=useState({firstName:firstName||'',lastName:lastName||'',age:age||'',country:country||'',city:city||'',phone:phone||''})
-
+    const{t:translate}=useTranslation('index')
 
     const handleClose = () => {
         setOpen(false);
@@ -21,7 +22,7 @@ const ModelSetting = ({open, setOpen}) => {
 
         handleClose()
 
-        const updateDataUser=await updateData('user/update',data,auth.access_Token)
+     await updateData('user/update',data,auth.access_Token)
 
     }
 
@@ -35,11 +36,11 @@ const ModelSetting = ({open, setOpen}) => {
                 aria-describedby="alert-dialog-description"
             >
                 <DialogTitle id="alert-dialog-title">
-                  <h1 >update your information</h1>
+                  <h1 >{translate('update_your_information')}</h1>
                 </DialogTitle>
                 <DialogContent>
                  <Grid container justifyContent='center' gap={1} >
-                     <TextField  label='firstName'
+                     <TextField  label={translate('firstName')}
                                  size="large"
                                  style={{margin:'10px 1px',padding:'10px 0',}}
                                  value={data.firstName}
@@ -48,7 +49,7 @@ const ModelSetting = ({open, setOpen}) => {
                                  variant="standard"
                                  onChange={(e)=>setData({...data,firstName: e.target.value})}
                      />
-                     <TextField  label='lastName'
+                     <TextField  label={translate('lastName')}
                                  size="large"
                                  style={{margin:'10px 1px',padding:'10px 0'}}
                                  value={data.lastName}
@@ -57,7 +58,7 @@ const ModelSetting = ({open, setOpen}) => {
                                  onChange={(e)=>setData({...data,lastName: e.target.value})}
                      />
 
-                     <TextField  label='city'
+                     <TextField  label={translate('city')}
                                  size="large"
                                  style={{margin:'10px 1px',padding:'10px 0'}}
                                  value={data.city}
@@ -65,7 +66,7 @@ const ModelSetting = ({open, setOpen}) => {
                                  variant="standard"
                                  onChange={(e)=>setData({...data,city: e.target.value})}
                      />
-                     <TextField  label='country'
+                     <TextField  label={translate('country')}
                                  size="large"
                                  style={{margin:'10px 1px',padding:'10px 0'}}
                                  value={data.country}
@@ -73,7 +74,7 @@ const ModelSetting = ({open, setOpen}) => {
                                  variant="standard"
                                  onChange={(e)=>setData({...data,country: e.target.value})}
                      />
-                     <TextField  label='phone'
+                     <TextField  label={translate('phone')}
                                  size="large"
                                  style={{margin:'10px 1px',padding:'10px 0'}}
                                  value={data.phone}
@@ -81,7 +82,7 @@ const ModelSetting = ({open, setOpen}) => {
                                  variant="standard"
                                  onChange={(e)=>setData({...data,phone: e.target.value})}
                      />
-                     <TextField  label='age'
+                     <TextField  label={translate('age')}
                                  size="large"
                                  style={{margin:'10px 1px',padding:'10px 0'}}
                                  value={data.age}
@@ -89,29 +90,13 @@ const ModelSetting = ({open, setOpen}) => {
                                  variant="standard"
                                  onChange={(e)=>setData({...data,age: e.target.value})}
                      />
-                     {/*<TextField  label='password'*/}
-                     {/*            size="large"*/}
-                     {/*            style={{margin:'10px 1px',padding:'10px 0'}}*/}
-                     {/*            value={data.password}*/}
-                     {/*            type='password'*/}
 
-                     {/*            variant="standard"*/}
-                     {/*            onChange={(e)=>setData({...data,password: e.target.value})}*/}
-                     {/*/>*/}
-                     {/*<TextField  label='re_password'*/}
-                     {/*            size="large"*/}
-                     {/*            style={{margin:'10px 1px',padding:'10px 0'}}*/}
-                     {/*            value={data.re_password}*/}
-                     {/*            type='password'*/}
-                     {/*            variant="standard"*/}
-                     {/*            onChange={(e)=>setData({...data,re_password: e.target.value})}*/}
-                     {/*/>*/}
                  </Grid>
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={handleSub}>update</Button>
+                    <Button onClick={handleSub}>{translate('update')}</Button>
                     <Button onClick={handleClose} autoFocus>
-                        cancel
+                        {translate('cancel')}
                     </Button>
                 </DialogActions>
             </Dialog>
