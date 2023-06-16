@@ -1,6 +1,13 @@
+@import "styles/Sass/color";
 
+@import "styles/Sass/size";
 
 .section_interaction{
+
+  margin-top: 20px;
+  td,th{
+  color: white;
+}
   .no_interaction{
     font-size: 20px;
     padding: 20px;

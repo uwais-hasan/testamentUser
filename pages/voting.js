@@ -14,7 +14,7 @@ import UserVotingInteraction from "../Components/ContentPageVote/UserVotingInter
 import style from '../styles/content_page_vote.module.scss'
 import {addAuth} from "../Store/Slicess/SliceAuth";
 import {useDispatch, useSelector} from "react-redux";
-import {Button} from "@mui/material";
+import {Button, Container, Grid} from "@mui/material";
 import ModelReceiveSpecialFriends from "../Components/Model/modelReceiveSpecialFriends";
 import ModelShowTestamentVotingUsers from "../Components/Model/modelShowTestamentVotingUsers";
 import {isAuthAccessToken} from "../Utils/PublicFun";
@@ -22,19 +22,20 @@ import LoadingProgress from "../Components/LoadingProgress";
 import {useRouter} from "next/router";
 import {useTranslation} from "next-i18next";
 import {serverSideTranslations} from "next-i18next/serverSideTranslations";
+import DetailsVoting from "../Components/ContentPageVote/DetailsVoting";
 
 const voting = ({data}) => {
 
 
 
-    const[showBtnTestament,setShowBtnTestament]=useState(false)
-    const[showTestament,setShowTestament]=useState(false)
-    const[openReceive, setOpenReceive]=useState(false)
+
+
+
     const{t:translate}=useTranslation('voting')
     const dispatch=useDispatch();
-    const router=useRouter()
 
-console.log(router)
+
+
     if (Object.keys(data).length === 0) {
         return <h1>no testament</h1>
     }
@@ -47,50 +48,21 @@ console.log(router)
         }
 
     }, []);
-    useEffect(() => {
-        if (data.typeTestament === 'votes users') {
-
-            if (data.countLikeUsers === data.voteUsers.length) {
-                setShowBtnTestament(true)
-            }
-
-        } else if (data.typeTestament === 'special Friends') {
-            if (data.selectSpecialFriend.length === data.voteSpecialFriends.length) {
-                setShowBtnTestament(true)
-            }
-        } else if (data.typeTestament === 'public') {
-            setShowBtnTestament(true)
-        }
-    }, [])
-
-
-
-
-    const handleShowTestamentUser=()=>{
-        const type=data.typeTestament;
-        if (type==='special Friends'){
-            setOpenReceive(true)
-        }else {
-           setShowTestament(true)
-        }
-    }
-
-    if (openReceive){
-        return <ModelReceiveSpecialFriends showTestament={showTestament} setShowTestament={setShowTestament} openReceive={openReceive} setOpenReceive={setOpenReceive} data={data}/>
-    }
-
-    if (showTestament){
-        return <ModelShowTestamentVotingUsers showTestament={showTestament} setShowTestament={setShowTestament} testament={data.testament}/>
-    }
-
-
-
-
     return (
         <div className={style.content_page_vote}>
-                <div className={style.see_testament}>{showBtnTestament&& <Button onClick={handleShowTestamentUser} variant='contained' color='error'>{translate('click_see_testament')}</Button>}</div>
-                <AboutUser data={data} />
-                <UserVotingInteraction data={data}/>
+
+         <Container maxWidth='xl'>
+             <Grid gap={3}  container columns={{md:12,sx:12}} direction={{xs:'column-reverse',md:'row'}} >
+                 <Grid item container md={3} sx={{justifyContent:'center'}}>
+                     <UserVotingInteraction data={data}/>
+                 </Grid>
+                 <Grid item container md={8}>
+                     <AboutUser data={data}/>
+                     <DetailsVoting data={data}/>
+                 </Grid>
+             </Grid>
+         </Container>
+
 
 
         </div>
@@ -103,7 +75,7 @@ export default voting;
 
 export const getServerSideProps=async ({query,locale})=>{
 
-    const res=await fetch(`http://localhost:3000/api/user/vote?name=${decodeURIComponent(query.name)}&id=${query.id}`)
+    const res=await fetch(`http://localhost:3000/api/user/vote?id=${query.id}`)
     const data=await res.json()
 
     return{

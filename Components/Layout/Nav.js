@@ -26,10 +26,12 @@ import ModelSetting from "../Model/modelSetting";
 import {useRouter} from "next/router";
 import Cookie from "js-cookie";
 import ModelResetPassword from "../Model/modelResetPassword";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {Button, Grid} from "@mui/material";
 import {useTranslation} from "react-i18next";
 import GTranslateIcon from '@mui/icons-material/GTranslate';
+import AlertNotify from "../Model/AlertNotify";
+
 
 
 
@@ -40,17 +42,18 @@ const Nav=()=>{
 
 
     const {auth}=useSelector(state=>state.sliceAuth)
-
+    const {testamentUser} = useSelector(state => state.sliceTestament)
     const [anchorElNav, setAnchorElNav] = useState(null);
     const [anchorElUser, setAnchorElUser] = useState(null);
-
     const [open, setOpen] = React.useState(false);
     const [openRestPassword, setOpenPassword] = React.useState(false);
-
+    const [isValid, setIsValid] = useState({status: '', title: ''})
+    const [showAlert, setShowAlert] = useState(false);
 
     const router=useRouter()
+
     const { t:translate } = useTranslation('index');
-    const lang=router.locale==='en' ? 'ar' : 'en';
+
     const handleOpenNavMenu = (event) => {
         setAnchorElNav(event.currentTarget);
     };
@@ -64,28 +67,52 @@ const Nav=()=>{
         setAnchorElUser(null);
     };
     const handleLanguage = () => {
-
+        const lang=router.locale==='en' ? 'ar' : 'en';
         router.push(`${router.asPath}`, undefined, {locale: lang})
     }
     const handleRoute = (page) => {
 
-        let route = (page === 'How to use' || page === "كيفية الاستخدام") ? 'Howtouse' : (page === 'Home' || page === 'الصفحة الرئيسية') ? '/' : ''
+        const routes = {
+            'How to use': 'Howtouse',
+            'كيفية الاستخدام': 'Howtouse',
+            'Home': '/',
+            'الصفحة الرئيسية': '/',
+        };
 
-        router.push(`${route}`, undefined, {locale: lang})
+        let route = routes[page]
+        router.push(`${route}`)
 
     }
     const handleSetting = (type) => {
-
+        handleCloseUserMenu()
         if (type === 'Setting'|| type ==='الاعدادات') {
             setOpen(true)
         } else if (type === 'Logout'|| type ==="تسجيل الخروج") {
-            Cookie.remove('refresh_token')
             localStorage.removeItem('isUser')
-            router.push('/login')
+            Cookie.remove('refresh_token')
+            router.reload()
         } else if (type === 'reset password' || type === 'تغير كلمة السر') {
             setOpenPassword(true)
         }
     }
+    const handleVoting=()=>{
+
+        if (!auth.user){
+            setShowAlert(true)
+            setIsValid({status:'warning',title:translate('error_login')})
+
+        }else if(!testamentUser.testament){
+            setShowAlert(true)
+            setIsValid({status:'info',title:translate('error_no_testament')})
+
+        }else{
+            router.push(`/voting?id=${auth.user._id}`)
+        }
+
+
+    }
+
+
 
 
     const pages = router.locale==='en'?[ 'Home','How to use']:["الصفحة الرئيسية","كيفية الاستخدام"]
@@ -93,7 +120,7 @@ const Nav=()=>{
 
 
     const style_bg={
-        background:auth.user===undefined||auth.user.role==='admin'||!auth.user||router.pathname!=='/'?'#750c82':"transparent"
+        background:auth.user===undefined||auth.user.role==='admin'||!auth.user||router.pathname!=='/'?'#077E71':"transparent"
 
 
     }
@@ -108,10 +135,10 @@ const Nav=()=>{
 
 
 
-
     return (
         <Box className={styles.content_nav}>
 
+            {showAlert&&<AlertNotify status={isValid.status}  title={isValid.title} showAlert={showAlert} setShowAlert={setShowAlert} />}
 
 
             <AppBar style={style_bg} className={styles.app_nav}>
@@ -154,24 +181,33 @@ const Nav=()=>{
 
                                 ))}
                                 {/*mobile*/}
-                                <Grid onClick={handleLanguage } className={styles.translate} container alignItems='center' justifyContent='center' gap={2} >
-                                    <GTranslateIcon />
+                                <MenuItem onClick={handleVoting} className={styles.translate}>
+                                   <span> {router.locale === 'ar' ? 'التصويت ' : 'Voting'}</span>
+                                </MenuItem>
+                                <MenuItem onClick={handleLanguage} className={styles.translate}>
                                     {router.locale === 'ar' ? 'English' : 'العربية'}
-                                </Grid>
+                                </MenuItem>
                             </Menu>
                         </Box>
 
-                        <Box className={styles.text_link} sx={{flexGrow: 1, display: {xs: 'none', md: 'flex'},gap:'40px'}}>
+                        <Box className={styles.text_link} sx={{flexGrow: 1,alignItems:'center' ,display: {xs: 'none', md: 'flex'},gap:'40px'}}>
                             {pages.map((page,index) => (
                                 <li  key={index} onClick={()=>handleRoute(page)} >{page}</li>
 
                             ))}
 
-                            {/*desktop*/}
-                            <Grid onClick={handleLanguage } className={styles.translate}  container alignItems='center' gap={1} >
-                                <GTranslateIcon />
+                            {/*desktop add some route ,I can not add inside array because this data contain conditional*/}
+
+                            <li onClick={handleVoting} className={styles.translate}>
+                                {router.locale === 'ar' ? 'التصويت' : ' Voting'}
+                            </li>
+                            <li onClick={handleLanguage} className={styles.translate}>
                                 {router.locale === 'ar' ? 'English' : 'العربية'}
-                            </Grid>
+                            </li>
+
+
+
+
                         </Box>
                         {auth.user!==undefined?
                         <Box sx={{ flexGrow: 0 }}>
@@ -197,13 +233,13 @@ const Nav=()=>{
                                 onClose={handleCloseUserMenu}
                             >
                                 {settings.map((setting,index) => (
-                                    <MenuItem key={index} onClick={handleCloseUserMenu}>
-                                        <Typography textAlign="center" onClick={(e)=>handleSetting(setting)}>{setting}</Typography>
+                                    <MenuItem key={index} onClick={(e)=>handleSetting(setting)}>
+                                        <Typography textAlign="center" >{setting}</Typography>
                                     </MenuItem>
                                 ))}
                             </Menu>
 
-                        </Box>:<Button variant='contained' color='secondary'>Login</Button>
+                        </Box>:<Button onClick={()=>router.push('/login')} variant='contained' color='primary'>Login</Button>
                         }
                     </Toolbar>
                 </Container>
@@ -214,6 +250,10 @@ const Nav=()=>{
 }
 
 export default Nav;
+
+
+
+
 
 
 

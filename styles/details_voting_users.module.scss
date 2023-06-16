@@ -1,0 +1,41 @@
+
+@import "styles/Sass/color";
+
+@import "styles/Sass/size";
+
+.section_result_vote_user{
+  width: 100%;
+  margin-top: 50px;
+  h1{
+    color: $Color_Title_2;
+    font-size:$Size_Title;
+    @media (max-width:575px) {
+      font-size:$Size_Title-Mobile;
+  }
+  }
+
+  .details_voting{
+    transition: .3s ease-in;
+    background-color: $Color_Basic_2;
+    padding: 20px;
+    border-radius: 20px;
+
+    p{
+      color: $Color_Title_2;
+      font-size: $Size_text;
+
+    }
+    svg{
+      color: $Color_Basic_8;
+      position: relative;
+     font-size: $Size_Title;
+    }
+
+    &:hover{
+      background-color: $Color_Basic_3;
+      svg{
+        color: $Color_Title_2;
+      }
+    }
+  }
+}

@@ -1,84 +1,57 @@
-
 @import "Sass/color";
 @import "Sass/size";
 
-.div{
-  transform: skew(-9deg, -5deg); background: red;
-  width: 200px;
-  margin: 0 auto;
-  height: 400px;
-}
-
-.outer
-{
-  padding:90px 0px;
-  position:relative;
-}
-.skewed_div
-{
 
 
-  width: 50%;
-  background-color: #f4f5fd;
-  -webkit-transform: skew(1deg, -10deg);
-  transform: skew(-5deg, 5deg);
-  padding: 4%;
-  text-align: center;
-  margin: 0 auto;
-  box-shadow: 87px 110px 8px -25px #a59f9f;
-  height: 471px;
-}
-.skewed_content
-{
-  //-webkit-transform: skewY(10deg);
-  //transform: skewY(10deg);
-}
-.skewed_content p
-{
-  padding:2% 20%;
-  font-size:20px;
-  line-height:30px;
-}
-
-.content_login{
-
-  width:100%;
-  height:600px;
-  @media (max-width: 575px) {
-    height: 500px;
-  }
-  .style_login{
 
 
-    width: 200px;
 
-    background-color: #f4f5fd;
-    transform: skew(-5deg, 5deg);
-    margin-top: 65px;
+
+
+.content_login {
+
+
+  .style_login {
+
+
+    margin-top: 40px;
+
+
+
+
 
     padding: 20px 20px 50px 20px;
     box-shadow: rgb(76 76 76 / 48%) 6px 2px 16px 0px;
+    background-color: $Color_Basic_1;
+    @media (max-width: 575px) {
 
-    @media (max-width:575px) {
-      transform: skew(-1deg, 4deg);
       padding: 10px;
     }
-    .style_title{
+
+    .style_title {
       text-align: center;
       font-weight: bold;
       text-transform: uppercase;
-      @media (max-width:575px) {
-        font-size: 20px;
+      font-size: $Size_Title;
+      color: $Color_Title_2;
+      @media (max-width: 575px) {
+        font-size: $Size_Title_Mobile
       }
 
     }
-    .register,.forget{
-      font-size: 15px;
+
+    .register {
+      font-size: $Size_text;
       padding-bottom: 10px;
-      color: #0a0a0a;
+      color: $Color_Title_2;
       margin-bottom: 10px;
+      text-transform: uppercase;
+      &:hover{
+        color:#1565c0
+      }
     }
 
   }
 
 }
+

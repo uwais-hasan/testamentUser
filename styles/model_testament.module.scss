@@ -2,22 +2,28 @@
 
 
 .content_model_testament{
-background: red;
-  .optionModeTestament{
-
+  background: red!important;
+  color: white!important;
+  .bg{
+    background: red;
+    color: white;
   }
-  .selectModeTestament{
-
+  .css-tlc64q-MuiPaper-root-MuiDialog-paper{
+    background: red;
+    color: white;
   }
+  .option_votes_users{
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+  }
+  .option_special_friends{
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+  }
+}
 
-}
-.option_votes_users{
-  display: flex;
-  flex-direction: column;
-  gap: 30px;
-}
-.option_special_friends{
-  display: flex;
-  flex-direction: column;
-  gap: 30px;
-}
+
+
+

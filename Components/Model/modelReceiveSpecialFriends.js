@@ -24,6 +24,7 @@ const ModelReceiveSpecialFriends = ({openReceive, setOpenReceive,data,setShowTes
         const isValid= data.selectReceiveFriend.some(item => Object.entries(checkerDataInsert).every(([key, value]) => item[key] === value));
             if (isValid) {
                 setShowTestament(true)
+                setOpenReceive(false)
                 setDataInsert({...checkerDataInsert,name: '',email: '',password: ''})
 
             } else {

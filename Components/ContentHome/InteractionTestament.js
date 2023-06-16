@@ -17,6 +17,8 @@ import {useTranslation} from "next-i18next";
 const InteractionTestament = () => {
 
 
+
+
 const{t:translate}=useTranslation('index')
     let count=1;
 
@@ -28,7 +30,7 @@ const{t:translate}=useTranslation('index')
     return (
         <>
             {testamentUser.typeTestament==='public' ||!testamentUser.voteSpecialFriends  || !testamentUser.voteUsers ?<p className={style.no_interaction} > {translate('no_interactions')}</p>:
-            <TableContainer className={style.section_interaction} component={Paper} sx={{maxHeight:500,overflowY:'scroll'}} >
+            <TableContainer className={style.section_interaction} component={Paper} sx={{maxHeight:490,overflowY:'scroll'}} >
 
 
 

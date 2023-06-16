@@ -1,0 +1,36 @@
+
+@import "Sass/color";
+@import "Sass/size";
+
+
+
+@import "Sass/color";
+.footer {
+position: relative;
+  background-color: $Color_Basic_9;
+  padding: 16px;
+
+  svg{
+    color: $Color_Title_2;
+    font-size: 30px;
+    &:hover{
+      color: $Color_Basic_3;
+    }
+  }
+  p{
+    font-size: $Size_text;
+    color: $Color_Title_2;
+  }
+
+  &:after{
+    content: "";
+    position: absolute;
+    top: 11px;
+    width: 90%;
+    height: 1px;
+
+    left: 4%;
+    background: #B6B7BC;
+  }
+}
+

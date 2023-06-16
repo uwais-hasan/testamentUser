@@ -3,7 +3,7 @@
 
 
 
-import styles from '../styles/Home.module.css'
+
 import FaceBookLogin from "../Components/Login/FaceBookLogin";
 import React, {useEffect, useState} from "react";
 import FormGroup from '@mui/material/FormGroup';
@@ -22,7 +22,7 @@ import Admin from "../Components/admin";
 import {serverSideTranslations} from "next-i18next/serverSideTranslations";
 import Howtouse from "./Howtouse";
 import {useTranslation} from "react-i18next";
-
+import styles from '../styles/App.module.scss'
 
 export const index=({data})=> {
     const[loading,setLoading]=useState(true)
@@ -59,17 +59,12 @@ export const index=({data})=> {
         return <LoadingProgress/>
     }
 
-    //query
-    // useEffect(()=>{
-    //     router.push({
-    //         path:'/',
-    //         query:{access_Token:auth.access_Token}
-    //     })
-    // },[auth])
+
+
 
 
     return (
-        <div className='content_app'>
+        <div className={styles.content_app}>
 
                {auth.user.role === 'user' ? <>
                        <Header/>
@@ -89,36 +84,10 @@ export  async function  getStaticProps({locale}){
 
     return{
         props:{
-            ...(await serverSideTranslations(locale,['index']))
+            ...(await serverSideTranslations(locale,['index','footer']))
         }
     }
 }
 
 export default index;
-// export const getServerSideProps=async ({query})=>{
-//     const token=query.access_Token
-//
-//  if (token){
-//      const response = await fetch('http://localhost:3000/api/testament', {
-//          method:'GET',
-//          headers:{
-//              'Content-Type': 'application/json',
-//              Authorization:`Bearer ${token&&token}`
-//          },
-//      });
-//      const data = await response.json();
-//
-//      console.log(data)
-//      return{
-//          props:{
-//              data
-//          }
-//      }
-//  }else {
-//      return {
-//          props:{
-//              data:[]
-//          }
-//      }
-//  }
-// }
+

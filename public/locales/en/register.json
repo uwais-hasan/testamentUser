@@ -1,0 +1,33 @@
+{
+  "brief_app": "Securely write and share your testament for others to access after your passing.",
+  "description_app": "There are multiple reasons why many people fail to write their testament before passing away, and one of the prominent reasons is their reluctance to disclose their last wishes to others. However, this application comes to your aid significantly, offering easy, secure, and simplified steps. Moreover, you have the control to determine the level of difficulty in defining these steps, either through user voting or designating trusted friends. And if you have no privacy concerns, you can make your testament public for everyone, as the choice is available to you.",
+  "login": "Login",
+  "register": "Register",
+  "firstName": "firstName",
+  "lastName": "lastName",
+  "email": "Email",
+  "password": "Password",
+  "re_password": "re_password",
+  "submit": "Submit",
+  "login_facebook": "login facebook",
+
+  "loading": "loading...",
+
+
+
+
+  "password_must_be_at_least_6_characters":"password must be at least 6 characters",
+  "confirm_password_did_not_match": "confirm password did not match",
+  "this_email_already_exist":"this email already exist",
+
+
+
+  "please_fill_all_field":"please fill all field",
+  "this_email_did_not_exist":"this email did not exist",
+  "password_wrong": "password wrong",
+  "error_server": "Try again later",
+
+  "success_login": "success login",
+  "success_register": "success register"
+
+}

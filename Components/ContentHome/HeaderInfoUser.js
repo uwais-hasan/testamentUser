@@ -1,37 +1,43 @@
 import React, {useState} from 'react';
 
 import styleImage from '../../styles/Images.module.scss'
-import {Button, IconButton, Typography} from "@mui/material";
+import {Button, IconButton} from "@mui/material";
 import ShareIcon from '@mui/icons-material/Share';
 import FacebookIcon from '@mui/icons-material/Facebook';
-import InstagramIcon from '@mui/icons-material/Instagram';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import Link from 'next/link'
 import style from '../../styles/content_header_info_user.module.scss'
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import CameraAltIcon from '@mui/icons-material/CameraAlt';
 
 import {updateData, uploadImage} from "../../Utils/FetchData";
 import Confirm from "../Model/Confirm";
 import {useRouter} from "next/router";
 import {useTranslation} from "next-i18next";
+import AlertNotify from "../Model/AlertNotify";
+import useWidth from "../../Hooks/useWidth";
+import {showNotify} from "../../Store/Slicess/SliceNotify";
 const HeaderInfoUser = () => {
 
-    const {auth}=useSelector(state=>state.sliceAuth)
-    const {testamentUser}=useSelector(state=>state.sliceTestament)
 
     const router=useRouter()
+    const {width} = useWidth()
+    const dispatch=useDispatch()
+    const {auth}=useSelector(state=>state.sliceAuth)
+    const {testamentUser}=useSelector(state=>state.sliceTestament)
+    const{Alert}=useSelector(state=>state.sliceNotify)
+
     const[image,setImage]=useState('')
-    const [openConfirm,setOpenConfirm] = React.useState(false);
+    const [openConfirm,setOpenConfirm] = useState(false);
     const {t:translate}=useTranslation('index')
 
+    const [copied, setCopied] = useState(false);
 
     const handleProfile=async (e)=>{
         setOpenConfirm(true)
         setImage(e.target.files[0])
 
     }
-
     const handleSubmitImage=async ()=>{
 
         const getImages = await uploadImage(image)
@@ -56,6 +62,27 @@ const HeaderInfoUser = () => {
 
         window.open(twitterShareUrl, '_blank');
     };
+    const handleCopyLink = async () => {
+        try {
+            let url=`http:localhost:3000/voting?id=${auth.user._id}`
+            await navigator.clipboard.writeText(url);
+            setCopied(true);
+            dispatch(showNotify({showAlert:true,status:'success',title:'hello world'}))
+
+        }
+        catch (error) {
+
+            dispatch(showNotify({showAlert:true,status:'error',title:'error'}))
+
+        }
+    };
+
+
+
+    console.log(Alert)
+
+
+
     if (openConfirm){
         return <Confirm
             title='upload image'
@@ -68,10 +95,9 @@ const HeaderInfoUser = () => {
             image={image}
         />
     }
-
-
     return (
         <div className={style.content_header_info_user}>
+            {Alert.showAlert&&<AlertNotify status={Alert.status}  title={Alert.title} showAlert={Alert.showAlert} />}
 
             <img className={styleImage.rounded_image_medium } src={image?URL.createObjectURL(image):auth.user.picture}/>
             <div style={{top:0,position:'absolute'}} >
@@ -84,24 +110,20 @@ const HeaderInfoUser = () => {
                 </IconButton>
             </div>
 
-
-
-
             <div className={style.data_user}>
 
                 <h2 className={style.name}>{auth.user.name}</h2>
 
                 {testamentUser.testament?<>
                     <div className={style.link_testament}>
+                        {width>768&&<ShareIcon/>}
+                        <Link  href={`/voting?id=${auth.user._id}`}>{`http:localhost:3000/voting?id=${auth.user._id}`}</Link>
 
-
-                        <ShareIcon/>
-
-                        <Link href={`/voting?name=${auth.user.name}&id=${auth.user._id}`}>{`http:localhost:3000/voting?name=${auth.user.name}&id=${auth.user._id}`}</Link>
+                        <Button onClick={handleCopyLink} variant='contained'>Copy your Link</Button>
                     </div>
                     <div className={style.share_profile} >
                         <FacebookIcon onClick={shareOnFacebook }/>
-                        <TwitterIcon/>
+                        <TwitterIcon onClick={shareOnTwitter}/>
 
                     </div>
                 </> :<p className={style.warning_testament}>{translate('please_add_testament')}</p>}

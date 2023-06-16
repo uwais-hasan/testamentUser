@@ -25,12 +25,13 @@ export default async  function  handle (req,res){
         // if (!accessToken || !idUser) return res.status(400).json({err:'can not access here'})
 
        const data= await getUserFacebook(id,accessToken);
-        const checkUser=await User.findOne({email:data.email});
-        if (checkUser){
-            const access_Token=await generateAccessToken({id:checkUser._id})
-            const refresh_Token=await generateRefreshToken({id:checkUser._id})
-            res.json({checkUser,access_Token,refresh_Token})
-            console.log('facebook exsist')
+
+        const user=await User.findOne({email:data.email});
+        if (user){
+            const access_Token=await generateAccessToken({id:user._id})
+            const refresh_Token=await generateRefreshToken({id:user._id})
+            res.json({user,access_Token,refresh_Token})
+
 
 
         }else {
@@ -38,11 +39,10 @@ export default async  function  handle (req,res){
             const picture=data.picture.data.url
             const firstName=name.split(' ')[0]
             const lastName=name.split(' ')[1]
-            const user=await User.create({firstName,lastName,email,picture})
+            const user=await User.create({name,firstName,lastName,email,picture})
             const access_Token=await generateAccessToken({id:user._id})
             const refresh_Token=await generateRefreshToken({id:user._id})
             res.json({user, access_Token, refresh_Token})
-            console.log('facebook  exsist')
         }
 
     }

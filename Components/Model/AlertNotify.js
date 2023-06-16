@@ -1,15 +1,14 @@
 import React from 'react';
 import {Alert, Snackbar} from "@mui/material";
+import {useDispatch} from "react-redux";
+import {showNotify} from "../../Store/Slicess/SliceNotify";
 
-const AlertNotify = ({title,status,showAlert,setShowAlert}) => {
+const AlertNotify = ({title,status,showAlert}) => {
 
+    const dispatch=useDispatch()
 
-    const handleClose = (event, reason) => {
-        if (reason === 'clickaway') {
-            return;
-        }
-
-        setShowAlert(false);
+    const handleClose = () => {
+        dispatch(showNotify({showAlert:false}))
     };
 
     return (

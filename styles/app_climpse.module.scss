@@ -5,7 +5,7 @@
 
 .content_appGlimpse{
   h1{
-    font-size: 50px;
+    font-size: 40px;
     font-weight: bold;
     color: white;
     @media (max-width:575px) {
@@ -16,11 +16,11 @@
   p{
     font-size: 20px;
     color: $color_grey-2;
-    max-width: 600px;
+    max-width: 700px;
     line-height: 2;
     letter-spacing: 1px;
     @media (max-width:575px) {
-      font-size: 10px;
+      font-size: 13px;
       line-height: 1;
       letter-spacing: 1px;
     }

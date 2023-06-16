@@ -5,19 +5,26 @@ import styleImage from '../../styles/Images.module.scss'
 import style from '../../styles/about.user.module.scss'
 import {useSelector} from "react-redux";
 import {updateData} from "../../Utils/FetchData";
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+
 import ModelCheckIsSpecialFriend from '../../Components/Model/modelCheckIsSpecialFriend'
 import Confirm from "../Model/Confirm";
 import {useRouter} from "next/router";
 import AlertNotify from "../Model/AlertNotify";
 import {useTranslation} from "next-i18next";
+import ModelShowTestamentVotingUsers from "../Model/modelShowTestamentVotingUsers";
+import ModelReceiveSpecialFriends from "../Model/modelReceiveSpecialFriends";
 const AboutUser = ({data}) => {
     const {auth}=useSelector(state=>state.sliceAuth)
     const[open,setOpen]=useState(false)
     const [openConfirm,setOpenConfirm] = React.useState(false);
+
     const[showAlert,setShowAlert]=useState(false)
     const[isValid,setIsValid]=useState({status:'',title:''})
     const[showBtnVote,setShowBtnVote]=useState(true)
+
+    const[showBtnTestament,setShowBtnTestament]=useState(false)
+    const[showTestament,setShowTestament]=useState(false)
+    const[openReceive, setOpenReceive]=useState(false)
     const{t:translate}=useTranslation('voting')
     const router=useRouter()
 
@@ -77,8 +84,13 @@ const AboutUser = ({data}) => {
 
 
     }
-    const handleBackHome=()=>{
-        router.push('/')
+    const handleShowTestamentUser=()=>{
+        const type=data.typeTestament;
+        if (type==='special Friends'){
+            setOpenReceive(true)
+        }else {
+            setShowTestament(true)
+        }
     }
     useEffect(() => {
         if (data.typeTestament === 'votes users') {
@@ -95,77 +107,74 @@ const AboutUser = ({data}) => {
             setShowBtnVote(false)
         }
     }, [])
+    useEffect(() => {
+        if (data.typeTestament === 'votes users') {
 
-    if (open) {
-        return (
-            <ModelCheckIsSpecialFriend open={open} setOpen={setOpen} data={data}/>
-        )
-    }
+            if (data.countLikeUsers === data.voteUsers.length) {
+                setShowBtnTestament(true)
+            }
 
-    if (openConfirm){
-        return <Confirm
-            title={translate('title_voting_users')}
-            description={translate('description_voting_users')}
-            openConfirm={openConfirm}
-            setOpenConfirm={setOpenConfirm}
-            funSubmit={votingUser}
-        />
-    }
+        } else if (data.typeTestament === 'special Friends') {
+            if (data.selectSpecialFriend.length === data.voteSpecialFriends.length) {
+                setShowBtnTestament(true)
+            }
+        } else if (data.typeTestament === 'public') {
+            setShowBtnTestament(true)
+        }
+    }, [])
+
+
+
+
+
 
     return (
         <Box className={style.content_about_user}>
             {showAlert&&<AlertNotify status={isValid.status}  title={isValid.title} showAlert={showAlert} setShowAlert={setShowAlert} />}
+            {openConfirm && <Confirm title={translate('title_voting_users')} description={translate('description_voting_users')} openConfirm={openConfirm} setOpenConfirm={setOpenConfirm} funSubmit={votingUser}/>}
+            {showTestament&& <ModelShowTestamentVotingUsers showTestament={showTestament} setShowTestament={setShowTestament} testament={data.testament}/>}
+            {openReceive&&<ModelReceiveSpecialFriends showTestament={showTestament} setShowTestament={setShowTestament} openReceive={openReceive} setOpenReceive={setOpenReceive} data={data}/>}
+            {open&& <ModelCheckIsSpecialFriend open={open} setOpen={setOpen} data={data}/>}
+               <Grid container columns={{xs: 12, md: 12}} alignItems='center'>
 
-           <Container>
-               {auth.user&&<ArrowBackIcon onClick={handleBackHome}   className={style.back_home}/>}
-               <Grid container columns={{ xs: 12, sm: 12, md: 12 }} >
-                   <Grid  item md={6} xs={4} >
-                       <img className={styleImage.image_rectangular} src={data.userId.picture||''}/>
+                   <Grid item xs={12}  md={12}>
+                       <h2 className={style.define_mode}>{translate('type testament')} : {data.typeTestament}</h2>
                    </Grid>
 
-                   <Grid item container md={6} xs={8}  direction='column' alignItems='center'>
-                       <Grid item>
-                           <p className={style.define_mode}>{translate('type testament')} : {data.typeTestament}</p>
+                   <Grid item container md={12} justifyContent='space-between' direction={{md:'row',xs:'column-reverse'}} >
+
+                       <Grid item container md={8.5} xs={12} gap={{xs:2,md:0}}  className={style.box_info_vote}  direction='column'  justifyContent='space-evenly' alignItems='flex-start'>
+                           <h1>{data.userId.name}</h1>
+                           <>
+                               {data.typeTestament !== 'public' &&
+                               <>
+                                   <span className={style.warning}>{translate('warning_vote')}</span>
+
+                                   <Button
+                                       sx={{marginBottom:'3px'}}
+                                       className={showBtnVote?style.btn:style.disable}
+
+                                       onClick={() => handleVoting()}
+                                       fullWidth
+                                       variant='contained'
+                                      >
+                                       {showBtnVote ? translate('vote') : translate('complete')}
+                                   </Button>
+                                  {showBtnTestament&& <Button  fullWidth variant='contained' className={style.btn} onClick={handleShowTestamentUser} variant='contained' color='error'>{translate('click_see_testament')}</Button>}
+
+                               </>
+                               }
+                           </>
                        </Grid>
-                       <Grid item>
-                           <p className={style.name}>{data.userId.name}</p>
+
+                       <Grid className={style.imageUser} item md={3} xs={12} >
+                           <img className={styleImage.image_rectangular} src={data.userId.picture || ''}/>
                        </Grid>
 
-
-
-
-                       <Grid container direction='column' alignItems='center'>
-                           <h1 className={style.note} >{translate('notice')}</h1>
-                           <ul className={style.listAdvise}>
-                               <li>{translate('note_1')}</li>
-                               <li>{translate('note_2')}</li>
-                               <li>{translate('note_3')}</li>
-                               <li>{translate('note_4')}</li>
-
-
-                           </ul>
-                           {data.typeTestament !== 'public' &&
-                          <>
-                              <span className={style.warning}>{translate('warning_vote')}</span>
-
-                              <Button
-                                  disabled={!showBtnVote}
-                                  onClick={() => handleVoting()}
-                                  fullWidth
-                                  variant='contained'
-                                  color='primary'>
-                                  {showBtnVote ? translate('vote') : translate('complete')}
-                              </Button>
-                          </>
-
-
-                           }
-
-                       </Grid>
                    </Grid>
 
                </Grid>
-           </Container>
+
         </Box>
     );
 };

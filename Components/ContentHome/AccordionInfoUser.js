@@ -21,7 +21,7 @@ const AccordionInfoUser = () => {
     return (
         <Box className={styles.app_accordion} >
 
-            <Accordion  sx={{boxShadow:'none'}}>
+            <Accordion className={styles.acc}  sx={{boxShadow:'none'}}>
                 <AccordionSummary
                     expandIcon={<ExpandMoreIcon fontSize='large' />}
                     aria-controls="panel1a-content"

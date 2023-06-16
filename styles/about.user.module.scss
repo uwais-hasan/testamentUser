@@ -1,97 +1,65 @@
-
 @import "styles/Sass/color";
 
 @import "styles/Sass/size";
-.content_about_user{
+
+.content_about_user {
 
 
-  li{
-    list-style: none;
-    font-size: 15px;
-    @media (max-width: 575px) {
-      font-size: 10px;
-    }
-  }
-  .define_mode{
-    background: $color_blue_opacity;
+  .box_info_vote {
+    background: $Color_Basic_5;
     padding: 20px;
-    color: white;
-    font-size: 30px;
-    @media (max-width:575px) {
-    font-size: 10px;
-      padding: 10px;
-    }
-  }
-  .name{
-    font-size: 60px;
-    font-weight: bold;
-   margin: 0 auto;
-    text-transform: uppercase;
-    @media (max-width:575px) {
-      font-size: 20px;
-    }
-  }
-  .isAlive{
-    color: red;
-    font-size: 40px;
-    margin-left: 15px;
-    text-transform: uppercase;
-    @media (max-width:575px) {
-      font-size: 15px;
-      margin-left: 5px;
-    }
-  }
-  .more_info{
-    font-size: 20px;
-    @media (max-width:575px) {
-      font-size: 10px;
-    }
-  }
-  .warning{
-    font-size: 20px;
-    color: red;
-    padding: 10px 10px 20px 10px;
-    @media (max-width:575px) {
-      font-size: 10px;
+    border-radius: 20px;
+    position: relative;
+
+    .warning {
+      font-size: $Size_text;
+      color: $Color_Title_2;
+      line-height: 29px;
+
+
     }
 
-  }
-  .listAdvise{
-    font-size: 20px;
-    color: $color_grey-2;
-    @media (max-width:575px) {
-      font-size: 10px;
-    }
-  }
-  .text{
-    font-size: 20px;
-    color: #0a0a0a;
-    @media (max-width:575px) {
-      font-size: 10px;
-    }
-  }
-  .note{
-    margin: 10px 0 0 0;
-    font-size: 30px;
-    @media (max-width:575px) {
-      font-size: 20px;
-    }
-  }
-  button{
-    @media (max-width:575px) {
-      font-size: 10px;
+    .btn {
+      background-color: $Color_Basic_3;
+
+
     }
 
-  }
-  .back_home{
-    position: absolute;
-    top: 34px;
-    left: 22px;
-    color: white;
-    font-size: 30px;
-    cursor: pointer;
-    @media (max-width:575px) {
-      font-size: 20px;
+    .disable {
+      pointer-events: none;
+      opacity: 0.6;
+      background-color: $Color_Basic_8;
+      color: white;
     }
+
+    h1 {
+      color: $Color_Title_2;
+      font-size: $Size_Title;
+
+      @media (max-width: 575px) {
+        font-size: $Size_Title-Mobile;
+      }
+    }
+
+
+  }
+
+  .define_mode {
+    background: $Color_Basic_9;
+    margin-top: 0;
+    color: $Color_Title_2;
+    font-size: $Size_Title;
+    @media (max-width: 575px) {
+      font-size: $Size_Title_Mobile;
+    }
+  }
+
+  .imageUser {
+    width: 100%;
+    @media (max-width: 575px) {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
   }
 }

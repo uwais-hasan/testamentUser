@@ -1,4 +1,6 @@
 
+
+//old
 $color_basic_1:blue;
 $color_basic_2:red;
 $color_blue_opacity:#0b0bffab;
@@ -9,3 +11,37 @@ $color_grey-2:#b6b6b6;
 $color_grey-3:#858585;
 $color_grey-4:#878787;
 $color_black:black;
+
+
+
+// not using
+$Color_Basic: #455A64;
+$Color_Basic: #414C64;
+$Color_Basic: #666666;
+
+
+
+//using
+
+$Color_Basic_1: #2E323C;
+$Color_Basic_2: #292F3C;
+$Color_Basic_3: #077E71;
+$Color_Basic_4: #21A092;
+$Color_Basic_8: #3da99d;
+$Color_Basic_5: #2E323C;
+$Color_Basic_6: #435474;
+$Color_Basic_7: #263238;
+$Color_Basic_9: #22262F;
+
+
+$Color_Title_2:#fff;
+$Color_Title_3:#000;
+$Color_Test_1: #B6B7BC;
+
+
+//radius
+$Bg_Radius_12:$Color_Basic_1,$Color_Basic_2;
+$Bg_Radius_67:$Color_Basic_6,$Color_Basic_7;
+
+
+

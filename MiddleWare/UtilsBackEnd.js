@@ -24,10 +24,6 @@ const checkValidation=(lastName,firstName,email,password,re_password)=>{
     if (!lastName || !firstName || !email || !password || !re_password){
         return 'please add all field'
     }
-        // else if (validateEmail(email)){
-    //
-    //     return 'this email is not validation'
-    // }
 
 
     else if (password.length<4){

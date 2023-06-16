@@ -9,47 +9,70 @@ import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import VpnKeyIcon from '@mui/icons-material/VpnKey';
 import FaceBookLogin from "../Components/Login/FaceBookLogin";
 import {postData} from "../Utils/FetchData";
-
 import Cookie from 'js-cookie'
-
 import {useRouter} from "next/router";
 import AlertNotify from "../Components/Model/AlertNotify";
 import Link from "next/link";
-
+import {serverSideTranslations} from "next-i18next/serverSideTranslations";
+import {useTranslation} from "next-i18next";
 const styleContent={
     width:'100%',
-    height:'600px',
-
-    backgroundImage: 'url(./bg.jpeg)',
+    backgroundImage: 'url(./bg_register.jpeg)',
 }
-
-
-
-
-
 
 const Login = () => {
 
-    const[data,setData]=useState({email:'',password:''})
-    const[isValid,setIsValid]=useState({status:'',title:''})
+    const [data, setData] = useState({email: '', password: ''})
+    const [isValid, setIsValid] = useState({status: '', title: ''})
     const [showAlert, setShowAlert] = useState(false);
-    const router=useRouter()
+    const {t: translate} = useTranslation('register');
+    const[loading,setLoading]=useState(false)
+    const router = useRouter();
+
     const handleSubmit= async ()=>{
 
+        setLoading(true)
         const res=await postData('auth/login',data)
         setShowAlert(true)
-        if (res.err) return setIsValid({...isValid,status:'error',title:res.err})
-        localStorage.setItem('isUser', true)
+        if (res.err) {
+            if (res.err==='please fill all field')  setIsValid({...isValid,status:'error',title:translate('please_fill_all_field')})
+            if (res.err==='this email did not exist')  setIsValid({...isValid,status:'error',title:translate('this_email_did_not_exist')})
+            if (res.err==='password wrong')  setIsValid({...isValid,status:'error',title:translate('password_wrong')})
+            if (res.err==='error server')  setIsValid({...isValid,status:'error',title:translate('error_server')})
 
-        Cookie.set('refresh_token',res.refresh_Token,{
-            path:"api/auth/accessToken",
-            expires:7,
+            setLoading(false)
+          return   setLoading(false)
+        }
+        else {
+            setLoading(false)
+            localStorage.setItem('isUser', true)
 
-        })
-        setIsValid({...isValid,status:'success',title:res.msg})
-        router.push('/')
+            Cookie.set('refresh_token',res.refresh_Token,{
+                path:"api/auth/accessToken",
+                expires:7,
+
+            })
+            setIsValid({...isValid,status:'success',title:translate('success_login')})
+
+            router.push('/')
+        }
+
+        // const res=await postData('auth/login',data)
+        // setShowAlert(true)
+        // if (res.err) return setIsValid({...isValid,status:'error',title:res.err})
+        // localStorage.setItem('isUser', true)
+        //
+        // Cookie.set('refresh_token',res.refresh_Token,{
+        //     path:"api/auth/accessToken",
+        //     expires:7,
+        //
+        // })
+        // setIsValid({...isValid,status:'success',title:res.msg})
+        // router.push('/')
 
     }
+
+
 
 
 
@@ -58,18 +81,17 @@ const Login = () => {
         <div className={style.content_login} style={styleContent}>
             {showAlert&&<AlertNotify status={isValid.status}  title={isValid.title} showAlert={showAlert} setShowAlert={setShowAlert} />}
             <Container>
-               <Grid container columns={{md:12,xs:12}} alignItems='center'>
+               <Grid container direction={{md:'row',xs:'column'}} columns={{md: 12, xs: 12}} alignItems='start'>
 
-                   <Grid item md={6} xs={4} >
+                   <Grid flexGrow={1} item md={7} xs={12} >
                        <AppGlimpse/>
                    </Grid>
-                   <Grid item md={2} xs={0}/>
-                   <Grid container item md={4} xs={8} direction='column' className={style.style_login} >
+                   <Grid item md={1} xs={0}/>
+                   <Grid gap={2} item container  md={4} xs={12} direction='column' className={style.style_login} >
 
-                              <h1 className={style.style_title}>Login </h1>
-                           <TextField  label='email'
+                              <h1 className={style.style_title}>{translate('login')} </h1>
+                           <TextField  label={translate('email')}
                                        size="large"
-                                       style={{margin:'10px 0',padding:'10px 0',fontWeight:'bold'}}
                                        value={data.email}
                                        type='email'
                                        placeholder='example.com'
@@ -81,12 +103,13 @@ const Login = () => {
                                            ),
                                        }}
 
-                                       variant="standard"
+                                       id="filled-textarea"
+                                       variant="filled"
                                        onChange={(e)=>setData({...data,email: e.target.value})}
                            />
                            <TextField
-                               label='password'
-                               style={{margin:'10px 0',padding:'10px 0',fontWeight:'bold'}}
+                               label={translate('password')}
+
                                value={data.password}
                                type='password'
                                InputProps={{
@@ -96,16 +119,22 @@ const Login = () => {
                                        </InputAdornment>
                                    ),
                                }}
-                               variant="standard"
+                               placeholder='**********'
+                               id="filled-textarea"
+                               variant="filled"
                                onChange={(e)=>setData({...data,password: e.target.value})}
 
                            />
-                       <Link className={style.register} href='/register'>Register</Link>
-                           <Button sx={{marginTop:'10px'}} onClick={handleSubmit} variant='contained' color='primary'>submit</Button>
+                       <Link  href='/register' >
+                           <a className={style.register}>{translate('register')}</a>
+                       </Link>
+
+                           <Button sx={{marginTop:'10px'}} onClick={handleSubmit} variant='contained' color='primary'>
+                               {loading?translate('loading'):translate('submit')}
+                           </Button>
 
                        <FaceBookLogin/>
                    </Grid>
-
                </Grid>
             </Container>
 
@@ -114,6 +143,18 @@ const Login = () => {
 };
 
 export default Login;
+
+
+export  async function  getStaticProps({locale}){
+
+    return{
+        props:{
+            ...(await serverSideTranslations(locale,['register']))
+        }
+    }
+}
+
+
 
 
 

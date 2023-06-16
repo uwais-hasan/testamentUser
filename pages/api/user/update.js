@@ -15,17 +15,12 @@ export default async function handler(req,res){
 
         try {
             const authorization=await auth(req,res)
-
-
-
-            const user=await User.findByIdAndUpdate({_id:authorization.id},{...req.body});
-
-
+            await User.findByIdAndUpdate({_id:authorization.id},{...req.body});
             res.json({msg:'update success'})
 
 
         }catch (err){
-            res.status(400).json({err:'err'})
+            res.status(500).json({err:'err'})
         }
     }
 

@@ -1,13 +1,13 @@
 import React from 'react';
 import {Grid} from "@mui/material";
 import style from '../styles/app_climpse.module.scss'
+import {useTranslation} from "next-i18next";
 const AppGlimpse = () => {
+    const{t:translate}=useTranslation('register')
     return (
         <Grid container direction='column' className={style.content_appGlimpse}>
-            <h1>this appliction will help you to wirte your testament be carefully</h1>
-            <p>hello every one this app will help you to write your testament yes i meant what i say i say you
-            can write your testamet save without any one to see it good luck
-            </p>
+            <h1>{translate('brief_app')}</h1>
+            <p>{translate('description_app')}</p>
         </Grid>
     );
 };

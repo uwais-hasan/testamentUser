@@ -62,20 +62,22 @@ const ModelResetPassword = ({openRestPassword,setOpenPassword}) => {
                     <Grid container justifyContent='center' gap={1} >
                         <TextField  label={translate('old password')}
                                     size="large"
-                                    style={{margin:'10px 1px',padding:'10px 0',}}
+
                                     value={data.oldPassword}
                                     type='text'
                                     placeholder='old password'
-                                    variant="standard"
+                                    id="filled-textarea"
+                                    variant="filled"
                                     onChange={(e)=>setData({...data,oldPassword: e.target.value})}
                         />
                         <TextField  label={translate('new password')}
                                     size="large"
-                                    style={{margin:'10px 1px',padding:'10px 0'}}
+
                                     value={data.newPassword}
                                     type='text'
                                     placeholder='new password'
-                                    variant="standard"
+                                    id="filled-textarea"
+                                    variant="filled"
                                     onChange={(e)=>setData({...data,newPassword: e.target.value})}
                         />
 

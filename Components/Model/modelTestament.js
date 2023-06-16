@@ -21,6 +21,7 @@ import CheckIcon from '@mui/icons-material/Check';
 import {useTranslation} from "next-i18next";
 
 
+
 const ModelTestament = ({open,setOpen}) => {
     const router=useRouter()
     const {testamentUser}=useSelector(state=>state.sliceTestament)
@@ -232,19 +233,19 @@ const ModelTestament = ({open,setOpen}) => {
                     onClose={handleClose}
                     aria-labelledby="alert-dialog-title"
                     aria-describedby="alert-dialog-description"
+
+
+
             >
                 <DialogTitle id="alert-dialog-title">
                     {testamentUser.statusTestament?<p>{translate('updateTestament')}</p>:  <p>{translate('create_testament')}</p>}
-
-
-
-
                 </DialogTitle>
 
-                <DialogContent>
+                <DialogContent >
 
                     <div className='create_testament'>
                         <TextField
+                         sx={{background:'white'}}
                             id="filled-textarea"
                             label={translate('Testament')}
                             multiline
@@ -259,10 +260,11 @@ const ModelTestament = ({open,setOpen}) => {
                     {testamentUser.statusTestament?<p>{translate('change mode')}</p>:<div>{translate('add mode')}</div>}
 
                     { /*select mode*/}
-                    <div className={styles.selectModeTestament}>
+                    <div className={'selectModeTestament'}>
                         <FormControl fullWidth variant="standard" sx={{ m: 1 }}>
                             <InputLabel id="demo-simple-select-standard-label">{translate('select Type of Testament')}</InputLabel>
                             <Select
+                                sx={{color:'white'}}
                                 labelId="demo-simple-select-standard-label"
                                 id="demo-simple-select-standard"
                                 value={selectTypeTestament}
@@ -283,7 +285,7 @@ const ModelTestament = ({open,setOpen}) => {
                     { /*select mode*/}
 
                     { /*option mode*/}
-                    <Box className={styles.optionModeTestament}>
+                    <Box className={'optionModeTestament'}>
                         {!selectTypeTestament&&''}
                         {selectTypeTestament==='public'&& <div className='info_defult'>
                            <p>{translate('warning_public')}</p>
@@ -296,8 +298,12 @@ const ModelTestament = ({open,setOpen}) => {
                             </div>
                             {/*<span>{translate('select_friends')}</span>*/}
                             <TextField
+                                fullWidth
+                                id="filled-textarea"
+                                variant="filled"
+
                                 type='number'
-                                label={translate('select_friends')}
+                                label='test-user'
                                 value={selectCountLikeFriend}
                                 onChange={(e)=>setSelectCountLikeFriend(e.target.valueAsNumber)}
                                 placeholder='example 100'
@@ -319,7 +325,9 @@ const ModelTestament = ({open,setOpen}) => {
                             <Grid className='pick_up_select_friends' mt={2} container direction='column'>
                                 <span>{translate('select_witness')}</span>
                                 <TextField
-                                    sx={{margin: '10px 0'}}
+                                    id="filled-textarea"
+                                    variant="filled"
+                                    sx={{margin: '10px 0',}}
                                     type='email'
                                     label={translate('email')}
                                     value={selectSpecialFriend.email}
@@ -327,9 +335,11 @@ const ModelTestament = ({open,setOpen}) => {
                                         ...prevState,
                                         email: e.target.value
                                     }))}
-                                    placeholder='example@gmail.com'
+                                    placeholder='lallala@lolo.com   write here any thing or email'
                                 />
                                 <TextField
+                                    id="filled-textarea"
+                                    variant="filled"
                                     sx={{margin: '10px 0'}}
                                     type='text'
                                     label={translate('Name')}
@@ -338,9 +348,11 @@ const ModelTestament = ({open,setOpen}) => {
                                         ...prevState,
                                         name: e.target.value
                                     }))}
-                                    placeholder='example 100'
+                                    placeholder='John Smith'
                                 />
                                 <TextField
+                                    id="filled-textarea"
+                                    variant="filled"
                                     sx={{margin: '10px 0'}}
                                     type='text'
                                     label={translate('password')}
@@ -351,7 +363,7 @@ const ModelTestament = ({open,setOpen}) => {
                                     }))}
                                     placeholder='example 100'
                                 />
-                                <Button variant='contained' color='error' onClick={addSpecialFriends}>{collectionSelectSpecialFriend.length ? translate('add_more_special') : translate('add')}</Button>
+                                <Button variant='contained' color='primary' onClick={addSpecialFriends}>{collectionSelectSpecialFriend.length ? translate('add_more_special') : translate('add')}</Button>
 
 
                                 {collectionSelectSpecialFriend && collectionSelectSpecialFriend.map(item => {
@@ -379,14 +391,16 @@ const ModelTestament = ({open,setOpen}) => {
                                 <span>{translate('select_receive_witness')}</span>
 
                                 <TextField
+                                    id="filled-textarea"
+                                    variant="filled"
                                     sx={{margin: '10px 0'}}
                                     type='test'
                                     label={translate('Name')}
                                     value={selectReceiveFriend}
                                     onChange={(e) => setSelectReceiveFriend(e.target.value)}
-                                    placeholder='example 100'
+                                    placeholder={translate('ali baba')}
                                 />
-                                <Button variant='contained' color='error' onClick={()=>addReceiveSpecialFriends(selectReceiveFriend)}>{collectionReceiveSpecialFriend.length ? translate('add_more_receive') : translate('add')}</Button>
+                                <Button variant='contained' color='primary' onClick={()=>addReceiveSpecialFriends(selectReceiveFriend)}>{collectionReceiveSpecialFriend.length ? translate('add_more_receive') : translate('add')}</Button>
 
 
 

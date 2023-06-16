@@ -40,24 +40,11 @@ export default async function handler(req,res){
             res.json(testament)
         }
     else if (type === 'special Friends') {
-
-
-
-
-
            const testament= await Testament.findOneAndUpdate({_id: id}, {
                 $push: {voteSpecialFriends}
             })
 
-
-
-
-
             return res.json(testament)
-
-
-
-
 
         }
     else {res.json({msg: 'error no type'})}

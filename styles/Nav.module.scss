@@ -29,7 +29,7 @@
     &:hover,
     &:focus {
       animation: pulse 1s;
-      box-shadow: 0 4px 0 2em rgba(#9532ab,0);
+      box-shadow: 0 4px 0 2em rgba(#3da99d,0);
     }
 
 
@@ -43,7 +43,8 @@
       box-shadow: 0 4px 0 2em rgba(#9532ab,0);
     }
   }
+
 }
 @keyframes pulse {
-  0% { box-shadow: 0 0 0 0 #9532ab; }
+  0% { box-shadow: 0 0 0 0 #3da99d }
 }

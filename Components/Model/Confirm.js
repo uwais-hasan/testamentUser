@@ -10,9 +10,7 @@ const Confirm = ({title,description,type,openConfirm,setOpenConfirm,funSubmit,se
     const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
     const[loading,setLoading]=useState(false)
     const {t: translate} = useTranslation('index')
-    const handleClickOpen = () => {
-        setOpenConfirm(true);
-    };
+
 
     const handleClose = () => {
         setOpenConfirm(false);
@@ -36,9 +34,7 @@ const Confirm = ({title,description,type,openConfirm,setOpenConfirm,funSubmit,se
 
     return (
         <div>
-            <Button variant="outlined" onClick={handleClickOpen}>
-                Open responsive dialog
-            </Button>
+
             <Dialog
                 sx={{height:type==='updatePicture'?'69%':'100%'}}
                 fullScreen={fullScreen}
@@ -51,8 +47,8 @@ const Confirm = ({title,description,type,openConfirm,setOpenConfirm,funSubmit,se
                 </DialogTitle>
                 <DialogContent>
                     <DialogContentText>{description}</DialogContentText>
-                    {type==='updatePicture'&&<div style={{textAlign:'center'}}>
-                        <img style={{width:' 200px', borderRadius: '50%'}} src={image?URL.createObjectURL(image):auth.user.picture}/>
+                    {type==='updatePicture'&&<div style={{textAlign:'center',paddingTop:'20px'}}>
+                        <img style={{width:' 200px', borderRadius: '50%',height:'200px',}} src={image?URL.createObjectURL(image):auth.user.picture}/>
 
                     </div>}
                 </DialogContent>

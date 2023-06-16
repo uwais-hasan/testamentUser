@@ -43,7 +43,7 @@
            res.json({user, access_Token, refresh_Token,msg:'success'})
        }catch (err){
 
-           res.status(500).json({err:err.message})
+           res.status(500).json({err:'error server'})
 
 
 

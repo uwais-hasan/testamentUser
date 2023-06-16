@@ -3,6 +3,9 @@
 @import "Sass/size";
 
 .content_header_info_user{
+  svg{
+    color: $Color_Basic_3;
+  }
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -13,10 +16,11 @@
     align-items: center;
     gap: 19px;
     .name{
-      font-size: $text_medium_size;
+      font-size: $Size_Title;
       font-family: "Roboto", sans-serif;
+      color: $Color_Title_2;
       @media (max-width: 575px) {
-        font-size: $text_medium_size_mobile;
+        font-size: $Size_Title_Mobile;
       }
     }
     .link_testament{
@@ -24,21 +28,37 @@
       gap: 10px;
       font-size: $text_small_size;
       font-family: "Roboto", sans-serif;
+      align-items: center;
       a{
-        color: $color_basic_2;
-        @media (max-width: 575px) {
-          font-size: $text_small_size_mobile;
-        }
+        color: $Color_Title_2;
+        font-size: $Size_text;
+        text-align: center;
+      }
+      @media (max-width:575px) {
+        flex-direction: column;
       }
     }
-    .share_profile{
+
+    .share_profile {
       display: flex;
       justify-content: center;
       align-items: center;
-
       gap: 10px;
+      cursor: pointer;
 
+      svg {
+
+        transition: .3s ease-in-out;
+
+        &:hover {
+          color: $Color_Basic_8;
+
+        }
+      }
     }
+
+
+
     svg{
       font-size: 25px;
       @media (max-width: 575px) {

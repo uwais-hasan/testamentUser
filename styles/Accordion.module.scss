@@ -3,13 +3,23 @@
 @import "Sass/size";
 .app_accordion{
   width: 100%;
-
+  padding-top: 20px;
+  svg{
+    color: white;
+  }
   .text{
 text-align: center;
     font-size:$title_small_size;
     @media (max-width: 575px) {
       font-size: $title_small_size_mobile;
 
+    }
+  }
+  .acc{
+    background:$Color_Basic_2;
+    span{
+      color: $Color_Title_2;
+      font-size: $Size_text;
     }
   }
 }
