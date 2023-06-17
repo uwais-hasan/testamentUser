@@ -27,7 +27,14 @@
   .interaction_user{
     overflow-y: scroll;
     max-height: 620px;
-    padding: 0 10px 0 0
+    padding: 0 10px 0 0;
+    .no_interaction{
+      color: $Color_Basic_8;
+      font-size: $Size_text;
+      padding: 20px;
+      text-align: center;
+
+    }
 
 
   }

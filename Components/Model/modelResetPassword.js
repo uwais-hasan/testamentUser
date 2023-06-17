@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {updateData} from "../../Utils/FetchData";
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
@@ -10,15 +10,20 @@ import Button from "@mui/material/Button";
 import {useRouter} from "next/router";
 import {useTranslation} from "next-i18next";
 import AlertNotify from "./AlertNotify";
+import {showNotify} from "../../Store/Slicess/SliceNotify";
 
 
 const ModelResetPassword = ({openRestPassword,setOpenPassword}) => {
-    const {auth}=useSelector(state=>state.sliceAuth)
-    const[data,setData]=useState({oldPassword:'',newPassword:''})
-    const{t:translate}=useTranslation('index')
-    const[isValid,setIsValid]=useState({status:'',title:''})
-    const[showAlert,setShowAlert]=useState(false)
+
     const router=useRouter()
+    const dispatch=useDispatch()
+    const{Alert}=useSelector(state=>state.sliceNotify)
+    const {auth}=useSelector(state=>state.sliceAuth)
+
+    const{t:translate}=useTranslation('index')
+    const[data,setData]=useState({oldPassword:'',newPassword:''})
+
+
 
 
 
@@ -32,12 +37,13 @@ const ModelResetPassword = ({openRestPassword,setOpenPassword}) => {
 
        const update=await updateData('user/restpassword',data,auth.access_Token);
        if (update.err){
-           setShowAlert(true);
-            setIsValid({...isValid,title: translate('error_change_password'),status:'error'})
+           setData({oldPassword:'',newPassword:''})
+           dispatch(showNotify({showAlert:true,title: translate('error_change_password'),status:'error'}))
+
        }else {
-           setShowAlert(true);
-           setIsValid({...isValid,title: translate('success_change_password'),status:'success'})
-           router.reload()
+
+           dispatch(showNotify({showAlert:true,title: translate('success_change_password'),status:'success'}))
+           setOpenPassword(false);
        }
 
 
@@ -47,7 +53,7 @@ const ModelResetPassword = ({openRestPassword,setOpenPassword}) => {
 
     return (
         <div>
-            {showAlert&&<AlertNotify status={isValid.status}  title={isValid.title} showAlert={showAlert} setShowAlert={setShowAlert} />}
+            {Alert.showAlert&&<AlertNotify status={Alert.status}  title={Alert.title} showAlert={Alert.showAlert} />}
 
             <Dialog
                 open={openRestPassword}

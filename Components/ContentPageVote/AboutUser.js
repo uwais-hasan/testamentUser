@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from 'react';
-import {Box, Button, Container, Grid} from "@mui/material";
+import {Box, Button, Grid} from "@mui/material";
 
 import styleImage from '../../styles/Images.module.scss'
 import style from '../../styles/about.user.module.scss'
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {updateData} from "../../Utils/FetchData";
 
 import ModelCheckIsSpecialFriend from '../../Components/Model/modelCheckIsSpecialFriend'
@@ -13,20 +13,27 @@ import AlertNotify from "../Model/AlertNotify";
 import {useTranslation} from "next-i18next";
 import ModelShowTestamentVotingUsers from "../Model/modelShowTestamentVotingUsers";
 import ModelReceiveSpecialFriends from "../Model/modelReceiveSpecialFriends";
+import {showNotify} from "../../Store/Slicess/SliceNotify";
+
+
+
+
 const AboutUser = ({data}) => {
     const {auth}=useSelector(state=>state.sliceAuth)
+    const{Alert}=useSelector(state=>state.sliceNotify)
+
+    const router=useRouter()
+    const dispatch=useDispatch()
+    const{t:translate}=useTranslation('voting')
+
     const[open,setOpen]=useState(false)
     const [openConfirm,setOpenConfirm] = React.useState(false);
 
-    const[showAlert,setShowAlert]=useState(false)
-    const[isValid,setIsValid]=useState({status:'',title:''})
     const[showBtnVote,setShowBtnVote]=useState(true)
-
     const[showBtnTestament,setShowBtnTestament]=useState(false)
     const[showTestament,setShowTestament]=useState(false)
     const[openReceive, setOpenReceive]=useState(false)
-    const{t:translate}=useTranslation('voting')
-    const router=useRouter()
+
 
     const votingUser = async () => {
         const type = data.typeTestament;
@@ -38,9 +45,11 @@ const AboutUser = ({data}) => {
             await updateData('user/vote', {id: data._id, type, voteUsers: auth.user._id})
             router.reload()
         } else {
+            dispatch(showNotify(
+                {showAlert:true,status:'error',title:translate('error_already_vote')}
+            ))
 
-            setShowAlert(true);
-            setIsValid({...isValid,title: translate('error_already_vote'),status:'error'})
+
         }
 
 
@@ -51,7 +60,6 @@ const AboutUser = ({data}) => {
     const goLogout = () => {
         router.push('/login')
     };
-
     const timer = () => {
 
 
@@ -69,8 +77,10 @@ const AboutUser = ({data}) => {
 
         if (!auth.user && type === 'votes users') {
 
-            setShowAlert(true);
-            setIsValid({...isValid,title: translate('error_user_cannot_like'),status:'error'})
+            dispatch(showNotify(
+                {showAlert:true,status:'error',title:translate('error_user_cannot_like')}
+            ))
+
             timer()
 
         } else if (auth.user && type === 'votes users') {
@@ -92,6 +102,7 @@ const AboutUser = ({data}) => {
             setShowTestament(true)
         }
     }
+
     useEffect(() => {
         if (data.typeTestament === 'votes users') {
 
@@ -130,7 +141,7 @@ const AboutUser = ({data}) => {
 
     return (
         <Box className={style.content_about_user}>
-            {showAlert&&<AlertNotify status={isValid.status}  title={isValid.title} showAlert={showAlert} setShowAlert={setShowAlert} />}
+            {Alert.showAlert&&<AlertNotify status={Alert.status}  title={Alert.title} showAlert={Alert.showAlert} />}
             {openConfirm && <Confirm title={translate('title_voting_users')} description={translate('description_voting_users')} openConfirm={openConfirm} setOpenConfirm={setOpenConfirm} funSubmit={votingUser}/>}
             {showTestament&& <ModelShowTestamentVotingUsers showTestament={showTestament} setShowTestament={setShowTestament} testament={data.testament}/>}
             {openReceive&&<ModelReceiveSpecialFriends showTestament={showTestament} setShowTestament={setShowTestament} openReceive={openReceive} setOpenReceive={setOpenReceive} data={data}/>}
@@ -160,10 +171,11 @@ const AboutUser = ({data}) => {
                                       >
                                        {showBtnVote ? translate('vote') : translate('complete')}
                                    </Button>
-                                  {showBtnTestament&& <Button  fullWidth variant='contained' className={style.btn} onClick={handleShowTestamentUser} variant='contained' color='error'>{translate('click_see_testament')}</Button>}
 
                                </>
                                }
+                               {showBtnTestament&& <Button  fullWidth  className={style.btn} onClick={handleShowTestamentUser} variant='contained' color='error'>{translate('click_see_testament')}</Button>}
+
                            </>
                        </Grid>
 

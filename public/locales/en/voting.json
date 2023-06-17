@@ -35,6 +35,8 @@
   "description_voting_users": "are you sure want to vote?",
   "error_user_cannot_like": "you can not like please login",
   "error_check_data_specialFriend": "Please verify again. The information you entered is not accurate",
-  "error_already_vote": "أنت بالفعل قمت بالتصويت"
+  "error_check_data_receiveFriend": "You are not authorized to view the testament",
+
+  "error_already_vote": "sorry,you already vote"
 
 }

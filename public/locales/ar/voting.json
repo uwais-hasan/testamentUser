@@ -34,5 +34,7 @@
   "description_voting_users": "هل انت متاكد من التصويت؟",
   "error_user_cannot_like": "انت لاتستيطع التصويت يرجى تسجيل الدخول",
   "error_check_data_specialFriend": "من فضلك قم بالتحقق مرة أخرى. المعلومات التي قمت بإدخالها غير دقيقة",
+  "error_check_data_receiveFriend": "انت غير مصرح لك بمشاهدة الوصية",
+
   "error_already_vote": "أنت بالفعل قمت بالتصويت"
 }

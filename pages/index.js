@@ -17,7 +17,7 @@ import {addAuth} from "../Store/Slicess/SliceAuth";
 import {addTestament} from '../Store/Slicess/SliceTestament'
 import {useRouter} from "next/router";
 import LoadingProgress from "../Components/LoadingProgress";
-import {callTestamentUser, fet, fet2, isAuthAccessToken} from "../Utils/PublicFun";
+import {callTestamentUser, fet, fet2, getUsers, isAuthAccessToken} from "../Utils/PublicFun";
 import Admin from "../Components/admin";
 import {serverSideTranslations} from "next-i18next/serverSideTranslations";
 import Howtouse from "./Howtouse";
@@ -25,35 +25,63 @@ import {useTranslation} from "react-i18next";
 import styles from '../styles/App.module.scss'
 
 export const index=({data})=> {
-    const[loading,setLoading]=useState(true)
+
+
+    const[loading,setLoading]=useState(false)
     const {auth}=useSelector(state=>state.sliceAuth)
+    const [users, setUsers] = useState([])
+
+    const[isRoute,setIsRoute]=useState(false)
     const dispatch=useDispatch();
     const router=useRouter();
 
 
+    const IsAdminOrUser = async () => {
+        setLoading(true)
+        if (auth.access_Token) {
+            if (auth?.user?.role === 'user') {
 
-    useEffect(() => {
+                await callTestamentUser(dispatch, auth)
+                setLoading(false)
+            } else {
+                const dataUser = await getUsers(auth)
+                setUsers(dataUser)
+                setLoading(false)
+            }
+        }
+
+    }
+    const IsAuth = async () => {
+        setLoading(true)
         const isUser = localStorage.getItem('isUser')
         if (isUser) {
-            return isAuthAccessToken(dispatch)
+            await isAuthAccessToken(dispatch)
+            setLoading(false)
         } else {
             router.push('/login')
         }
+    }
 
-    }, []);
+
+
+
+    // router.events.on('routeChangeComplete', () => {
+    //     <LoadingProgress/>
+    // });
+    // useEffect(() => {
+    //     return () => {
+    //         router.events.off('routeChangeComplete');
+    //     };
+    // }, []);
+
 
 
     useEffect(() => {
+        IsAuth()
+        IsAdminOrUser()
 
 
-        if (auth.access_Token) {
-            setLoading(false)
-            return callTestamentUser(dispatch,auth)
-        } else {
-            return console.log('error')
-        }
-
-    },[auth.access_Token])
+    }, [auth.access_Token])
 
     if (loading){
         return <LoadingProgress/>
@@ -66,11 +94,11 @@ export const index=({data})=> {
     return (
         <div className={styles.content_app}>
 
-               {auth.user.role === 'user' ? <>
+               {auth?.user?.role === 'user' ? <>
                        <Header/>
                        <ContentHome/>
                    </> :
-                   <Admin/>}
+                   <Admin users={users}/>}
 
         </div>
     )

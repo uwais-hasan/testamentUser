@@ -32,7 +32,7 @@ const checkValidation=(lastName,firstName,email,password,re_password)=>{
 
     else if (password !== re_password){
 
-        return 'confirm password did not match '
+        return 'confirm password did not match'
     }
 }
 

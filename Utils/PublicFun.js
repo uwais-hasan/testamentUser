@@ -1,5 +1,6 @@
 import {addAuth} from "../Store/Slicess/SliceAuth";
 import {addTestament} from "../Store/Slicess/SliceTestament";
+import {getData} from "./FetchData";
 
 
 const isAuthAccessToken = async (dispatch) => {
@@ -25,8 +26,16 @@ const callTestamentUser = async (dispatch,auth) => {
     }
 
 }
+const getUsers=async (auth)=>{
+
+    const user=await getData('user',auth.access_Token)
+    if (user.err) return console.log('error')
+
+    return  user
+
+
+}
 
 
 
-
-export {isAuthAccessToken,callTestamentUser}
+export {isAuthAccessToken,callTestamentUser,getUsers}

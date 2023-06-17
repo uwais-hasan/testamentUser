@@ -84,6 +84,7 @@
   "error_login": "يرجى تسجيل الدخول",
   "error_no_testament": "يرجى كتابة وصيتك ",
   "success_special_friends": "لقد اضفت مستخدم خاص",
+  "success_update_data": "تم بنجاح تحديث المعلومات",
   "success_receive_friends": "لقد اضفت مستخدم مستلم",
   "success_delete_special": "لقد حذفت صديق خاص",
   "success_delete_receive": "لقد حذفت صديق مستلم",

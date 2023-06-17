@@ -15,47 +15,50 @@ import AlertNotify from "../Components/Model/AlertNotify";
 import Link from "next/link";
 import {serverSideTranslations} from "next-i18next/serverSideTranslations";
 import {useTranslation} from "next-i18next";
+import {useDispatch, useSelector} from "react-redux";
+import {showNotify} from "../Store/Slicess/SliceNotify";
 const styleContent={
     width:'100%',
     backgroundImage: 'url(./bg_register.jpeg)',
 }
 
 const Login = () => {
-
-    const [data, setData] = useState({email: '', password: ''})
-    const [isValid, setIsValid] = useState({status: '', title: ''})
-    const [showAlert, setShowAlert] = useState(false);
-    const {t: translate} = useTranslation('register');
-    const[loading,setLoading]=useState(false)
     const router = useRouter();
+    const dispatch=useDispatch()
+    const{Alert}=useSelector(state=>state.sliceNotify)
+
+    const {t: translate} = useTranslation('register');
+    const [data, setData] = useState({email: '', password: ''})
+
+    const[loading,setLoading]=useState(false)
+
 
     const handleSubmit= async ()=>{
 
+        let isValid={}
         setLoading(true)
         const res=await postData('auth/login',data)
-        setShowAlert(true)
-        if (res.err) {
-            if (res.err==='please fill all field')  setIsValid({...isValid,status:'error',title:translate('please_fill_all_field')})
-            if (res.err==='this email did not exist')  setIsValid({...isValid,status:'error',title:translate('this_email_did_not_exist')})
-            if (res.err==='password wrong')  setIsValid({...isValid,status:'error',title:translate('password_wrong')})
-            if (res.err==='error server')  setIsValid({...isValid,status:'error',title:translate('error_server')})
 
-            setLoading(false)
-          return   setLoading(false)
+        if (res.err) {
+            if (res.err==='please fill all field')  isValid={status:'error',title:translate('please_fill_all_field')}
+            if (res.err==='this email did not exist')  isValid={isValid,status:'error',title:translate('this_email_did_not_exist')}
+            if (res.err==='password wrong')  isValid={isValid,status:'error',title:translate('password_wrong')}
+            if (res.err==='error server')  isValid={isValid,status:'error',title:translate('error_server')}
+
+
         }
         else {
-            setLoading(false)
             localStorage.setItem('isUser', true)
-
             Cookie.set('refresh_token',res.refresh_Token,{
                 path:"api/auth/accessToken",
                 expires:7,
 
             })
-            setIsValid({...isValid,status:'success',title:translate('success_login')})
-
+            isValid={status:'success',title:translate('success_login')}
             router.push('/')
         }
+        setLoading(false)
+        dispatch(showNotify({showAlert:true,...isValid}))
 
         // const res=await postData('auth/login',data)
         // setShowAlert(true)
@@ -79,7 +82,7 @@ const Login = () => {
 
     return (
         <div className={style.content_login} style={styleContent}>
-            {showAlert&&<AlertNotify status={isValid.status}  title={isValid.title} showAlert={showAlert} setShowAlert={setShowAlert} />}
+            {Alert.showAlert&&<AlertNotify status={Alert.status}  title={Alert.title} showAlert={Alert.showAlert} />}
             <Container>
                <Grid container direction={{md:'row',xs:'column'}} columns={{md: 12, xs: 12}} alignItems='start'>
 

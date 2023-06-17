@@ -6,26 +6,32 @@ import {Grid, TextField} from "@mui/material";
 import DialogActions from "@mui/material/DialogActions";
 import Button from "@mui/material/Button";
 import {updateData} from "../../Utils/FetchData";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {useRouter} from "next/router";
 import AlertNotify from "./AlertNotify";
 import {useTranslation} from "next-i18next";
+import {showNotify} from "../../Store/Slicess/SliceNotify";
 
 const ModelCheckIsSpecialFriend = ({open, setOpen,data}) => {
 
-    const[checkerDataInsert,setDataInsert]=useState({name:'',email:'',password:''})
-    const[showAlert,setShowAlert]=useState(false)
-    const[isValid,setIsValid]=useState({status:'',title:''})
-    const{t:translate}=useTranslation('voting')
 
+
+
+    const dispatch=useDispatch()
     const router=useRouter();
+    const{Alert}=useSelector(state=>state.sliceNotify)
+    const{t:translate}=useTranslation('voting')
+    const[checkerDataInsert,setDataInsert]=useState({name:'',email:'',password:''})
+
+
+
+
 
 
 
     const handleClose = () => {
         setOpen(false);
     };
-
 
     const handleSub=async ()=>{
         const type=data.typeTestament;
@@ -42,17 +48,18 @@ const ModelCheckIsSpecialFriend = ({open, setOpen,data}) => {
         if (isDouble.length <1) {
             if (isValid) {
                  await updateData('user/vote', {id: data._id, type, voteSpecialFriends: {name: checkerDataInsert.name, email: checkerDataInsert.email,picture:dataUser.picture}})
-                setDataInsert({...checkerDataInsert,name: '',email: '',password: ''})
                 router.reload()
 
             } else {
-                setShowAlert(true);
-                setIsValid({...isValid,title:translate('error_check_data_specialFriend'),status:'error'})
+                setDataInsert({...checkerDataInsert,name: '',email: '',password: ''})
+
+                dispatch(showNotify({showAlert:true,status:'error',title:translate('error_check_data_specialFriend')}))
+
 
             }
         } else {
-            setShowAlert(true);
-            setIsValid({...isValid,title: translate('error_already_vote'),status:'error'})
+            dispatch(showNotify({showAlert:true,title: translate('error_already_vote'),status:'error'}))
+            setDataInsert({...checkerDataInsert,name: '',email: '',password: ''})
 
         }
 
@@ -60,7 +67,7 @@ const ModelCheckIsSpecialFriend = ({open, setOpen,data}) => {
     }
     return (
         <div>
-            {showAlert&&<AlertNotify status={isValid.status}  title={isValid.title} showAlert={showAlert} setShowAlert={setShowAlert} />}
+            {Alert.showAlert&&<AlertNotify status={Alert.status}  title={Alert.title} showAlert={Alert.showAlert} />}
 
             <Dialog
                 open={open}

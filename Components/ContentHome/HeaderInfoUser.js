@@ -20,17 +20,18 @@ import {showNotify} from "../../Store/Slicess/SliceNotify";
 const HeaderInfoUser = () => {
 
 
+    const dispatch=useDispatch()
+    const{Alert}=useSelector(state=>state.sliceNotify)
+
     const router=useRouter()
     const {width} = useWidth()
-    const dispatch=useDispatch()
+
     const {auth}=useSelector(state=>state.sliceAuth)
     const {testamentUser}=useSelector(state=>state.sliceTestament)
-    const{Alert}=useSelector(state=>state.sliceNotify)
+    const {t:translate}=useTranslation('index')
 
     const[image,setImage]=useState('')
     const [openConfirm,setOpenConfirm] = useState(false);
-    const {t:translate}=useTranslation('index')
-
     const [copied, setCopied] = useState(false);
 
     const handleProfile=async (e)=>{
@@ -76,11 +77,6 @@ const HeaderInfoUser = () => {
 
         }
     };
-
-
-
-    console.log(Alert)
-
 
 
     if (openConfirm){

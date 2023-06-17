@@ -53,10 +53,10 @@ const UserVotingInteraction = ({data}) => {
             <h1>{translate('user_interaction')}</h1>
 
                     <Grid className={style.interaction_user} container item   direction='column'  alignItems='center'>
-                        {data.typeTestament==='public'|| !stateVoting.length?<p className={stylePara.no_interaction}>{translate('isInteraction')}</p>:
+                        {data.typeTestament==='public'|| !stateVoting.length?<p className={style.no_interaction}>{translate('isInteraction')}</p>:
 
                             <div>
-                                {stateVoting?stateVoting.map(item=>{
+                                {stateVoting&&stateVoting.map(item=>{
                                     return(
                                         <Grid  flexWrap='no-wrap'  container key={item.name} direction='row' alignItems='center' justifyContent='space-between' >
                                             <img className={styleImg.rounded_image_small} src={item.picture}/>
@@ -64,7 +64,7 @@ const UserVotingInteraction = ({data}) => {
                                             <p>{item.createdAt?moment(item.createdAt).format("M-D-Y"):''}</p>
                                         </Grid>
                                     )
-                                }):<p>{translate('isInteraction')}</p>}
+                                })}
                             </div>
 
                         }

@@ -4,7 +4,7 @@
 
 
 import React, {useEffect, useState} from 'react';
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import TableContainer from "@mui/material/TableContainer";
 import style from "../styles/interaction.testament.module.scss";
 import custmeStyle from '../styles/admin.module.scss'
@@ -25,123 +25,135 @@ import AlertNotify from "./Model/AlertNotify";
 import {useRouter} from "next/router";
 import ModelShowTestamentVotingUsers from "../Components/Model/modelShowTestamentVotingUsers";
 import Cookie from "js-cookie";
+import {showNotify} from "../Store/Slicess/SliceNotify";
+import {useTranslation} from "next-i18next";
+import LoadingProgress from "./LoadingProgress";
 
 
-const Admin = () => {
+const Admin = ({users}) => {
 
-    const [users, setUsers] = useState([])
-    const [loading, setLoading] = useState(false)
+
+    const dispatch=useDispatch()
+    const router=useRouter()
     const {auth} = useSelector(state => state.sliceAuth)
-    const [showAlert, setShowAlert] = useState(false)
-    const[isValid,setIsValid]=useState({title:'',status:''})
+    const{Alert}=useSelector(state=>state.sliceNotify)
+
+    const{t:translate}=useTranslation('index')
+    const [loading, setLoading] = useState(false)
     const[showTestament,setShowTestament]=useState(false)
     const[accessTestament,setAccessTestament]=useState('')
-    const router=useRouter()
-    const getUsers=async ()=>{
-        setLoading(true)
-        const user=await getData('user',auth.access_Token)
-        if (user.err) return console.log('error')
-
-        return setUsers(user)
 
 
-    }
 
     const handleDeleteUser=async (id,root)=>{
 
+
         let isValidData = {};
         if (root){
-            isValidData={title: 'you can not delete admin',status: 'error'}
+             isValidData={title: translate('error_cannot_delete_admin'),status: 'error'}
         }else{
             const res=await deleteData('user',auth.access_Token, {id})
             if (res.err) {
-                isValidData={...isValid,title: res.err,status: 'error'}
+                isValidData={title:translate('error_server'),status: 'error'}
             }else {
-                isValidData={...isValid,title: res.msg,status: 'success'}
+                isValidData={title: translate('success_delete_admin'),status: 'success'}
                 router.reload()
             }
         }
 
+        dispatch(showNotify({showAlert:true,...isValidData}))
 
-        setIsValid({ ...isValid, ...isValidData });
-        setShowAlert(true);
     }
     const handleSetAdmin=async (id,)=>{
 
         let isValidData = {};
         if (!auth.user.root){
-            isValidData={title:'just admin can be set admin',status:'error'}
+            isValidData={title:translate('error_set_admin'),status:'error'}
         }else {
 
             const res=await updateData('user',{id,role:'admin'},auth.access_Token)
             if (res.err){
-                isValidData={title:res.err,status:'error'}
+                isValidData={title:translate('error_server'),status:'error'}
             }else {
-                isValidData={title:res.msg,status:'success'}
+                isValidData={title:translate('success_set_admin'),status:'success'}
                 router.reload()
             }
 
         }
-        setIsValid({ ...isValid, ...isValidData });
-        setShowAlert(true);
+
+        dispatch(showNotify({showAlert:true,...isValidData}))
+
     }
     const handleSeeTestament=async (id)=>{
-
         //i use api vote because that is only api can access testament by query
         //i mean the api testament can access just by auth.user not by req.body or by query or params
+        setLoading(true)
+
+
+        let isValidData={}
 
         const getTestament=await getData(`user/vote?id=${id}`,auth.access_Token)
         if (getTestament.err){
-           setShowAlert(true)
-           setIsValid({title:getTestament.err,status:'error'})
+
+            isValidData={title:translate('error_server'),status:'error'}
         }else {
             setShowTestament(true)
-            setAccessTestament(getTestament.testament||'this user do not add testament')
+            setAccessTestament(getTestament.testament||translate('user_have_not_testament'))
         }
+
+        setLoading(false)
+        dispatch(showNotify({showAlert:true,...isValidData}))
+
 
     }
     const handleSetAsUser = async (id) => {
         let isValidData = {};
         if (!auth.user.root) {
-            isValidData = {title: 'just admin can be set an admin to user', status: 'error'}
+            isValidData = {title: translate('error_set_user'), status: 'error'}
         } else {
 
             const res = await updateData('user', {id, role: 'user'}, auth.access_Token)
             if (res.err) {
-                isValidData = {title: res.err, status: 'error'}
+                isValidData = {title: translate('error_server'), status: 'error'}
             } else {
-                isValidData = {title: res.msg, status: 'success'}
+                isValidData = {title: translate('success_set_user'), status: 'success'}
                 router.reload()
             }
 
         }
-        setIsValid({...isValid, ...isValidData});
-        setShowAlert(true);
-    }
+        dispatch(showNotify({showAlert:true,...isValidData}))
 
+
+    }
     const handleLogOut=()=>{
         localStorage.removeItem('isUser')
         Cookie.remove('refresh_token')
         router.push('/login')
     }
 
-    useEffect(() => {
 
-        return getUsers()
-    }, [])
+
+
+
 
     let count=1;
 
-    //if not an admin
-    // if (auth.user.role !=='admin' ){
-    //
-    //     setShowAlert(true)
-    //     return <AlertNotify showAlert={showAlert} setShowAlert={setShowAlert} title={isValid.title} status={isValid.status} />
-    // }
+    if (loading) {
+        return <LoadingProgress/>
+    }
+    if (auth?.user?.role ==='user' ){
+        localStorage.removeItem('isUser')
+        Cookie.remove('refresh_token')
+        router.reload()
+
+    }
+
     return (
        <Box className={custmeStyle.controller_admin} p={2}>
            <Button sx={{marginBottom:'20px'}} variant='contained' color='primary' onClick={handleLogOut}>log out</Button>
-           {showAlert&&<AlertNotify showAlert={showAlert} setShowAlert={setShowAlert} title={isValid.title} status={isValid.status} />}
+
+           {Alert.showAlert&&<AlertNotify status={Alert.status}  title={Alert.title} showAlert={Alert.showAlert} />}
+
            {showTestament&&<ModelShowTestamentVotingUsers showTestament={showTestament} setShowTestament={setShowTestament }testament={accessTestament}/>}
            <TableContainer className={style.section_interaction} component={Paper}  sx={{overflowY:'auto',maxHeight:700}} >
 

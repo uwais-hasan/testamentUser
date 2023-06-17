@@ -3,6 +3,8 @@ import {Alert, Snackbar} from "@mui/material";
 import {useDispatch} from "react-redux";
 import {showNotify} from "../../Store/Slicess/SliceNotify";
 
+//nav you are will begin
+// وصلت لعند الناف عم بتحذف طريقة الشغل القديمة بخصوص الاليرت وعرض الخطا وعم تستخدم ريدكس لاتنسى انك تشوف طريقة العمل الصحيحة في كومبونانت HeaderInfoUser
 const AlertNotify = ({title,status,showAlert}) => {
 
     const dispatch=useDispatch()

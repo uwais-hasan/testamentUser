@@ -21,62 +21,58 @@ import AlertNotify from "../Components/Model/AlertNotify";
 import {useRouter} from "next/router";
 import {serverSideTranslations} from "next-i18next/serverSideTranslations";
 import {useTranslation} from "next-i18next";
+import {useDispatch, useSelector} from "react-redux";
+import {showNotify} from "../Store/Slicess/SliceNotify";
 
 
 const Register = () => {
 
-    const [data, setData] = useState({firstName: '', lastName: '', email: '', password: '', re_password: ''})
-    const [isValid, setIsValid] = useState({status: '', title: ''})
     const router = useRouter();
-    const [showAlert, setShowAlert] = useState(false);
-    const[loading,setLoading]=useState(false)
+    const dispatch=useDispatch()
+
+    const{Alert}=useSelector(state=>state.sliceNotify)
     const{t:translate}=useTranslation('register')
+
+    const [data, setData] = useState({firstName: '', lastName: '', email: '', password: '', re_password: ''})
+
+    const[loading,setLoading]=useState(false)
+
     const handleSubmit = async () => {
-
-
-        // setLoading(true)
-        // const res = await postData('auth/register', {...data, name: data.firstName + " " + data.lastName})
-        // setShowAlert(true)
-        // if (res.err) return setIsValid({...isValid, status: 'error', title: res.err})
-        //
-        // localStorage.setItem('isUser', true)
-        // Cookie.set('refresh_token', res.refresh_Token, {
-        //     path: "api/auth/accessToken",
-        //     expires: 7,
-        //
-        // })
-        //
-        // setIsValid({...isValid, status: 'success', title: res.msg})
-        // router.push('/')
+        let isValid={}
 
         setLoading(true)
         const res = await postData('auth/register', {...data, name: data.firstName + " " + data.lastName})
         if (res.err) {
-            setLoading(false)
-            if (res.err === 'this email already exist')  setIsValid({...isValid, status: 'error', title: translate('this_email_already_exist')})
-            if (res.err === 'please add all field')  setIsValid({...isValid, status: 'error', title: translate('please_fill_all_field')})
-            if (res.err === 'password must be at least 6 characters')  setIsValid({...isValid, status: 'error', title: translate('password_must_be_at_least_6_characters')})
-            if (res.err === 'confirm password did not match')  setIsValid({...isValid, status: 'error', title: translate('confirm_password_did_not_match')})
-            if (res.err === 'error server')  setIsValid({...isValid, status: 'error', title: translate('error_server')})
+            if (res.err === 'this email already exist')  isValid={ status: 'error', title: translate('this_email_already_exist')}
+            if (res.err === 'please add all field')  isValid={ status: 'error', title: translate('please_fill_all_field')}
+            if (res.err === 'password must be at least 6 characters')  isValid={ status: 'error', title: translate('password_must_be_at_least_6_characters')}
+            if (res.err === 'confirm password did not match')  isValid={ status: 'error', title: translate('confirm_password_did_not_match')}
+            else {
+              isValid={ status: 'error', title: translate('error_server')}
+            }
 
         }
         else {
-            setLoading(false)
+
             localStorage.setItem('isUser', true)
             Cookie.set('refresh_token', res.refresh_Token, {
                 path: "api/auth/accessToken",
                 expires: 7,
 
             })
-            setIsValid({...isValid, status: 'success', title: res.msg})
+            isValid={status:'success',title:translate('success_register')}
+
             router.push('/')
         }
+
+        setLoading(false)
+        dispatch(showNotify({showAlert:true,...isValid}))
     }
 
 
     return (
         <div className={style.content_login} style={styleContent}>
-            {showAlert&& <AlertNotify status={isValid.status} title={isValid.title} showAlert={showAlert} setShowAlert={setShowAlert}/>}
+            {Alert.showAlert&&<AlertNotify status={Alert.status}  title={Alert.title} showAlert={Alert.showAlert} />}
 
             <Container>
                 <Grid container direction={{md:'row',xs:'column'}} columns={{md: 12, xs: 12}} alignItems='start'>

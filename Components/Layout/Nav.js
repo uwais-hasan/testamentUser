@@ -18,7 +18,7 @@ import Avatar from '@mui/material/Avatar';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 
 import styles from '../../styles/Nav.module.scss'
 
@@ -27,10 +27,11 @@ import {useRouter} from "next/router";
 import Cookie from "js-cookie";
 import ModelResetPassword from "../Model/modelResetPassword";
 import {useDispatch, useSelector} from "react-redux";
-import {Button, Grid} from "@mui/material";
+import {Button} from "@mui/material";
 import {useTranslation} from "react-i18next";
-import GTranslateIcon from '@mui/icons-material/GTranslate';
 import AlertNotify from "../Model/AlertNotify";
+import {showNotify} from "../../Store/Slicess/SliceNotify";
+import LoadingProgress from "../LoadingProgress";
 
 
 
@@ -40,19 +41,22 @@ import AlertNotify from "../Model/AlertNotify";
 
 const Nav=()=>{
 
-
+    const router=useRouter()
+    const dispatch=useDispatch()
     const {auth}=useSelector(state=>state.sliceAuth)
     const {testamentUser} = useSelector(state => state.sliceTestament)
+    const{Alert}=useSelector(state=>state.sliceNotify)
+
+    const { t:translate } = useTranslation('index');
     const [anchorElNav, setAnchorElNav] = useState(null);
     const [anchorElUser, setAnchorElUser] = useState(null);
     const [open, setOpen] = React.useState(false);
     const [openRestPassword, setOpenPassword] = React.useState(false);
-    const [isValid, setIsValid] = useState({status: '', title: ''})
-    const [showAlert, setShowAlert] = useState(false);
+    const [loading, setLoading] = useState(false);
 
-    const router=useRouter()
 
-    const { t:translate } = useTranslation('index');
+
+
 
     const handleOpenNavMenu = (event) => {
         setAnchorElNav(event.currentTarget);
@@ -98,12 +102,9 @@ const Nav=()=>{
     const handleVoting=()=>{
 
         if (!auth.user){
-            setShowAlert(true)
-            setIsValid({status:'warning',title:translate('error_login')})
-
+            dispatch(showNotify({showAlert:true,status:'warning',title:router.locale === 'ar' ? 'يرجى تسجيل الدخول' : 'Please login'}))
         }else if(!testamentUser.testament){
-            setShowAlert(true)
-            setIsValid({status:'info',title:translate('error_no_testament')})
+            dispatch(showNotify({showAlert:true,status:'info',title:router.locale === 'ar' ? 'يرجى كتابة وصيتك' : 'please create your testament'}))
 
         }else{
             router.push(`/voting?id=${auth.user._id}`)
@@ -111,7 +112,6 @@ const Nav=()=>{
 
 
     }
-
 
 
 
@@ -134,11 +134,25 @@ const Nav=()=>{
 
 
 
+    useEffect(() => {
+        if (!router.pathname==='/'){
+            router.events.on('routeChangeStart',  ()=>setLoading(true));
+            router.events.on('routeChangeComplete', ()=>setLoading(false));
 
+            return () => {
+                router.events.off('routeChangeStart', ()=>setLoading(true));
+                router.events.off('routeChangeComplete', ()=>setLoading(false));
+            };
+        }
+    }, []);
+
+    if (loading){
+        return <LoadingProgress/>
+    }
     return (
         <Box className={styles.content_nav}>
 
-            {showAlert&&<AlertNotify status={isValid.status}  title={isValid.title} showAlert={showAlert} setShowAlert={setShowAlert} />}
+            {Alert.showAlert&&<AlertNotify status={Alert.status}  title={Alert.title} showAlert={Alert.showAlert} />}
 
 
             <AppBar style={style_bg} className={styles.app_nav}>
@@ -233,7 +247,7 @@ const Nav=()=>{
                                 onClose={handleCloseUserMenu}
                             >
                                 {settings.map((setting,index) => (
-                                    <MenuItem key={index} onClick={(e)=>handleSetting(setting)}>
+                                    <MenuItem key={index} onClick={()=>handleSetting(setting)}>
                                         <Typography textAlign="center" >{setting}</Typography>
                                     </MenuItem>
                                 ))}

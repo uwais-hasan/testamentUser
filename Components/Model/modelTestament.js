@@ -14,29 +14,37 @@ import {Box, TextField,DialogTitle,DialogContent,DialogActions,Dialog,Button,Inp
 import styles from '../../styles/model_testament.module.scss'
 
 import {postData, updateData} from "../../Utils/FetchData";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {useRouter} from "next/router";
 import AlertNotify from "./AlertNotify";
 import CheckIcon from '@mui/icons-material/Check';
 import {useTranslation} from "next-i18next";
+import {showNotify} from "../../Store/Slicess/SliceNotify";
 
 
 
 const ModelTestament = ({open,setOpen}) => {
+
+
     const router=useRouter()
+    const dispatch=useDispatch()
+
+    const{Alert}=useSelector(state=>state.sliceNotify)
     const {testamentUser}=useSelector(state=>state.sliceTestament)
     const {auth}=useSelector(state=>state.sliceAuth)
-    const[writeTestament,setWriteTestament]=useState(testamentUser.testament||'')
+
+    const {t:translate}=useTranslation('index')
     const kindOfTestament=['public','votes users','special Friends']
+    const[writeTestament,setWriteTestament]=useState(testamentUser.testament||'')
     const[selectTypeTestament,setSelectTypeTestament]=useState('');
     const[selectSpecialFriend,setSelectSpecialFriend]=useState({email:'',name:'',password:''})
     const[selectReceiveFriend,setSelectReceiveFriend]=useState('')
     const[selectCountLikeFriend,setSelectCountLikeFriend]=useState(testamentUser.countLikeUsers||0)
     const[collectionSelectSpecialFriend,setCollectionSelectSpecialFriend]=useState(testamentUser.selectSpecialFriend||[])
     const[collectionReceiveSpecialFriend,setCollectionReceiveSpecialFriend]=useState(testamentUser.selectReceiveFriend||[])
-     const[showAlert,setShowAlert]=useState(false)
-    const[isValid,setIsValid]=useState({status:'',title:''})
-    const {t:translate}=useTranslation('index')
+
+
+
 
 
 
@@ -57,8 +65,9 @@ const ModelTestament = ({open,setOpen}) => {
     const addSpecialFriends = async () => {
 
         if (!selectSpecialFriend.email||!selectSpecialFriend.name||!selectSpecialFriend.password){
-            setShowAlert(true);
-            setIsValid({...isValid,title:translate('error_add_all_field'),status:'error'})
+
+            dispatch(showNotify({showAlert:true,title:translate('error_add_all_field'),status:'error'}))
+
         }else {
 
 
@@ -71,8 +80,8 @@ const ModelTestament = ({open,setOpen}) => {
             }
 
             const addUser=await postData('user/check',data,auth.access_Token)
-            setShowAlert(true);
-            setIsValid({...isValid,title: translate('success_special_friends'),status:'success'})
+            dispatch(showNotify({showAlert:true,title: translate('success_special_friends'),status:'success'}))
+
             setCollectionSelectSpecialFriend([...collectionSelectSpecialFriend,addUser])
             setSelectSpecialFriend({...selectSpecialFriend,name:'',email: '',password:''})
 
@@ -88,23 +97,32 @@ const ModelTestament = ({open,setOpen}) => {
 
 
         if (!selectReceiveFriend){
-            setShowAlert(true);
-            setIsValid({...isValid,title: translate('error_add_name'),status:'error'})
+            dispatch(showNotify({showAlert:true,title: translate('error_add_name'),status:'error'}))
+
+
 
         } else if (!existName){
-            setShowAlert(true);
-            setIsValid({...isValid,title: translate('error_name_no_exist'),status:'error'})
+
+            dispatch(showNotify({showAlert:true,title: translate('error_name_no_exist'),status:'error'}))
+
+
+
 
         }else if (existName !== undefined) {
             if (checkDoubleName){
-                setShowAlert(true);
-                setIsValid({...isValid,title: translate('error_email_exist'),status:'error'})
+
+
+                dispatch(showNotify({showAlert:true,title: translate('error_email_exist'),status:'error'}))
+
 
             }else{
+
+                dispatch(showNotify({showAlert:true,title: translate('success_receive_friends'),status:'success'}))
+
                 setCollectionReceiveSpecialFriend([...collectionReceiveSpecialFriend,existName])
                 setSelectReceiveFriend('')
-                setShowAlert(true);
-                setIsValid({...isValid,title: translate('success_receive_friends'),status:'success'})
+
+
             }
 
         }
@@ -116,14 +134,21 @@ const ModelTestament = ({open,setOpen}) => {
 
         const filtered= collectionSelectSpecialFriend.filter(item=>item.email!==email)
         setCollectionSelectSpecialFriend(filtered)
-        setShowAlert(true);
-        setIsValid({...isValid,title: translate('success_delete_special'),status:'success'})
+        dispatch(showNotify({showAlert:true,title: translate('success_delete_special'),status:'success'}))
+
+
+
     }
+
     const handleDeleteReceiveFriends=(name)=>{
         const filtered= collectionReceiveSpecialFriend.filter(item=>item.name!==name)
         setCollectionReceiveSpecialFriend(filtered)
-        setShowAlert(true);
-        setIsValid({...isValid,title: translate('success_delete_receive'),status:'success'})
+
+
+        dispatch(showNotify({showAlert:true,title: translate('success_delete_receive'),status:'success'}))
+
+
+
     }
 
     const updateDataTestament=async (data,)=>{
@@ -140,8 +165,10 @@ const ModelTestament = ({open,setOpen}) => {
 
         if (selectTypeTestament==='special Friends'){
             if (!collectionSelectSpecialFriend.length || !collectionReceiveSpecialFriend.length || !writeTestament){
-                setShowAlert(true);
-                setIsValid({...isValid,title: translate('error_add_all_field'),status:'error'})
+
+
+                dispatch(showNotify({showAlert:true,title: translate('error_add_all_field'),status:'error'}))
+
             }else {
              return  await createDataTestament(data)
 
@@ -149,8 +176,10 @@ const ModelTestament = ({open,setOpen}) => {
         }
         else if (selectTypeTestament==='votes users'){
             if (!selectCountLikeFriend || !writeTestament){
-                setShowAlert(true);
-                setIsValid({...isValid,title: translate('error_add_all_field'),status:'error'})
+                dispatch(showNotify({showAlert:true,title: translate('error_add_all_field'),status:'error'}))
+
+
+
             }else {
 
                 return  await createDataTestament(data)
@@ -159,17 +188,20 @@ const ModelTestament = ({open,setOpen}) => {
         else if (selectTypeTestament==='public') {
 
             if (!writeTestament){
-                setShowAlert(true);
-                setIsValid({...isValid,title: translate('error_testament'),status:'error'})
+                dispatch(showNotify({showAlert:true,title: translate('error_testament'),status:'error'}))
+
+
+
             }else {
                 return  await createDataTestament(data)
             }
 
 
         }else {
+            dispatch(showNotify({showAlert:true,title: translate('error_select_type'),status:'error'}))
 
-            setShowAlert(true);
-            setIsValid({...isValid,title: translate('error_select_type'),status:'error'})
+
+
         }
 
 
@@ -180,8 +212,9 @@ const ModelTestament = ({open,setOpen}) => {
         if (selectTypeTestament==='special Friends'){
             if (!collectionSelectSpecialFriend.length || !collectionReceiveSpecialFriend.length || !writeTestament){
 
-                setShowAlert(true);
-                setIsValid({...isValid,title: translate('error_add_all_field'),status:'error'})
+
+                dispatch(showNotify({showAlert:true,title: translate('error_add_all_field'),status:'error'}))
+
             }else {
 
              return  await updateDataTestament(data)
@@ -189,8 +222,10 @@ const ModelTestament = ({open,setOpen}) => {
         }
         else if (selectTypeTestament==='votes users'){
             if (!selectCountLikeFriend|| !writeTestament){
-                setShowAlert(true);
-                setIsValid({...isValid,title: translate('error_add_all_field'),status:'error'})
+
+
+                dispatch(showNotify({showAlert:true,title: translate('error_add_all_field'),status:'error'}))
+
             }else {
               return   await updateDataTestament(data)
 
@@ -198,8 +233,10 @@ const ModelTestament = ({open,setOpen}) => {
         }
         else if (selectTypeTestament==='public') {
             if (!writeTestament){
-                setShowAlert(true);
-                setIsValid({...isValid,title: translate('error_testament'),status:'error'})
+
+
+                dispatch(showNotify({showAlert:true,title: translate('error_testament'),status:'error'}))
+
             }else {
                 let data={
                     typeTestament:selectTypeTestament,
@@ -217,8 +254,10 @@ const ModelTestament = ({open,setOpen}) => {
         }
         else {
 
-            setShowAlert(true);
-            setIsValid({...isValid,title: translate('error_select_type'),status:'error'})
+
+
+            dispatch(showNotify({showAlert:true,title: translate('error_select_type'),status:'error'}))
+
         }
 
     }
@@ -227,7 +266,7 @@ const ModelTestament = ({open,setOpen}) => {
 
     return (
         <div  className={styles.content_model_testament}>
-            {showAlert&&<AlertNotify status={isValid.status}  title={isValid.title} showAlert={showAlert} setShowAlert={setShowAlert} />}
+            {Alert.showAlert&&<AlertNotify status={Alert.status}  title={Alert.title} showAlert={Alert.showAlert} />}
             <Dialog fullWidth
                     open={open}
                     onClose={handleClose}

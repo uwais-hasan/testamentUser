@@ -82,7 +82,23 @@
   "error_email_exist": "this email already exist",
   "error_change_password": "The old password is incorrect",
   "error_server": "Try again later",
+
+  "error_cannot_delete_admin": "you can not delete admin",
+  "error_set_admin": "just admin can be set an admin",
+  "error_set_user": "just admin can be set a user",
+
+
+  "success_delete_admin": "you delete a user",
+  "success_set_admin": "you set an admin",
+  "success_set_user": "you set a user",
+
+
+  "user_have_not_testament": "this user do not add testament",
+"Delete": "Delete",
+"show_Testament": "show testament",
+
   "success_special_friends": "you add a special user",
+  "success_update_data": "success update data",
   "success_receive_friends": "you add a receive user",
   "success_delete_special": "you delete a special user",
   "success_delete_receive": "you delete a receive  user",

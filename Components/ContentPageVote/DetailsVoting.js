@@ -15,7 +15,7 @@ const DetailsVoting = ({data}) => {
 
         <Box className={style.section_result_vote_user}>
             <h1>{translate('Details Vote')}</h1>
-            {data.typeTestament==='public'?translate('isPublic'):
+            {data.typeTestament==='public'?<p className={style.no_details}>{translate('isPublic')}</p>:
                 <Grid gap={2}  container item columns={{md:12,sx:12}} direction={{ md: 'row', xs: 'column' }}  justifyContent='space-between' >
                     <Grid item container md={3.8}  direction='column' justifyContent='center' alignItems='center' className={style.details_voting}>
                         <PeopleIcon/>

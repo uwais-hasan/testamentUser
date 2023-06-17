@@ -6,19 +6,28 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle'
 import {Grid, TextField} from "@mui/material";
 import {updateData} from "../../Utils/FetchData";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {useTranslation} from "next-i18next";
 
 import {useRouter} from "next/router";
 import AlertNotify from "./AlertNotify";
+import {showNotify} from "../../Store/Slicess/SliceNotify";
+
+
 const ModelSetting = ({open, setOpen}) => {
+
+    const router = useRouter()
+    const dispatch=useDispatch()
+
+    const{Alert}=useSelector(state=>state.sliceNotify)
     const {auth}=useSelector(state=>state.sliceAuth)
+
+    const{t:translate}=useTranslation('index')
     const{firstName, lastName, age, country, city, phone,}=auth.user
     const[data,setData]=useState({firstName:firstName||'',lastName:lastName||'',age:age||'',country:country||'',city:city||'',phone:phone||''})
-    const[showAlert,setShowAlert]=useState(false)
-    const[isValid,setIsValid]=useState({status:'',title:''})
-    const{t:translate}=useTranslation('index')
-    const router = useRouter()
+
+
+
     const handleClose = () => {
         setOpen(false);
     };
@@ -29,9 +38,11 @@ const ModelSetting = ({open, setOpen}) => {
         const name=data.firstName +' '+data.lastName
      const update=await updateData('user/update', {...data,name},auth.access_Token)
         if (update.err){
-            setShowAlert(true);
-            setIsValid({...isValid,title:translate('error_server'),status:'error'})
+
+            dispatch(showNotify({showAlert:true,title:translate('error_server'),status:'error'}))
+
         }else {
+            dispatch(showNotify({showAlert:true,title:translate('success_update_data'),status:'success'}))
             router.reload()
         }
 
@@ -40,7 +51,8 @@ const ModelSetting = ({open, setOpen}) => {
 
     return (
         <div>
-            {showAlert&&<AlertNotify status={isValid.status}  title={isValid.title} showAlert={showAlert} setShowAlert={setShowAlert} />}
+
+            {Alert.showAlert&&<AlertNotify status={Alert.status}  title={Alert.title} showAlert={Alert.showAlert} />}
 
             <Dialog
                 open={open}

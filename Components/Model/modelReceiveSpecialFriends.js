@@ -10,14 +10,19 @@ import Button from "@mui/material/Button";
 import ModelShowTestamentVotingUsers from "./modelShowTestamentVotingUsers";
 import AlertNotify from "./AlertNotify";
 import {useTranslation} from "next-i18next";
+import {useDispatch, useSelector} from "react-redux";
+import {showNotify} from "../../Store/Slicess/SliceNotify";
 
 const ModelReceiveSpecialFriends = ({openReceive, setOpenReceive,data,setShowTestament,showTestament}) => {
 
-    const[checkerDataInsert,setDataInsert]=useState({name:'',email:'',password:''})
-    const[showAlert,setShowAlert]=useState(false)
-    const[isValid,setIsValid]=useState({status:'',title:''})
 
+    const dispatch=useDispatch()
+    const{Alert}=useSelector(state=>state.sliceNotify)
     const{t:translate}=useTranslation('voting')
+    const[checkerDataInsert,setDataInsert]=useState({name:'',email:'',password:''})
+
+
+
     const handleSub=async ()=>{
 
 
@@ -28,11 +33,15 @@ const ModelReceiveSpecialFriends = ({openReceive, setOpenReceive,data,setShowTes
                 setDataInsert({...checkerDataInsert,name: '',email: '',password: ''})
 
             } else {
-                setShowAlert(true);
-                setIsValid({...isValid,title: translate('error_check_data_specialFriend'),status:'error'})
+                dispatch(showNotify({showAlert:true,title: translate('error_check_data_receiveFriend'),status:'error'}))
 
             }
         }
+    const handleClose = () => {
+        setOpenReceive(false);
+    };
+
+
 
     if (showTestament){
         return <ModelShowTestamentVotingUsers testament={data.testament} showTestament={showTestament} setShowTestament={setShowTestament}/>
@@ -40,15 +49,14 @@ const ModelReceiveSpecialFriends = ({openReceive, setOpenReceive,data,setShowTes
 
 
 
-    const handleClose = () => {
-        setOpenReceive(false);
-    };
+
 
 
 
     return (
         <div>
-            {showAlert&&<AlertNotify status={isValid.status}  title={isValid.title} showAlert={showAlert} setShowAlert={setShowAlert} />}
+            {Alert.showAlert&&<AlertNotify status={Alert.status}  title={Alert.title} showAlert={Alert.showAlert} />}
+
 
             <Dialog
                 open={openReceive}
