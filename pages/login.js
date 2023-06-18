@@ -101,7 +101,7 @@ const Login = () => {
                                        InputProps={{
                                            startAdornment: (
                                                <InputAdornment position="start">
-                                                   <MailOutlineIcon sx={{margin:'10px'}} />
+                                                   <MailOutlineIcon  />
                                                </InputAdornment>
                                            ),
                                        }}

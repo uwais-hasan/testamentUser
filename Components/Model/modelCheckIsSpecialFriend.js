@@ -82,28 +82,31 @@ const ModelCheckIsSpecialFriend = ({open, setOpen,data}) => {
                     <Grid container justifyContent='center' gap={1} >
                         <TextField  label={translate("name")}
                                     size="large"
-                                    style={{margin:'10px 1px',padding:'10px 0',}}
+
                                     value={checkerDataInsert.name}
                                     type='text'
                                     placeholder='firstName'
-                                    variant="standard"
+                                    id="filled-textarea"
+                                    variant="filled"
                                     onChange={(e)=>setDataInsert({...checkerDataInsert,name: e.target.value})}
                         />
                         <TextField  label={translate("email")}
                                     size="large"
-                                    style={{margin:'10px 1px',padding:'10px 0'}}
+
                                     value={checkerDataInsert.email}
                                     type='email'
-                                    variant="standard"
+                                    id="filled-textarea"
+                                    variant="filled"
                                     onChange={(e)=>setDataInsert({...checkerDataInsert,email: e.target.value})}
                         />
 
                         <TextField  label={translate("password")}
                                     size="large"
-                                    style={{margin:'10px 1px',padding:'10px 0'}}
+
                                     value={checkerDataInsert.password}
                                     type='password'
-                                    variant="standard"
+                                    id="filled-textarea"
+                                    variant="filled"
                                     onChange={(e)=>setDataInsert({...checkerDataInsert,password: e.target.value})}
                         />
 

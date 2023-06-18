@@ -15,13 +15,9 @@ export default async function handle(req, res) {
 
         if (type === 'select special friends') {
 
-
-
             const user=await User.findOne({email,name}).select('email firstName lastName picture ')
 
             if (user) return res.json({name,email,password,picture:user.picture,isExist:true})
-
-
 
            return  res.json({name,email,password,picture:'https://th.bing.com/th/id/OIP.mP1RB8xuQaHAvUkonYY6HwHaHK?pid=ImgDet&rs=1',isExist:false})
         } else {

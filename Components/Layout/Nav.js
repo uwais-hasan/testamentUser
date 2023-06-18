@@ -134,17 +134,27 @@ const Nav=()=>{
 
 
 
-    useEffect(() => {
-        if (!router.pathname==='/'){
-            router.events.on('routeChangeStart',  ()=>setLoading(true));
-            router.events.on('routeChangeComplete', ()=>setLoading(false));
-
-            return () => {
-                router.events.off('routeChangeStart', ()=>setLoading(true));
-                router.events.off('routeChangeComplete', ()=>setLoading(false));
-            };
-        }
-    }, []);
+    // useEffect(() => {
+    //     let isActive = true;
+    //
+    //     if (router.pathname !== '/') {
+    //         const handleRouteChangeStart = () => {
+    //             if (isActive) setLoading(true);
+    //         };
+    //         const handleRouteChangeComplete = () => {
+    //             if (isActive) setLoading(false);
+    //         };
+    //
+    //         router.events.on('routeChangeStart', handleRouteChangeStart);
+    //         router.events.on('routeChangeComplete', handleRouteChangeComplete);
+    //
+    //         return () => {
+    //             isActive = false;
+    //             router.events.off('routeChangeStart', handleRouteChangeStart);
+    //             router.events.off('routeChangeComplete', handleRouteChangeComplete);
+    //         };
+    //     }
+    // }, [router.pathname]);
 
     if (loading){
         return <LoadingProgress/>

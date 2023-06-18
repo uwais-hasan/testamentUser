@@ -13,13 +13,7 @@
 
   .style_login {
 
-
     margin-top: 40px;
-
-
-
-
-
     padding: 20px 20px 50px 20px;
     box-shadow: rgb(76 76 76 / 48%) 6px 2px 16px 0px;
     background-color: $Color_Basic_1;
@@ -49,6 +43,10 @@
       &:hover{
         color:#1565c0
       }
+    }
+    svg{
+      padding-left:4px;
+      font-size:20px
     }
 
   }

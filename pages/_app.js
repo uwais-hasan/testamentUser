@@ -7,10 +7,14 @@ import Layout from "../Components/Layout/Layout";
 
 import {useRouter} from "next/router";
 import {createTheme,ThemeProvider} from "@mui/material";
-
+import {useEffect} from "react";
+import NProgress from 'nprogress'; // استيراد مكتبة NProgress
+import 'nprogress/nprogress.css'; // استيراد ملف الأنماط الخاص بـ NProgress
+import '../styles/custom-nprogress.css';
+// NProgress.configure({color:'red', showSpinner: false, minimum: 0.1, easing: 'ease', speed: 800 });
 
 function MyApp({ Component, pageProps }) {
-
+    const router=useRouter()
     const theme = createTheme({
        palette:{
            primary:{
@@ -69,8 +73,19 @@ function MyApp({ Component, pageProps }) {
 
 
     });
+    useEffect(() => {
 
-    const router=useRouter()
+
+        router.events.on('routeChangeStart',  ()=>NProgress.start());
+        router.events.on('routeChangeComplete', ()=>NProgress.done());
+        router.events.on('routeChangeError', ()=> NProgress.done());
+
+        return () => {
+            router.events.off('routeChangeStart', ()=>NProgress.start());
+            router.events.off('routeChangeComplete', ()=>NProgress.done());
+            router.events.off('routeChangeError', ()=>NProgress.done());
+        };
+    }, []);
     return (
         <div style={{direction:router.locale==='en'?'ltr':'rtl'}}>
 

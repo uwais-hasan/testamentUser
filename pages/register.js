@@ -84,10 +84,10 @@ const Register = () => {
 
 
                     <Grid gap={2} item container  md={4} xs={12} className={style.style_login} flexDirection='column' alignItems='center' >
-                        <Grid item  >
+                        <Grid item>
                             <h1 className={style.style_title}>{translate('register')} </h1>
                         </Grid>
-                        <Grid item container gap={2}  >
+                        <Grid item container gap={2} justifyContent='center'>
 
 
                             <TextField label={translate('firstName')}
@@ -98,7 +98,7 @@ const Register = () => {
                                        InputProps={{
                                            startAdornment: (
                                                <InputAdornment position="start">
-                                                   <CreateIcon sx={{margin: '10px'}}/>
+                                                   <CreateIcon />
                                                </InputAdornment>
                                            ),
                                        }}
@@ -116,7 +116,7 @@ const Register = () => {
                                        InputProps={{
                                            startAdornment: (
                                                <InputAdornment position="start">
-                                                   <CreateIcon sx={{margin: '10px'}}/>
+                                                   <CreateIcon />
                                                </InputAdornment>
                                            ),
                                        }}
@@ -134,7 +134,7 @@ const Register = () => {
                                        InputProps={{
                                            startAdornment: (
                                                <InputAdornment position="start">
-                                                   <MailOutlineIcon sx={{margin: '10px'}}/>
+                                                   <MailOutlineIcon />
                                                </InputAdornment>
                                            ),
                                        }}
@@ -146,7 +146,7 @@ const Register = () => {
 
                             <TextField
                                 label={translate('password')}
-                                sx={{width:'45%'}}
+                                sx={{width:'95%'}}
                                 value={data.password}
 
                                 type='password'
@@ -165,14 +165,14 @@ const Register = () => {
                             />
                             <TextField label={translate('re_password')}
 
-                                       sx={{width:'45%'}}
+                                       sx={{width:'95%'}}
                                        value={data.re_password}
                                        type='password'
 
                                        InputProps={{
                                            startAdornment: (
                                                <InputAdornment position="start">
-                                                   <VpnKeyIcon sx={{margin: '10px'}}/>
+                                                   <VpnKeyIcon />
                                                </InputAdornment>
                                            ),
                                        }}
@@ -184,7 +184,7 @@ const Register = () => {
 
 
                         </Grid>
-                        <Grid tem container direction='column' >
+                        <Grid item container direction='column' >
                             <Link href='/login' >
                                 <a className={style.register}>{translate('login')}</a>
                             </Link>
