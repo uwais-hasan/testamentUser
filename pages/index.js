@@ -64,15 +64,8 @@ export const index=({data})=> {
 
 
 
+const en=process.env.URL_BASIC
 
-    // router.events.on('routeChangeComplete', () => {
-    //     <LoadingProgress/>
-    // });
-    // useEffect(() => {
-    //     return () => {
-    //         router.events.off('routeChangeComplete');
-    //     };
-    // }, []);
 
 
 
@@ -93,7 +86,7 @@ export const index=({data})=> {
 
     return (
         <div className={styles.content_app}>
-
+<p className='sssssssssssssss'>{en}</p>
                {auth?.user?.role === 'user' ? <>
                        <Header/>
                        <ContentHome/>

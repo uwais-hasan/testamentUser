@@ -1,7 +1,12 @@
+
+
+
+
 import axios from "axios";
 
 
-const url='https://testament-user-git-main-owies-hassan.vercel.app/api'
+// const url='http://localhost:3000/api'
+const url='https://testament-user.vercel.app/api'
 
 const getData=async (path,token,params)=>{
 

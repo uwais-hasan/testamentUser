@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/testament-app.iml" filepath="$PROJECT_DIR$/.idea/testament-app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/testamentUsers.iml" filepath="$PROJECT_DIR$/.idea/testamentUsers.iml" />
     </modules>
   </component>
 </project>

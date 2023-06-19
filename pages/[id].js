@@ -21,7 +21,7 @@ const vote = ({data}) => {
 // this page for testing use params and the page testament i use query
     export const getServerSideProps=async ({params})=>{
 
-        const res=await fetch(`http://localhost:3000/api/user/${params.id}`)
+        const res=await fetch(`https://testament-user.vercel.app/api/user/${params.id}`)
         const data=await res.json()
 
         return{
