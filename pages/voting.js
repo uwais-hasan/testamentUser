@@ -75,7 +75,7 @@ export default voting;
 
 export const getServerSideProps=async ({query,locale})=>{
 
-    const res=await fetch(`http://localhost:3000/api/user/vote?id=${query.id}`)
+    const res=await fetch(`https://testament-user.vercel.app/api/user/vote?id=${query.id}`)
     const data=await res.json()
 
     return{
