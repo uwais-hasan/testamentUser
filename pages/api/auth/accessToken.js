@@ -2,7 +2,7 @@
 
 import {checkToken, generateAccessToken} from "../../../MiddleWare/GenerateToken";
 import {User} from "../../../Model/SchemaUser";
-import {Testament} from "../../../Model/SchemaTestament";
+
 import connectDB from "../../../MiddleWare/ConnectDB";
 
 
@@ -10,9 +10,6 @@ import connectDB from "../../../MiddleWare/ConnectDB";
   connectDB()
 export default async function (req, res) {
 
-
-
-      console.log('access run')
         const refreshToken = req.cookies.refresh_token;
         if (!refreshToken) return res.status(400).json({err: 'no refresh token'})
 
@@ -20,7 +17,6 @@ export default async function (req, res) {
         if (!isToken) return res.status(400).json({err: 'invalid refresh token'})
 
     const user = await User.findOne({_id: isToken.id})
-    // const testament = await Testament.findOne({userId: isToken.id}).populate('userId')
 
 
     const access_Token =  generateAccessToken({id: user._id}, process.env.ACCESS_TOKEN_SECRET)
@@ -28,7 +24,7 @@ export default async function (req, res) {
        return  res.json({
             user,
             access_Token,
-           // testament
+
 
         })
     }

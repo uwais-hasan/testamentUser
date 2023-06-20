@@ -42,22 +42,11 @@ const ModelReceiveSpecialFriends = ({openReceive, setOpenReceive,data,setShowTes
     };
 
 
-
-    if (showTestament){
-        return <ModelShowTestamentVotingUsers testament={data.testament} showTestament={showTestament} setShowTestament={setShowTestament}/>
-    }
-
-
-
-
-
-
-
     return (
         <div>
             {Alert.showAlert&&<AlertNotify status={Alert.status}  title={Alert.title} showAlert={Alert.showAlert} />}
 
-
+            {showTestament&& <ModelShowTestamentVotingUsers testament={data.testament} showTestament={showTestament} setShowTestament={setShowTestament}/>}
             <Dialog
                 open={openReceive}
                 onClose={handleClose}

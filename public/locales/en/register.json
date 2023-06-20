@@ -26,7 +26,7 @@
   "this_email_did_not_exist":"this email did not exist",
   "password_wrong": "password wrong",
   "error_server": "Try again later",
-
+  "error_email": "Invalid emails",
   "success_login": "success login",
   "success_register": "success register"
 

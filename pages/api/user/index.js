@@ -18,7 +18,7 @@ export default async function handler(req,res){
       try {
           const authorization=await auth(req,res)
 
-          const {role,id,root}=authorization
+          const {role}=authorization
 
           if (role ==='user') return res.json({err:'you can not access here'})
 
@@ -47,7 +47,7 @@ export default async function handler(req,res){
 
             res.json({meg:'add admin success'})
 
-            console.log(user)
+
         }catch (err){
             res.status(500).json({err:'err'})
         }
@@ -64,7 +64,7 @@ export default async function handler(req,res){
         await User.findByIdAndDelete({_id:id})
       const user=  await Testament.findOneAndDelete({userId:id})
 
-             console.log('success',user)
+
 
 
         res.json({msg:'success delete'})

@@ -7,7 +7,7 @@ import DialogContent from "@mui/material/DialogContent";
 import {Grid, TextField} from "@mui/material";
 import DialogActions from "@mui/material/DialogActions";
 import Button from "@mui/material/Button";
-import {useRouter} from "next/router";
+
 import {useTranslation} from "next-i18next";
 import AlertNotify from "./AlertNotify";
 import {showNotify} from "../../Store/Slicess/SliceNotify";
@@ -15,7 +15,7 @@ import {showNotify} from "../../Store/Slicess/SliceNotify";
 
 const ModelResetPassword = ({openRestPassword,setOpenPassword}) => {
 
-    const router=useRouter()
+
     const dispatch=useDispatch()
     const{Alert}=useSelector(state=>state.sliceNotify)
     const {auth}=useSelector(state=>state.sliceAuth)

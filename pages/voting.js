@@ -7,28 +7,26 @@
 
 
 
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import AboutUser from "../Components/ContentPageVote/AboutUser";
 import UserVotingInteraction from "../Components/ContentPageVote/UserVotingInteraction";
 
 import style from '../styles/content_page_vote.module.scss'
-import {addAuth} from "../Store/Slicess/SliceAuth";
-import {useDispatch, useSelector} from "react-redux";
-import {Button, Container, Grid} from "@mui/material";
-import ModelReceiveSpecialFriends from "../Components/Model/modelReceiveSpecialFriends";
-import ModelShowTestamentVotingUsers from "../Components/Model/modelShowTestamentVotingUsers";
+import {useDispatch } from "react-redux";
+import { Container, Grid} from "@mui/material";
+
 import {isAuthAccessToken} from "../Utils/PublicFun";
-import LoadingProgress from "../Components/LoadingProgress";
-import {useRouter} from "next/router";
+
 import {useTranslation} from "next-i18next";
 import {serverSideTranslations} from "next-i18next/serverSideTranslations";
 import DetailsVoting from "../Components/ContentPageVote/DetailsVoting";
+import Head from "next/head";
 
 const voting = ({data}) => {
 
 
 
-
+console.log(data)
 
 
     const{t:translate}=useTranslation('voting')
@@ -50,7 +48,10 @@ const voting = ({data}) => {
     }, []);
     return (
         <div className={style.content_page_vote}>
-
+            <Head>
+                <title>{data?.userId?.name}</title>
+                <meta name="description" content={`${translate('description_meta_voting')} ${data?.userId?.name}`}  />
+            </Head>
          <Container maxWidth='xl'>
              <Grid gap={3}  container columns={{md:12,sx:12}} direction={{xs:'column-reverse',md:'row'}} >
                  <Grid item container md={3} sx={{justifyContent:'center'}}>
@@ -75,7 +76,7 @@ export default voting;
 
 export const getServerSideProps=async ({query,locale})=>{
 
-    const res=await fetch(`https://testament-user.vercel.app/api/user/vote?id=${query.id}`)
+    const res=await fetch(`${process.env.NEXT_PUBLIC_URL}/api/user/vote?id=${query.id}`)
     const data=await res.json()
 
     return{

@@ -58,14 +58,14 @@ const AboutUser = ({data}) => {
 
 
     const goLogout = () => {
-        router.push('/login')
+    return  router.push('/login')
     };
     const timer = () => {
 
 
         setTimeout(() => {
 
-            goLogout();
+          return   goLogout();
 
 
 
@@ -180,7 +180,7 @@ const AboutUser = ({data}) => {
                        </Grid>
 
                        <Grid className={style.imageUser} item md={3} xs={12} >
-                           <img className={styleImage.image_rectangular} src={data.userId.picture || ''}/>
+                           <img className={styleImage.image_rectangular} src={data.userId.picture || ''} loading='lazy' alt={data.userId.name}/>
                        </Grid>
 
                    </Grid>

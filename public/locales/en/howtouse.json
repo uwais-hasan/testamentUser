@@ -19,6 +19,8 @@
 
   "mode": "mode",
 
+  "create_testament":"create testament mode",
+  "how_voting": "voting mode",
   "howToUseWebsite": "How to use the website? ",
   "howUseWebsite_text": [
     "_To use the website, you can follow the following steps",
@@ -40,5 +42,17 @@
   "mode_special_friends_text":["When you choose this mode, you will notice the presence of two options.",
     "_The first option: \"Select Trusted Friends.\" You will fill in the fields with the email address,name, and password (for the user) who will vote on your behalf.You can write any name or email address and password that you desire and give it to your trusted friend.You can also choose a large number of friends that you want to add for voting.You can choose 5 or fewer trusted friends, or perhaps 10 or more.,It is important to note that it is not necessary to register the email address or name on the website. Additionally, the friends chosen for voting are not required to log in;they can vote directly by clicking the vote button",
     "_The second option: Receive,the will. In this option, only the individuals you have chosen from your trustedfriends will be able to view your will, while other friends will not be able to see it.,When selecting the will receipt, you can add the friends who will be able to view the willfrom among the trusted friends you have chosen. For example, if you choose Mohamed Ali,Osama Saad, and Ahmed Mubarak as trusted friends, only these individuals can be added in the will receipt option, and you cannot add any other person apart from them.,"
-  ]
+  ],
+
+  "title_howToUse": "How to Write Your testament?",
+  "description_meta_howToUse": "Easily write your will, plan your inheritance, organize your finances, and determine the fate of your assets using our advanced tools. Create your will before it's too late. Inheritance, will power of attorney, inheritance execution, will, your will, legacy, fear of death, don't worry about writing your will, information on how to write your will, you can write your will through voting, you can make your will public for everyone, your will matters.",
+
+
+
+
+
+  "how_to_vote": "How will users vote?",
+  "votePublic": "There is no voting in this mode, meaning there is no user interaction and no voting details. By simply clicking on the 'Click here to view (the testament) button, everyone can view the testament.",
+  "voteUsersVoting": "In this mode, the user is required to have an account in the application to vote. Voting is done by clicking on the (Vote) button. Everyone can view the voting details and see the individuals who have already voted. Once the specified number set by the author of the bequest is reached, the testament will be displayed by clicking on the (Click here to view the testament) button. The testament will then be available in the public mode",
+  "voteSpecialFriends": "When the (Vote) button is clicked, three fields will appear that the user must fill in to vote. The person who created the testament in the \"Special Friends\" mode will send these fields to their chosen private individuals, and each person will have different information from the others. Important note: The person voting in this stage can vote without logging into the website, and immediately after the voting is completed, a button will appear saying (Click here to view the testament.) When clicked, three additional fields will appear. These fields will contain the same information entered by the private individuals during their initial vote. Important note: Only the individuals chosen by the user will be able to view the  testament. In other words, if the user chooses 5 private individuals to vote, it is possible that they will choose only 3 or more or less from among those individuals. To be more precise, only the individuals chosen by the person who created the testament will be able to view it."
 }

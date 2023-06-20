@@ -2,16 +2,12 @@
 
 
 .content_model_testament{
-  background: red!important;
-  color: white!important;
+
   .bg{
     background: red;
     color: white;
   }
-  .css-tlc64q-MuiPaper-root-MuiDialog-paper{
-    background: red;
-    color: white;
-  }
+
   .option_votes_users{
     display: flex;
     flex-direction: column;
@@ -22,6 +18,7 @@
     flex-direction: column;
     gap: 30px;
   }
+
 }
 
 

@@ -17,6 +17,7 @@
   "reset password": "إعادة تعيين كلمة المرور",
   "update your information": "تحديث معلوماتك",
   "firstName": "الاسم الأول",
+  "writeHere_first_last_name": "اكتب الاسم الاول والاخير كمثال أيهم حسن",
   "lastName": "اسم العائلة",
   "city": "المدينة",
   "country": "البلد",
@@ -52,24 +53,25 @@
   "add_more_special": "اضافة المزيد من الاصدقاء الخاصيين",
   "add_more_receive": "اضافة المزيد من الاصدقاء المستلمين",
   "select_witness":" اكتب هنا عنوان البريد الإلكتروني وأسماء الأصدقاء وكلمة سر تختارها انت",
-  "select_receive_witness": "يرجى كتابة أسماء أصدقائك الخاصين الذين سيتلقون وصيتك هنا",
+  "select_receive_witness": "يرجى كتابة بعض من أسماء أصدقائك الخاصين  الذين اخترتهم في الاعلى لكي  يشاهدون وصيتك,ملاحظة مهمة:اكتب الاسم الاول والاخير",
   "create_testament": "إنشاء الوصية",
   "upload image": "رفع الصورة",
   "change_image_question": "هل ترغب في تغيير صورتك؟",
 
 "kindOfTestament": ["عام","تصويت المستخدمين","أصدقاء خاصيين"],
 
-  "loading": "لحظة...",
+  "loading": "جاري التحميل...",
   "delete_testament": "حذف الوصية",
   "description_delete_testament": "هل ترغب في حذف الوصية؟",
-
+  "copy_link": "تم نسخ الرابط",
+  "error_copy_link": "تعذر نسخ الرابط",
   "upload_image": "اضافة صورة",
   "description_upload_image": "هل ترغب في اضافة صورة؟",
   "update_your_information": "تحديث معلوماتك",
   "change_Password": "تغير كلمة السر",
 
 
-  "user_exist": "هذا المستخدم موجود",
+  "user_exist": "المستخدم موجود",
 
   "error_empty_data_setting": "هذا الحقل فارغ",
   "error_select_type": "يرجى اختيار نوع الوصية",
@@ -88,5 +90,9 @@
   "success_receive_friends": "لقد اضفت مستخدم مستلم",
   "success_delete_special": "لقد حذفت صديق خاص",
   "success_delete_receive": "لقد حذفت صديق مستلم",
-  "success_change_password": "لقد تم تغير كلمة السر بنجاح"
+  "success_change_password": "لقد تم تغير كلمة السر بنجاح",
+
+
+  "title_app": "تطبيق الوصية",
+  "description_meta_app": " يساعدك في كتابة وصيتك بسهولة ,اكتب وصيتك, قم بتخطيط الميراث وتنظيم الأموال وتحديد مصير ممتلكاتك باستخدام أدواتنا المتقدمة. قم بإنشاء كتابة الوصية قبل الموت.الميراث, توكيل وصية,تنفيذ الميراث ,وصية,وصيتك,ميراث,الخوف من الموت,لاتقلق من كتابة وصيتك,"
 }

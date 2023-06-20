@@ -1,16 +1,15 @@
-import React, {useEffect, useState} from 'react';
+import React  from 'react';
 
 import FacebookLogin from 'react-facebook-login';
 import style from '../../styles/facebook.module.scss'
 import Cookie from "js-cookie";
 import {postData} from "../../Utils/FetchData";
 import {useRouter} from "next/router";
-;
+
 const FaceBookLogin = () => {
 const router=useRouter()
     const responseFacebook = async (response) => {
         const {accessToken, id} = response
-
         const res=await postData('auth/facebookLogin',{accessToken,id})
 
         if (res.err) {
@@ -24,7 +23,7 @@ const router=useRouter()
                 expires: 7,
 
             })
-            router.push('/')
+          return   router.push('/')
         }
     }
 
@@ -33,7 +32,7 @@ const router=useRouter()
                <FacebookLogin
                    cssClass={style.style}
                    appId="150251301350514"
-                   // autoLoad={true}
+                   autoLoad={true}
                    fields="name,email,picture"
                    callback={responseFacebook}
 

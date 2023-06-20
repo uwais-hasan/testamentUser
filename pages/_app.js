@@ -7,13 +7,16 @@ import Layout from "../Components/Layout/Layout";
 
 import {useRouter} from "next/router";
 import {createTheme,ThemeProvider} from "@mui/material";
-import {useEffect} from "react";
-import NProgress from 'nprogress'; // استيراد مكتبة NProgress
-import 'nprogress/nprogress.css'; // استيراد ملف الأنماط الخاص بـ NProgress
-import '../styles/custom-nprogress.css';
-// NProgress.configure({color:'red', showSpinner: false, minimum: 0.1, easing: 'ease', speed: 800 });
+import React, {useEffect} from "react";
+import NProgress from 'nprogress';
+import 'nprogress/nprogress.css';
+import '../styles/nprogress.css';
+import Head from "next/head";
+import {useTranslation} from "react-i18next";
 
 function MyApp({ Component, pageProps }) {
+    const { t:translate } = useTranslation('index');
+
     const router=useRouter()
     const theme = createTheme({
        palette:{
@@ -33,7 +36,7 @@ function MyApp({ Component, pageProps }) {
             MuiDialogContentText: {
                 styleOverrides: {
                     root: {
-                        color: '#fff ', // تعيين لون النص الداخلي
+                        color: '#fff ',
 
                     },
                 },
@@ -41,14 +44,14 @@ function MyApp({ Component, pageProps }) {
             MuiInputLabel: {
                 styleOverrides: {
                     root: {
-                        color: '#077E71', // تعيين لون الـ label
+                        color: '#077E71',
                     },
                 },
             },
             MuiTextField: {
                 styleOverrides: {
                     root: {
-                        backgroundColor: '#fff ', // تعيين لون خلفية الـ TextField
+                        backgroundColor: '#fff ',
 
                         color:'#000' ,
                     },
@@ -73,6 +76,8 @@ function MyApp({ Component, pageProps }) {
 
 
     });
+
+
     useEffect(() => {
 
 
@@ -89,10 +94,16 @@ function MyApp({ Component, pageProps }) {
     return (
         <div style={{direction:router.locale==='en'?'ltr':'rtl'}}>
 
+            <Head>
+                <title>{translate('title_app')}</title>
+                <meta name="description" content={translate('description_meta_app')}/>
+                <link rel='icon' href='/logo.png'/>
+
+            </Head>
             <ThemeProvider theme={theme}>
-            <Layout>
-                <Component {...pageProps} />
-            </Layout>
+                <Layout>
+                    <Component {...pageProps} />
+                </Layout>
             </ThemeProvider>
         </div>
     )

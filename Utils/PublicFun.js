@@ -4,7 +4,7 @@ import {getData} from "./FetchData";
 
 
 const isAuthAccessToken = async (dispatch) => {
-    const response = await fetch('https://testament-user.vercel.app/api/auth/accessToken');
+    const response = await fetch('/api/auth/accessToken');
     const data = await response.json();
 
     if (data.err) return  localStorage.removeItem('isUser')
@@ -13,7 +13,7 @@ const isAuthAccessToken = async (dispatch) => {
 }
 const callTestamentUser = async (dispatch,auth) => {
     if (auth) {
-        const response = await fetch('https://testament-user.vercel.app/api/testament', {
+        const response = await fetch('/api/testament', {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',

@@ -34,6 +34,8 @@ const checkValidation=(lastName,firstName,email,password,re_password)=>{
 
         return 'confirm password did not match'
     }
+    if(!validateEmail(email))
+        return 'Invalid emails'
 }
 
 

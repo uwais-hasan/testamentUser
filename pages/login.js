@@ -60,19 +60,6 @@ const Login = () => {
         setLoading(false)
         dispatch(showNotify({showAlert:true,...isValid}))
 
-        // const res=await postData('auth/login',data)
-        // setShowAlert(true)
-        // if (res.err) return setIsValid({...isValid,status:'error',title:res.err})
-        // localStorage.setItem('isUser', true)
-        //
-        // Cookie.set('refresh_token',res.refresh_Token,{
-        //     path:"api/auth/accessToken",
-        //     expires:7,
-        //
-        // })
-        // setIsValid({...isValid,status:'success',title:res.msg})
-        // router.push('/')
-
     }
 
 
@@ -136,7 +123,7 @@ const Login = () => {
                                {loading?translate('loading'):translate('submit')}
                            </Button>
 
-                       <FaceBookLogin/>
+                       {/*<FaceBookLogin/>*/}
                    </Grid>
                </Grid>
             </Container>

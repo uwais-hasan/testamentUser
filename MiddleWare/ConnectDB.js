@@ -18,10 +18,10 @@ const connectDB = () => {
 
 
     mongoose.connect(process.env.MONGODB_URL)
-        .then((res)=>{
+        .then(()=>{
             console.log('connected')
         })
-        .catch((err)=>{
+        .catch(()=>{
             console.log('unconnected')
         })
 }

@@ -1,4 +1,4 @@
-import React, {Fragment} from 'react';
+import React from 'react';
 import style from '../../styles/testament.module.scss'
 
 const TestamentUser = ({testament}) => {

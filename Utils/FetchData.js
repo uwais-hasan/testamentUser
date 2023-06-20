@@ -5,8 +5,8 @@
 import axios from "axios";
 
 
-// const url='http://localhost:3000/api'
-const url='https://testament-user.vercel.app/api'
+const url='/api'
+
 
 const getData=async (path,token,params)=>{
 
@@ -113,15 +113,15 @@ const uploadImage=async (image)=>{
 
 
     formData.append('file',image)
-    formData.append('upload_preset','tny5kmos')
+    formData.append('upload_preset',process.env.NEXT_PUBLIC_PRESIST)
 
     const upload=await axios({
         method:'POST',
-        url:'https://api.cloudinary.com/v1_1/dcfvkm1zy/image/upload',
+        url:process.env.NEXT_PUBLIC_LINK_IMAGE,
         data:formData,
     })
 
-    console.log(upload)
+
 
 
 

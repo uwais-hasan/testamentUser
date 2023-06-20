@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -48,12 +48,12 @@ const{t:translate}=useTranslation('index')
 
                     <TableBody>
 
-                        {stateVoting&&stateVoting.map((row,id) => (
+                        {stateVoting&&stateVoting.map((row) => (
                             <TableRow key={row._id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                                 <TableCell component="th" >{count++}</TableCell>
                                 <TableCell component="th" scope="row"><Grid container spacing={2} alignItems='center'>
 
-                                    <img className={styleImg.rounded_image_small} src={row.picture}/>
+                                    <img className={styleImg.rounded_image_small} src={row.picture} alt={row.name}/>
                                     {row.name}
                                 </Grid></TableCell>
                                 <TableCell align="right">{moment( row.createdAt).format("MMMM Do YYYY, h:mm:ss a")}</TableCell>

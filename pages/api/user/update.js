@@ -1,4 +1,4 @@
-import Auth from "../../../MiddleWare/Auth";
+
 import auth from "../../../MiddleWare/Auth";
 import {User} from "../../../Model/SchemaUser";
 import connectDB from "../../../MiddleWare/ConnectDB";

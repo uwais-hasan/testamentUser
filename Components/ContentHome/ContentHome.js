@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import InfoUser from "./InfoUser";
 import InfoTestament from "./InfoTestament";
 import style from '../../styles/content_home.module.scss'

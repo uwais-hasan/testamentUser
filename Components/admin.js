@@ -3,18 +3,14 @@
 
 
 
-import React, {useEffect, useState} from 'react';
+import React, { useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
-import TableContainer from "@mui/material/TableContainer";
+
+
 import style from "../styles/interaction.testament.module.scss";
 import custmeStyle from '../styles/admin.module.scss'
-import Paper from "@mui/material/Paper";
-import Table from "@mui/material/Table";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import TableCell from "@mui/material/TableCell";
-import TableBody from "@mui/material/TableBody";
-import {Box, Button, Container, Grid} from "@mui/material";
+
+import {Box, Button, Grid,Table, TableHead, TableRow, TableCell, TableBody,TableContainer ,Paper} from "@mui/material";
 import styleImg from "../styles/Images.module.scss";
 import moment from "moment";
 import CheckIcon from '@mui/icons-material/Check';
@@ -42,7 +38,7 @@ const Admin = ({users}) => {
     const [loading, setLoading] = useState(false)
     const[showTestament,setShowTestament]=useState(false)
     const[accessTestament,setAccessTestament]=useState('')
-
+    let count=1;
 
 
     const handleDeleteUser=async (id,root)=>{
@@ -85,7 +81,7 @@ const Admin = ({users}) => {
 
     }
     const handleSeeTestament=async (id)=>{
-        //i use api vote because that is only api can access testament by query
+        //I use api vote because that is only api can access testament by query
         //i mean the api testament can access just by auth.user not by req.body or by query or params
         setLoading(true)
 
@@ -128,7 +124,7 @@ const Admin = ({users}) => {
     const handleLogOut=()=>{
         localStorage.removeItem('isUser')
         Cookie.remove('refresh_token')
-        router.push('/login')
+       return  router.push('/login')
     }
 
 
@@ -136,7 +132,7 @@ const Admin = ({users}) => {
 
 
 
-    let count=1;
+
 
     if (loading) {
         return <LoadingProgress/>
@@ -150,11 +146,10 @@ const Admin = ({users}) => {
 
     return (
        <Box className={custmeStyle.controller_admin} p={2}>
-           <Button sx={{marginBottom:'20px'}} variant='contained' color='primary' onClick={handleLogOut}>log out</Button>
 
            {Alert.showAlert&&<AlertNotify status={Alert.status}  title={Alert.title} showAlert={Alert.showAlert} />}
 
-           {showTestament&&<ModelShowTestamentVotingUsers showTestament={showTestament} setShowTestament={setShowTestament }testament={accessTestament}/>}
+           {showTestament&&<ModelShowTestamentVotingUsers showTestament={showTestament} setShowTestament={setShowTestament} testament={accessTestament}/>}
            <TableContainer className={style.section_interaction} component={Paper}  sx={{overflowY:'auto',maxHeight:700}} >
 
                <Table  aria-label="simple table">
@@ -172,13 +167,13 @@ const Admin = ({users}) => {
 
                    <TableBody>
 
-                       {users&&users.map((row,id) => (
+                       {users&&users.map((row) => (
                            <TableRow key={row._id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                                <TableCell component="th" >{count++}</TableCell>
                                <TableCell component="th" scope="row">
                                    <Grid textAlign='center' container spacing={2} alignItems='center'>
 
-                                       <img className={styleImg.rounded_image_small} src={row.picture}/>
+                                       <img className={styleImg.rounded_image_small} src={row.picture} loading='lazy' alt={row.name}/>
                                        {row.name}
                                    </Grid>
                                </TableCell>

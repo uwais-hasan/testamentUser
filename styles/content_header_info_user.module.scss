@@ -5,6 +5,14 @@
 .content_header_info_user {
   svg {
     color: $Color_Basic_3;
+    font-size: 25px;
+    transition: .3s ease-in-out;
+    &:hover {
+      color: $Color_Basic_8;
+      @media (max-width: 575px) {
+        font-size: $text_small_size_mobile;
+      }
+    }
   }
 
   display: flex;
@@ -51,23 +59,13 @@
       gap: 10px;
       cursor: pointer;
 
-      svg {
 
-        transition: .3s ease-in-out;
-
-        &:hover {
-          color: $Color_Basic_8;
-
-        }
-      }
     }
 
 
     svg {
-      font-size: 25px;
-      @media (max-width: 575px) {
-        font-size: $text_small_size_mobile;
-      }
+
+
     }
 
     .warning_testament {

@@ -37,6 +37,10 @@
   "error_check_data_specialFriend": "Please verify again. The information you entered is not accurate",
   "error_check_data_receiveFriend": "You are not authorized to view the testament",
 
-  "error_already_vote": "sorry,you already vote"
+  "error_already_vote": "sorry,you already vote",
+
+
+  "title_voting": "تطبيق الوصية",
+  "description_meta_voting": "Vote for your deceased friends, vote, give a like to see the will of your deceased friend, death, passing away, Azrael, my friend's will, viewing the will, how to write a will, creating a will, getting a will."
 
 }

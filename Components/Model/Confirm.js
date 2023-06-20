@@ -2,7 +2,6 @@ import React, {useState} from 'react';
 import {Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, useTheme} from "@mui/material";
 import useMediaQuery from '@mui/material/useMediaQuery';
 
-import {useRouter} from "next/router";
 import {useTranslation} from "next-i18next";
 const Confirm = ({title,description,type,openConfirm,setOpenConfirm,funSubmit,setImage,image}) => {
 
@@ -47,10 +46,11 @@ const Confirm = ({title,description,type,openConfirm,setOpenConfirm,funSubmit,se
                 </DialogTitle>
                 <DialogContent>
                     <DialogContentText>{description}</DialogContentText>
-                    {type==='updatePicture'&&<div style={{textAlign:'center',paddingTop:'20px'}}>
-                        <img style={{width:' 200px', borderRadius: '50%',height:'200px',}} src={image?URL.createObjectURL(image):auth.user.picture}/>
-
-                    </div>}
+                    {type==='updatePicture'&&
+                    <div style={{textAlign:'center',paddingTop:'20px'}}>
+                        <img loading='lazy' alt='image user' style={{width:' 200px', borderRadius: '50%',height:'200px',}} src={image&&URL.createObjectURL(image)}/>
+                    </div>
+                    }
                 </DialogContent>
                 <DialogActions>
                     <Button autoFocus onClick={handleClose}>

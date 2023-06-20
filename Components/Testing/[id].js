@@ -1,8 +1,8 @@
 import React from 'react';
-import AboutUser from "../Components/ContentPageVote/AboutUser";
-import UserVotingInteraction from "../Components/ContentPageVote/UserVotingInteraction";
+import AboutUser from "../ContentPageVote/AboutUser";
+import UserVotingInteraction from "../ContentPageVote/UserVotingInteraction";
 
-import style from '../styles/content_page_vote.module.scss'
+import style from '../../styles/content_page_vote.module.scss'
 
 const vote = ({data}) => {
 

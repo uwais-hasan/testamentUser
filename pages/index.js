@@ -4,34 +4,32 @@
 
 
 
-import FaceBookLogin from "../Components/Login/FaceBookLogin";
+
 import React, {useEffect, useState} from "react";
-import FormGroup from '@mui/material/FormGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
+
 import ContentHome from "../Components/ContentHome/ContentHome";
-import Header from "../Components/Header";
-import Layout from "../Components/Layout/Layout";
-import Params from "../Components/Testing/Params";
+import Header from "../Components/ContentHome/Header";
+
 import {useDispatch, useSelector} from "react-redux";
-import {addAuth} from "../Store/Slicess/SliceAuth";
-import {addTestament} from '../Store/Slicess/SliceTestament'
+
 import {useRouter} from "next/router";
 import LoadingProgress from "../Components/LoadingProgress";
-import {callTestamentUser, fet, fet2, getUsers, isAuthAccessToken} from "../Utils/PublicFun";
+import {callTestamentUser, getUsers, isAuthAccessToken} from "../Utils/PublicFun";
 import Admin from "../Components/admin";
 import {serverSideTranslations} from "next-i18next/serverSideTranslations";
-import Howtouse from "./Howtouse";
-import {useTranslation} from "react-i18next";
+
 import styles from '../styles/App.module.scss'
 
-export const index=({data})=> {
+export const index=()=> {
+
+
 
 
     const[loading,setLoading]=useState(false)
     const {auth}=useSelector(state=>state.sliceAuth)
     const [users, setUsers] = useState([])
 
-    const[isRoute,setIsRoute]=useState(false)
+
     const dispatch=useDispatch();
     const router=useRouter();
 
@@ -58,13 +56,13 @@ export const index=({data})=> {
             await isAuthAccessToken(dispatch)
             setLoading(false)
         } else {
-            router.push('/login')
+          return   router.push('/login')
         }
     }
 
 
 
-const en=process.env.URL_BASIC
+
 
 
 
@@ -86,7 +84,7 @@ const en=process.env.URL_BASIC
 
     return (
         <div className={styles.content_app}>
-<p className='sssssssssssssss'>{en}</p>
+
                {auth?.user?.role === 'user' ? <>
                        <Header/>
                        <ContentHome/>

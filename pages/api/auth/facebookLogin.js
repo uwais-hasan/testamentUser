@@ -1,16 +1,7 @@
 
-
-
-
-
-
-
-
-
-
 import {User} from "../../../Model/SchemaUser";
 import connectDB from "../../../MiddleWare/ConnectDB";
-import {createHashPassword} from "../../../MiddleWare/UtilsBackEnd";
+
 import axios from "axios";
 import {generateAccessToken, generateRefreshToken} from "../../../MiddleWare/GenerateToken";
 

@@ -21,7 +21,7 @@
   "this_email_did_not_exist": "هذا البريد الإلكتروني غير موجود",
   "password_wrong": "كلمة المرور غير صحيحة",
   "error_server": "حاول في مرة لاحقة",
-
+"error_email": "هذا الايميل غير صالح",
   "success_login": "نجحت عملية تسجيل الدخول",
   "success_register": "نجحت عملية التسجيل"
 }

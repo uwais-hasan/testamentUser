@@ -3,6 +3,7 @@
 @import "Sass/size";
 .page_how_to_use{
   padding-top: 30px;
+  padding-bottom: 20px;
 background-color: #22262F;
 
   p,span,li{
@@ -16,6 +17,9 @@ background-color: #22262F;
   h1,h2{
     font-size: $Size_Title;
     color: $Color_Title_2;
+    @media (max-width: 575px) {
+      font-size: $Size_Title_Mobile;
+    }
   }
   svg{
     font-size: 40px;

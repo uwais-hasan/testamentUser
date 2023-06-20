@@ -17,6 +17,7 @@ import {useTranslation} from "next-i18next";
 import AlertNotify from "../Model/AlertNotify";
 import useWidth from "../../Hooks/useWidth";
 import {showNotify} from "../../Store/Slicess/SliceNotify";
+
 const HeaderInfoUser = () => {
 
 
@@ -47,16 +48,16 @@ const HeaderInfoUser = () => {
 
     }
     const shareOnFacebook = () => {
-        const shareUrl = `https://www.google.com/?hl=chrome`; // الرابط الذي ترغب في مشاركته
-        const shareTitle = "" // عنوان المشاركة
-        const shareDescription = 'hello there'; // وصف المشاركة
+        const shareUrl = `${process.env.NEXT_PUBLIC_URL}/voting?id=${auth.user._id}`;
+        const shareTitle = "share title"
+        const shareDescription = 'description content';
 
         const facebookShareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}&title=${encodeURIComponent(shareTitle)}&description=${encodeURIComponent(shareDescription)}`;
 
         window.open(facebookShareUrl, '_blank');
     };
     const shareOnTwitter = () => {
-        const shareUrl = 'https://example.com'; // الرابط الذي ترغب في مشاركته
+        const shareUrl = `${process.env.NEXT_PUBLIC_URL}/voting?id=${auth.user._id}`; // الرابط الذي ترغب في مشاركته
         const shareText = 'نص المشاركة'; // نص المشاركة
 
         const twitterShareUrl = `https://twitter.com/intent/tweet?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(shareText)}`;
@@ -65,37 +66,26 @@ const HeaderInfoUser = () => {
     };
     const handleCopyLink = async () => {
         try {
-            let url=`http:localhost:3000/voting?id=${auth.user._id}`
+            let url=`${process.env.NEXT_PUBLIC_URL}/voting?id=${auth.user._id}`
             await navigator.clipboard.writeText(url);
             setCopied(true);
-            dispatch(showNotify({showAlert:true,status:'success',title:'hello world'}))
+            dispatch(showNotify({showAlert:true,status:'success',title:translate('copy_link')}))
 
         }
         catch (error) {
 
-            dispatch(showNotify({showAlert:true,status:'error',title:'error'}))
+            dispatch(showNotify({showAlert:true,status:'error',title:translate('error_copy_link')}))
 
         }
     };
 
 
-    if (openConfirm){
-        return <Confirm
-            title='upload image'
-            description='would you like to change your picture'
-            openConfirm={openConfirm}
-            setOpenConfirm={setOpenConfirm}
-            funSubmit={handleSubmitImage}
-            type={'updatePicture'}
-            setImage={setImage}
-            image={image}
-        />
-    }
+
     return (
         <div className={style.content_header_info_user}>
             {Alert.showAlert&&<AlertNotify status={Alert.status}  title={Alert.title} showAlert={Alert.showAlert} />}
-
-            <img className={styleImage.rounded_image_medium } src={image?URL.createObjectURL(image):auth.user.picture}/>
+            {openConfirm&&  <Confirm title='upload image' description='would you like to change your picture' openConfirm={openConfirm} setOpenConfirm={setOpenConfirm} funSubmit={handleSubmitImage} type={'updatePicture'} setImage={setImage} image={image}/>}
+            <img  className={styleImage.rounded_image_medium } src={image?URL.createObjectURL(image):auth.user.picture} alt={'image user'} loading='lazy'/>
             <div style={{top:0,position:'absolute'}} >
                 <IconButton  color="primary" aria-label="upload picture" component="label">
                     <input hidden  accept='image/*'  type="file"
@@ -113,7 +103,7 @@ const HeaderInfoUser = () => {
                 {testamentUser.testament?<>
                     <div className={style.link_testament}>
                         {width>768&&<ShareIcon/>}
-                        <Link  href={`/voting?id=${auth.user._id}`}>{`http:localhost:3000/voting?id=${auth.user._id}`}</Link>
+                        <Link  href={`${process.env.NEXT_PUBLIC_URL}/voting?id=${auth.user._id}`}>{`${process.env.NEXT_PUBLIC_URL}/voting?id=${auth.user._id}`}</Link>
 
                         <Button onClick={handleCopyLink} variant='contained'>Copy your Link</Button>
                     </div>

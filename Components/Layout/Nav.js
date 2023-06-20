@@ -1,25 +1,10 @@
 
 
 
-
-
-
-
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import Menu from '@mui/material/Menu';
+import {Typography,IconButton,Toolbar,Box,AppBar ,Menu,Container, Avatar, MenuItem ,Tooltip} from '@mui/material'
 import MenuIcon from '@mui/icons-material/Menu';
-import Container from '@mui/material/Container';
-import Avatar from '@mui/material/Avatar';
 
-import Tooltip from '@mui/material/Tooltip';
-import MenuItem from '@mui/material/MenuItem';
-import AdbIcon from '@mui/icons-material/Adb';
-import React, {useEffect, useState} from "react";
-
+import React, {useState} from "react";
 import styles from '../../styles/Nav.module.scss'
 
 import ModelSetting from "../Model/modelSetting";
@@ -31,8 +16,6 @@ import {Button} from "@mui/material";
 import {useTranslation} from "react-i18next";
 import AlertNotify from "../Model/AlertNotify";
 import {showNotify} from "../../Store/Slicess/SliceNotify";
-import LoadingProgress from "../LoadingProgress";
-
 
 
 
@@ -52,7 +35,7 @@ const Nav=()=>{
     const [anchorElUser, setAnchorElUser] = useState(null);
     const [open, setOpen] = React.useState(false);
     const [openRestPassword, setOpenPassword] = React.useState(false);
-    const [loading, setLoading] = useState(false);
+
 
 
 
@@ -72,7 +55,7 @@ const Nav=()=>{
     };
     const handleLanguage = () => {
         const lang=router.locale==='en' ? 'ar' : 'en';
-        router.push(`${router.asPath}`, undefined, {locale: lang})
+      return   router.push(`${router.asPath}`, undefined, {locale: lang})
     }
     const handleRoute = (page) => {
 
@@ -84,7 +67,7 @@ const Nav=()=>{
         };
 
         let route = routes[page]
-        router.push(`${route}`)
+      return   router.push(`${route}`)
 
     }
     const handleSetting = (type) => {
@@ -107,7 +90,7 @@ const Nav=()=>{
             dispatch(showNotify({showAlert:true,status:'info',title:router.locale === 'ar' ? 'يرجى كتابة وصيتك' : 'please create your testament'}))
 
         }else{
-            router.push(`/voting?id=${auth.user._id}`)
+          return   router.push(`/voting?id=${auth.user._id}`)
         }
 
 
@@ -117,60 +100,30 @@ const Nav=()=>{
 
     const pages = router.locale==='en'?[ 'Home','How to use']:["الصفحة الرئيسية","كيفية الاستخدام"]
     const settings = router.locale==='en'?[ "Setting","Logout","reset password"]:[ "الاعدادات","تسجيل الخروج","تغير كلمة السر"]
-
-
     const style_bg={
         background:auth.user===undefined||auth.user.role==='admin'||!auth.user||router.pathname!=='/'?'#077E71':"transparent"
 
 
     }
 
-    if (open) {
-        return <ModelSetting setOpen={setOpen} open={open}/>
-    }
-    if (openRestPassword) {
-        return <ModelResetPassword setOpenPassword={setOpenPassword} openRestPassword={openRestPassword}/>
-    }
 
 
 
-    // useEffect(() => {
-    //     let isActive = true;
-    //
-    //     if (router.pathname !== '/') {
-    //         const handleRouteChangeStart = () => {
-    //             if (isActive) setLoading(true);
-    //         };
-    //         const handleRouteChangeComplete = () => {
-    //             if (isActive) setLoading(false);
-    //         };
-    //
-    //         router.events.on('routeChangeStart', handleRouteChangeStart);
-    //         router.events.on('routeChangeComplete', handleRouteChangeComplete);
-    //
-    //         return () => {
-    //             isActive = false;
-    //             router.events.off('routeChangeStart', handleRouteChangeStart);
-    //             router.events.off('routeChangeComplete', handleRouteChangeComplete);
-    //         };
-    //     }
-    // }, [router.pathname]);
 
-    if (loading){
-        return <LoadingProgress/>
-    }
+
+
+
+
     return (
         <Box className={styles.content_nav}>
-
             {Alert.showAlert&&<AlertNotify status={Alert.status}  title={Alert.title} showAlert={Alert.showAlert} />}
-
+            {open&&<ModelSetting setOpen={setOpen} open={open}/>}
+            {openRestPassword&&<ModelResetPassword setOpenPassword={setOpenPassword} openRestPassword={openRestPassword}/>}
 
             <AppBar style={style_bg} className={styles.app_nav}>
                 <Container maxWidth="xl">
                     <Toolbar disableGutters>
-                        <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
 
-                        <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
                         <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
 
 
@@ -237,7 +190,7 @@ const Nav=()=>{
                         <Box sx={{ flexGrow: 0 }}>
                             <Tooltip title="Open settings">
                                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                                   <Avatar alt="Remy Sharp" src={auth.user.picture} />
+                                   <Avatar alt={auth.user.name} src={auth.user.picture} />
                                 </IconButton>
                             </Tooltip>
                             <Menu

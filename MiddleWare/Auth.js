@@ -1,5 +1,5 @@
 
-import {checkToken} from './GenerateToken'
+
 import {User} from "../Model/SchemaUser";
 import jwt from "jsonwebtoken";
 

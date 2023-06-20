@@ -2,7 +2,6 @@ import {User} from "../../../Model/SchemaUser";
 import connectDB from "../../../MiddleWare/ConnectDB";
 import Auth from "../../../MiddleWare/Auth";
 import bcrypt from "bcrypt";
-import {comparePassword, createHashPassword} from "../../../MiddleWare/UtilsBackEnd";
 
 
 
