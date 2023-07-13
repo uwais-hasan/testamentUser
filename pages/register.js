@@ -192,7 +192,7 @@ const Register = () => {
                             </Link>
                             <Button sx={{marginTop: '20px'}} onClick={handleSubmit} variant='contained'
                                     color='primary'> {loading?translate('loading'):translate('submit')}</Button>
-                            <FaceBookLogin/>
+                            {/*<FaceBookLogin/>*/}
                         </Grid>
                     </Grid>
 
