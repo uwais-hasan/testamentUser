@@ -21,10 +21,10 @@ const Footer = () => {
                   <Link href='mailto:owies.h.hassan@gmail.com' color="inherit">
                       <EmailIcon />
                   </Link>
-                  <Link href=' href="https://www.linkedin.com/in/owies-hassan-803024231/"' >
+                  <Link href="https://www.linkedin.com/in/owies-hassan-803024231/" >
                       <LinkedInIcon />
                   </Link>
-                  <Link href='href="https://www.facebook.com/profile.php?id=100010097286350"' >
+                  <Link href="https://www.facebook.com/profile.php?id=100010097286350/" >
                       <FacebookIcon />
                   </Link>
 
