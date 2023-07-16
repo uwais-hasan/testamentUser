@@ -31,7 +31,7 @@ const voting = ({data,trans}) => {
     const{t:translate}=useTranslation('voting')
     const dispatch=useDispatch();
 
-console.log(trans)
+console.log('voting',trans)
 
     if (Object.keys(data).length === 0) {
         return <h1>no testament</h1>
@@ -81,8 +81,8 @@ export const getServerSideProps=async ({query,locale})=>{
 
     return{
         props:{
-           trans: {...(await serverSideTranslations(locale, `voting`))},
-            ...(await serverSideTranslations(locale, `voting`)),
+           trans: {...(await serverSideTranslations(locale, `index`))},
+            ...(await serverSideTranslations(locale, `index`)),
             data,
 
         }
