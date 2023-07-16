@@ -79,10 +79,11 @@ export const getServerSideProps=async ({query,locale})=>{
     const res=await fetch(`${process.env.NEXT_PUBLIC_URL}/api/user/vote?id=${query.id}`)
     const data=await res.json()
 
+
     return{
         props:{
             data,
-            ...(await serverSideTranslations(locale, [`voting?id=${query.id}`])),
+
         }
     }
 }

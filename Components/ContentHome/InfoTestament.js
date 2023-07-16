@@ -37,7 +37,7 @@ const InfoTestament = () => {
         deleteTestament: false,
         interactionTestament: false,
     })
-    const {t: translate} = useTranslation('index')
+    const {t: translate} = useTranslation('index voting')
 
 
     const showDeleteModel=()=>{
