@@ -20,9 +20,10 @@ import {serverSideTranslations} from "next-i18next/serverSideTranslations";
 
 import styles from '../styles/App.module.scss'
 
-export const index=()=> {
+export const index=(trans)=> {
 
 
+    console.log('index',trans)
 
 
     const[loading,setLoading]=useState(false)
@@ -103,6 +104,8 @@ export  async function  getStaticProps({locale}){
 
     return{
         props:{
+            trans: {...(await serverSideTranslations(locale, `index`))},
+
             ...(await serverSideTranslations(locale,['index']))
         }
     }
