@@ -29,7 +29,7 @@ const voting = ({data}) => {
 console.log(data)
 
 
-    const{t:translate}=useTranslation('voting')
+    const{t:translate}=useTranslation()
     const dispatch=useDispatch();
 
 
@@ -83,7 +83,7 @@ export const getServerSideProps=async ({query,locale})=>{
     return{
         props:{
             data,
-
+            ...(await serverSideTranslations(locale, [`voting`])),
         }
     }
 }
