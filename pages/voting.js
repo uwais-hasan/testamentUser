@@ -82,7 +82,7 @@ export const getServerSideProps=async ({query,locale})=>{
     return{
         props:{
             data,
-            ...(await serverSideTranslations(locale, ['voting'])),
+            ...(await serverSideTranslations(locale, [`voting?id=${query.id}`])),
         }
     }
 }
