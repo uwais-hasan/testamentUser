@@ -14,6 +14,7 @@ import {useTranslation} from "next-i18next";
 import ModelShowTestamentVotingUsers from "../Model/modelShowTestamentVotingUsers";
 import ModelReceiveSpecialFriends from "../Model/modelReceiveSpecialFriends";
 import {showNotify} from "../../Store/Slicess/SliceNotify";
+import {serverSideTranslations} from "next-i18next/serverSideTranslations";
 
 
 
@@ -192,3 +193,15 @@ const AboutUser = ({data}) => {
 };
 
 export default AboutUser;
+
+
+export  async function  getStaticProps({locale}){
+
+    return{
+        props:{
+            trans: {...(await serverSideTranslations(locale, `voting`))},
+
+            ...(await serverSideTranslations(locale,['voting']))
+        }
+    }
+}

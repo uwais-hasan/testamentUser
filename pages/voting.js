@@ -22,7 +22,8 @@ import {serverSideTranslations} from "next-i18next/serverSideTranslations";
 import DetailsVoting from "../Components/ContentPageVote/DetailsVoting";
 import Head from "next/head";
 
-const voting = ({data,trans}) => {
+const voting = ({data}) => {
+
 
 
 
@@ -31,7 +32,7 @@ const voting = ({data,trans}) => {
     const{t:translate}=useTranslation('voting')
     const dispatch=useDispatch();
 
-console.log('voting',trans)
+
 
     if (Object.keys(data).length === 0) {
         return <h1>no testament</h1>
@@ -78,13 +79,10 @@ export const getServerSideProps=async ({query,locale})=>{
     const res=await fetch(`${process.env.NEXT_PUBLIC_URL}/api/user/vote?id=${query.id}`)
     const data=await res.json()
 
-
     return{
         props:{
-           trans: {...(await serverSideTranslations(locale, `index`))},
-            ...(await serverSideTranslations(locale, `index`)),
             data,
-
+            ...(await serverSideTranslations(locale, ['voting'])),
         }
     }
 }

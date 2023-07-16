@@ -12,6 +12,7 @@ import style from '../../styles/user_voting_interaction.module.scss'
 
 import moment from "moment";
 import {useTranslation} from "next-i18next";
+import {serverSideTranslations} from "next-i18next/serverSideTranslations";
 
 
 
@@ -52,3 +53,14 @@ const UserVotingInteraction = ({data}) => {
 };
 
 export default UserVotingInteraction;
+
+export  async function  getStaticProps({locale}){
+
+    return{
+        props:{
+            trans: {...(await serverSideTranslations(locale, `voting`))},
+
+            ...(await serverSideTranslations(locale,['voting']))
+        }
+    }
+}
