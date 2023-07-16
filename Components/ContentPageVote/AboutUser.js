@@ -14,9 +14,7 @@ import {useTranslation} from "next-i18next";
 import ModelShowTestamentVotingUsers from "../Model/modelShowTestamentVotingUsers";
 import ModelReceiveSpecialFriends from "../Model/modelReceiveSpecialFriends";
 import {showNotify} from "../../Store/Slicess/SliceNotify";
-import {serverSideTranslations} from "next-i18next/serverSideTranslations";
-
-
+import {arabic,english} from "../tran/trans";
 
 
 const AboutUser = ({data}) => {
@@ -25,7 +23,7 @@ const AboutUser = ({data}) => {
 
     const router=useRouter()
     const dispatch=useDispatch()
-    const{t:translate}=useTranslation('voting')
+
 
     const[open,setOpen]=useState(false)
     const [openConfirm,setOpenConfirm] = React.useState(false);
@@ -34,6 +32,7 @@ const AboutUser = ({data}) => {
     const[showBtnTestament,setShowBtnTestament]=useState(false)
     const[showTestament,setShowTestament]=useState(false)
     const[openReceive, setOpenReceive]=useState(false)
+
 
 
     const votingUser = async () => {
@@ -47,7 +46,7 @@ const AboutUser = ({data}) => {
             router.reload()
         } else {
             dispatch(showNotify(
-                {showAlert:true,status:'error',title:translate('error_already_vote')}
+                {showAlert:true,status:'error',title:local==='en'?english.error_already_vote:arabic.error_already_vote}
             ))
 
 
@@ -79,7 +78,7 @@ const AboutUser = ({data}) => {
         if (!auth.user && type === 'votes users') {
 
             dispatch(showNotify(
-                {showAlert:true,status:'error',title:translate('error_user_cannot_like')}
+                {showAlert:true,status:'error',title:translate.error_user_cannot_like}
             ))
 
             timer()
@@ -136,6 +135,8 @@ const AboutUser = ({data}) => {
     }, [])
 
 
+    const translate=router.locale==='en'?english:arabic;
+
 
 
 
@@ -143,14 +144,14 @@ const AboutUser = ({data}) => {
     return (
         <Box className={style.content_about_user}>
             {Alert.showAlert&&<AlertNotify status={Alert.status}  title={Alert.title} showAlert={Alert.showAlert} />}
-            {openConfirm && <Confirm title={translate('title_voting_users')} description={translate('description_voting_users')} openConfirm={openConfirm} setOpenConfirm={setOpenConfirm} funSubmit={votingUser}/>}
+            {openConfirm && <Confirm title={translate.title_voting_users} description={translate.description_voting_users} openConfirm={openConfirm} setOpenConfirm={setOpenConfirm} funSubmit={votingUser}/>}
             {showTestament&& <ModelShowTestamentVotingUsers showTestament={showTestament} setShowTestament={setShowTestament} testament={data.testament}/>}
             {openReceive&&<ModelReceiveSpecialFriends showTestament={showTestament} setShowTestament={setShowTestament} openReceive={openReceive} setOpenReceive={setOpenReceive} data={data}/>}
             {open&& <ModelCheckIsSpecialFriend open={open} setOpen={setOpen} data={data}/>}
                <Grid container columns={{xs: 12, md: 12}} alignItems='center'>
 
                    <Grid item xs={12}  md={12}>
-                       <h2 className={style.define_mode}>{translate('type testament')} : {data.typeTestament}</h2>
+                       <h2 className={style.define_mode}>{translate.type_testament} : {data.typeTestament}</h2>
                    </Grid>
 
                    <Grid item container md={12} justifyContent='space-between' direction={{md:'row',xs:'column-reverse'}} >
@@ -160,7 +161,7 @@ const AboutUser = ({data}) => {
                            <>
                                {data.typeTestament !== 'public' &&
                                <>
-                                   <span className={style.warning}>{translate('warning_vote')}</span>
+                                   <span className={style.warning}>{translate.warning_vote}</span>
 
                                    <Button
                                        sx={{marginBottom:'3px'}}
@@ -170,12 +171,12 @@ const AboutUser = ({data}) => {
                                        fullWidth
                                        variant='contained'
                                       >
-                                       {showBtnVote ? translate('vote') : translate('complete')}
+                                       {showBtnVote ? translate.vote : translate.complete}
                                    </Button>
 
                                </>
                                }
-                               {showBtnTestament&& <Button  fullWidth  className={style.btn} onClick={handleShowTestamentUser} variant='contained' color='error'>{translate('click_see_testament')}</Button>}
+                               {showBtnTestament&& <Button  fullWidth  className={style.btn} onClick={handleShowTestamentUser} variant='contained' color='error'>{translate.click_see_testament}</Button>}
 
                            </>
                        </Grid>
@@ -194,14 +195,3 @@ const AboutUser = ({data}) => {
 
 export default AboutUser;
 
-
-export  async function  getStaticProps({locale}){
-
-    return{
-        props:{
-            trans: {...(await serverSideTranslations(locale, `voting`))},
-
-            ...(await serverSideTranslations(locale,['voting']))
-        }
-    }
-}

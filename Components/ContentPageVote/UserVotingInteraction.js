@@ -11,26 +11,24 @@ import styleImg from '../../styles/Images.module.scss'
 import style from '../../styles/user_voting_interaction.module.scss'
 
 import moment from "moment";
-import {useTranslation} from "next-i18next";
-import {serverSideTranslations} from "next-i18next/serverSideTranslations";
 
-
-
+import {arabic,english} from "../tran/trans";
+import {useRouter} from "next/router";
 
 
 const UserVotingInteraction = ({data}) => {
     const stateVoting=data.typeTestament==='special Friends'?data.voteSpecialFriends:data.voteUsers;
 
-
-    const{t:translate}=useTranslation('voting')
+    const router=useRouter()
+    const translate=router.locale==='en'?english:arabic;
 
     return (
         <Box  className={style.content_user_voting_interaction}>
 
-            <h1>{translate('user_interaction')}</h1>
-
+            <h1>{translate.user_interaction}</h1>
+.
                     <Grid className={style.interaction_user} container item   direction='column'  alignItems='center'>
-                        {data.typeTestament==='public'|| !stateVoting.length?<p className={style.no_interaction}>{translate('isInteraction')}</p>:
+                        {data.typeTestament==='public'|| !stateVoting.length?<p className={style.no_interaction}>{translate.isInteraction}</p>:
 
                             <div>
                                 {stateVoting&&stateVoting.map(item=>{
@@ -54,13 +52,3 @@ const UserVotingInteraction = ({data}) => {
 
 export default UserVotingInteraction;
 
-export  async function  getStaticProps({locale}){
-
-    return{
-        props:{
-            trans: {...(await serverSideTranslations(locale, `voting`))},
-
-            ...(await serverSideTranslations(locale,['voting']))
-        }
-    }
-}

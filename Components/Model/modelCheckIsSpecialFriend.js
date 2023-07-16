@@ -9,8 +9,9 @@ import {updateData} from "../../Utils/FetchData";
 import {useDispatch, useSelector} from "react-redux";
 import {useRouter} from "next/router";
 import AlertNotify from "./AlertNotify";
-import {useTranslation} from "next-i18next";
+
 import {showNotify} from "../../Store/Slicess/SliceNotify";
+import {arabic, english} from "../tran/trans";
 
 const ModelCheckIsSpecialFriend = ({open, setOpen,data}) => {
 
@@ -20,14 +21,14 @@ const ModelCheckIsSpecialFriend = ({open, setOpen,data}) => {
     const dispatch=useDispatch()
     const router=useRouter();
     const{Alert}=useSelector(state=>state.sliceNotify)
-    const{t:translate}=useTranslation('voting')
+
     const[checkerDataInsert,setDataInsert]=useState({name:'',email:'',password:''})
 
 
 
 
 
-
+    const translate=router.locale==='en'?english:arabic;
 
     const handleClose = () => {
         setOpen(false);
@@ -53,12 +54,12 @@ const ModelCheckIsSpecialFriend = ({open, setOpen,data}) => {
             } else {
                 setDataInsert({...checkerDataInsert,name: '',email: '',password: ''})
 
-                dispatch(showNotify({showAlert:true,status:'error',title:translate('error_check_data_specialFriend')}))
+                dispatch(showNotify({showAlert:true,status:'error',title:translate.error_check_data_specialFriend}))
 
 
             }
         } else {
-            dispatch(showNotify({showAlert:true,title: translate('error_already_vote'),status:'error'}))
+            dispatch(showNotify({showAlert:true,title: translate.error_already_vote,status:'error'}))
             setDataInsert({...checkerDataInsert,name: '',email: '',password: ''})
 
         }
@@ -76,11 +77,11 @@ const ModelCheckIsSpecialFriend = ({open, setOpen,data}) => {
                 aria-describedby="alert-dialog-description"
             >
                 <DialogTitle id="alert-dialog-title">
-                    {translate('voting_special_friends')}
+                    {translate.voting_special_friends}
                 </DialogTitle>
                 <DialogContent>
                     <Grid container justifyContent='center' gap={1} >
-                        <TextField  label={translate("name")}
+                        <TextField  label={translate.name}
                                     size="large"
 
                                     value={checkerDataInsert.name}
@@ -90,7 +91,7 @@ const ModelCheckIsSpecialFriend = ({open, setOpen,data}) => {
                                     variant="filled"
                                     onChange={(e)=>setDataInsert({...checkerDataInsert,name: e.target.value})}
                         />
-                        <TextField  label={translate("email")}
+                        <TextField  label={translate.email}
                                     size="large"
 
                                     value={checkerDataInsert.email}
@@ -100,7 +101,7 @@ const ModelCheckIsSpecialFriend = ({open, setOpen,data}) => {
                                     onChange={(e)=>setDataInsert({...checkerDataInsert,email: e.target.value})}
                         />
 
-                        <TextField  label={translate("password")}
+                        <TextField  label={translate.password}
                                     size="large"
 
                                     value={checkerDataInsert.password}
@@ -113,8 +114,8 @@ const ModelCheckIsSpecialFriend = ({open, setOpen,data}) => {
                     </Grid>
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={handleSub}>{translate('submit')}</Button>
-                    <Button onClick={handleClose} autoFocus>{translate('cancel')}</Button>
+                    <Button onClick={handleSub}>{translate.submit}</Button>
+                    <Button onClick={handleClose} autoFocus>{translate.cancel}</Button>
                 </DialogActions>
             </Dialog>
         </div>

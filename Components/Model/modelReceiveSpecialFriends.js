@@ -12,15 +12,18 @@ import AlertNotify from "./AlertNotify";
 import {useTranslation} from "next-i18next";
 import {useDispatch, useSelector} from "react-redux";
 import {showNotify} from "../../Store/Slicess/SliceNotify";
+import {arabic, english} from "../tran/trans";
+import {useRouter} from "next/router";
 
 const ModelReceiveSpecialFriends = ({openReceive, setOpenReceive,data,setShowTestament,showTestament}) => {
 
-
+    const router=useRouter();
     const dispatch=useDispatch()
     const{Alert}=useSelector(state=>state.sliceNotify)
-    const{t:translate}=useTranslation('voting')
+
     const[checkerDataInsert,setDataInsert]=useState({name:'',email:'',password:''})
 
+    const translate=router.locale==='en'?english:arabic;
 
 
     const handleSub=async ()=>{
@@ -33,7 +36,7 @@ const ModelReceiveSpecialFriends = ({openReceive, setOpenReceive,data,setShowTes
                 setDataInsert({...checkerDataInsert,name: '',email: '',password: ''})
 
             } else {
-                dispatch(showNotify({showAlert:true,title: translate('error_check_data_receiveFriend'),status:'error'}))
+                dispatch(showNotify({showAlert:true,title: translate.error_check_data_receiveFriend,status:'error'}))
 
             }
         }
@@ -54,11 +57,11 @@ const ModelReceiveSpecialFriends = ({openReceive, setOpenReceive,data,setShowTes
                 aria-describedby="alert-dialog-description"
             >
                 <DialogTitle id="alert-dialog-title">
-                    {translate('receive special friend')}
+                    {translate.receive_special_friend}
                 </DialogTitle>
                 <DialogContent>
                     <Grid container justifyContent='center' gap={1} >
-                        <TextField  label={translate('name')}
+                        <TextField  label={translate.name}
                                     size="large"
 
                                     value={checkerDataInsert.name}
@@ -68,7 +71,7 @@ const ModelReceiveSpecialFriends = ({openReceive, setOpenReceive,data,setShowTes
                                     variant="filled"
                                     onChange={(e)=>setDataInsert({...checkerDataInsert,name: e.target.value})}
                         />
-                        <TextField  label={translate('email')}
+                        <TextField  label={translate.email}
                                     size="large"
                                    
                                     value={checkerDataInsert.email}
@@ -78,7 +81,7 @@ const ModelReceiveSpecialFriends = ({openReceive, setOpenReceive,data,setShowTes
                                     onChange={(e)=>setDataInsert({...checkerDataInsert,email: e.target.value})}
                         />
 
-                        <TextField  label={translate('password')}
+                        <TextField  label={translate.password}
                                     size="large"
 
                                     value={checkerDataInsert.password}
@@ -91,8 +94,8 @@ const ModelReceiveSpecialFriends = ({openReceive, setOpenReceive,data,setShowTes
                     </Grid>
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={handleSub}>{translate('Receive')}</Button>
-                    <Button onClick={handleClose} autoFocus>{translate('cancel')}</Button>
+                    <Button onClick={handleSub}>{translate.Receive}</Button>
+                    <Button onClick={handleClose} autoFocus>{translate.cancel}</Button>
                 </DialogActions>
             </Dialog>
         </div>

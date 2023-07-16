@@ -8,10 +8,17 @@ import Button from "@mui/material/Button";
 
 import TestamentUser from "../ContentHome/TestamentUser";
 import {useTranslation} from "next-i18next";
+import {useRouter} from "next/router";
+import {arabic, english} from "../tran/trans";
 
 const ModelShowTestamentVotingUsers = ({showTestament,setShowTestament,testament}) => {
 
-const {t:translate}=useTranslation('voting')
+
+
+
+    const router=useRouter();
+    const translate=router.locale==='en'?english:arabic;
+
     const handleClose = () => {
         setShowTestament(false);
     };
@@ -27,13 +34,13 @@ const {t:translate}=useTranslation('voting')
                 aria-describedby="alert-dialog-description"
             >
                 <DialogTitle id="alert-dialog-title">
-                    {translate('testament')}
+                    {translate.testament}
                 </DialogTitle>
                 <DialogContent>
                         <TestamentUser testament={testament}/>
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={handleClose} autoFocus>{translate('cancel')}</Button>
+                    <Button onClick={handleClose} autoFocus>{translate.cancel}</Button>
                 </DialogActions>
             </Dialog>
         </div>

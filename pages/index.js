@@ -104,7 +104,7 @@ export  async function  getStaticProps({locale}){
 
     return{
         props:{
-            trans: {...(await serverSideTranslations(locale, `index`))},
+
 
             ...(await serverSideTranslations(locale,['index']))
         }
