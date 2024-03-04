@@ -24,8 +24,6 @@ export default async function (req, res) {
        return  res.json({
             user,
             access_Token,
-
-
         })
     }
 

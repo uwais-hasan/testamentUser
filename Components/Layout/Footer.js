@@ -16,12 +16,12 @@ const Footer = () => {
     return (
         <footer className={styles.footer} >
           <Grid container justifyContent='space-evenly' alignItems='center' >
-              <p>copyRight © 2023 - Owies hassan</p>
+              <p>copyRight © 2023 - Uwais Hasan</p>
               <div>
-                  <Link href='mailto:owies.h.hassan@gmail.com' color="inherit">
+                  <Link href='mailto:uwais.h.a.hasan@gmail.com' color="inherit">
                       <EmailIcon />
                   </Link>
-                  <Link href="https://www.linkedin.com/in/owies-hassan-803024231/" >
+                  <Link href="https://www.linkedin.com/in/uwais-hasan-803024231" >
                       <LinkedInIcon />
                   </Link>
                   <Link href="https://www.facebook.com/profile.php?id=100010097286350/" >

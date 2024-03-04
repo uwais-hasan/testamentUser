@@ -20,10 +20,12 @@ import {serverSideTranslations} from "next-i18next/serverSideTranslations";
 
 import styles from '../styles/App.module.scss'
 
+
+
 export const index=(trans)=> {
 
 
-    console.log('index',trans)
+    // console.log('index',trans)
 
 
     const[loading,setLoading]=useState(false)

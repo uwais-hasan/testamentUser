@@ -41,10 +41,12 @@ const Login = () => {
 
         if (res.err) {
             if (res.err==='please fill all field')  isValid={status:'error',title:translate('please_fill_all_field')}
-            if (res.err==='this email did not exist')  isValid={isValid,status:'error',title:translate('this_email_did_not_exist')}
-            if (res.err==='password wrong')  isValid={isValid,status:'error',title:translate('password_wrong')}
-            if (res.err==='error server')  isValid={isValid,status:'error',title:translate('error_server')}
-
+            else if (res.err==='this email did not exist')  isValid={isValid,status:'error',title:translate('this_email_did_not_exist')}
+            else if (res.err==='password wrong')  isValid={isValid,status:'error',title:translate('password_wrong')}
+            else if (res.err==='error server')  isValid={isValid,status:'error',title:translate('error_server')}
+            else {
+                isValid={ status: 'error', title: translate('error_server')}
+            }
 
         }
         else {

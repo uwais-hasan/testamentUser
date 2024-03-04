@@ -21,6 +21,8 @@ const comparePassword= (oldPassword,newPassword)=>{
 
 const checkValidation=(lastName,firstName,email,password,re_password)=>{
 
+
+    console.log('utils')
     if (!lastName || !firstName || !email || !password || !re_password){
         return 'please add all field'
     }

@@ -44,10 +44,10 @@ const Register = () => {
         const res = await postData('auth/register', {...data, name: data.firstName + " " + data.lastName})
         if (res.err) {
             if (res.err === 'this email already exist')  isValid={ status: 'error', title: translate('this_email_already_exist')}
-            if (res.err === 'please add all field')  isValid={ status: 'error', title: translate('please_fill_all_field')}
-            if (res.err === 'password must be at least 6 characters')  isValid={ status: 'error', title: translate('password_must_be_at_least_6_characters')}
-            if (res.err === 'confirm password did not match')  isValid={ status: 'error', title: translate('confirm_password_did_not_match')}
-            if (res.err === 'Invalid emails')  isValid={ status: 'error', title: translate('error_email')}
+            else if (res.err === 'please add all field')  isValid={ status: 'error', title: translate('please_fill_all_field')}
+            else if (res.err === 'password must be at least 6 characters')  isValid={ status: 'error', title: translate('password_must_be_at_least_6_characters')}
+            else if (res.err === 'confirm password did not match')  isValid={ status: 'error', title: translate('confirm_password_did_not_match')}
+            else if (res.err === 'Invalid emails')  isValid={ status: 'error', title: translate('error_email')}
 
             else {
               isValid={ status: 'error', title: translate('error_server')}
